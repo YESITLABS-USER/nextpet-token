@@ -290,19 +290,24 @@ const ContactPetDetails2 = () => {
   const handleShare = async () => {
     if (navigator.share) {
       try {
-        await navigator.clipboard.writeText( getFullUrl());
         // Use the Web Share API to share content (for mobile devices)
         await navigator.share({
           title: 'Breeder Details',
           url: getFullUrl(),
         });
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText( getFullUrl());
+        }
       } catch (err) {
         console.error('Error sharing:', err);
       }
     } else {
-      await navigator.clipboard.writeText( getFullUrl());
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText( getFullUrl());
+      }
     }
   };
+  
   //
   return (
     <>

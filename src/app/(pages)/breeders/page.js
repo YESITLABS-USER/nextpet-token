@@ -182,9 +182,9 @@ const Breeder = () => {
     setDropdownVisible(!isDropdownVisible);
   }
 
-  function handleAuth() {
-    router.push("/map-breeder");
-  }
+  // function handleAuth() {
+  //   router.push("/map-breeder");
+  // }
   
   function handleMail(item) {
     if(isAuthenticated){

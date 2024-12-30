@@ -320,9 +320,9 @@ const Pets = () => {
     router.push(`/user/posts/${item.user_breeder_id}/${item.id}/${item.check_like} `)
   }
 
-  function handleAuth() {
-    router.push("/map");
-  }
+  // function handleAuth() {
+  //   router.push("/map");
+  // }
 
   function handleMail(item) {
     if(isAuthenticated){
