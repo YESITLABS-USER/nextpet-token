@@ -106,8 +106,8 @@ const Favorites = () => {
     setIsBreeder(!isBreeder);
   };
 
-  const handleModal = (post_id, breeder_id, contacts_colour, contacts_date,) => {
-    setModalData({ post_id, breeder_id, contacts_colour, "date_contacts_breeder" : contacts_date, });
+  const handleModal = (post_id, breeder_id, contacts_colour, contacts_date, total_contact) => {
+    setModalData({ post_id, breeder_id, contacts_colour, "contact_date" : contacts_date, total_contact });
     if (contacts_colour == 1) {
       setShowPreviousModal(true);
     } else {
@@ -121,6 +121,8 @@ const Favorites = () => {
       user_id: userId,
       breeder_id: value?.breeder_id,
       breeder_do_not_show_me: checkConnect,
+      contact_date: value?.date_contacts_breeder,
+      total_contacts: value?.breeder_total_count_all
     });
     if (checkConnect == 1) {
       setShowModal(true);
@@ -151,6 +153,7 @@ const Favorites = () => {
         item.user_breeder_id,
         item?.contacts_colour,
         item?.contacts_date,
+        item?.total_contact
       )
     } else{
       toast.error("User must be logged in");
@@ -270,15 +273,15 @@ const Favorites = () => {
                               : "Description not available"} </p>
 
                                 <div className="viewmore-wrap">
-                                  <h4> {item?.breeder_post_count ?? 11} active posts</h4>
+                                  <h4> {item?.breeder_post_count ?? 0} active posts</h4>
                                   <div className="action-wrap">
                                     <a
                                       href={`/user/breeder-profile/${item?.breeder_id}/${item?.like_colour} `}
                                     >
                                       View More&nbsp;
                                       <MdNavigateNext
-                                        size={25}
-                                        style={{ marginLeft: "30px" }}
+                                        size={20}
+                                        // style={{ marginLeft: "30px" }}
                                       />
                                     </a>
                                   </div>
@@ -286,21 +289,16 @@ const Favorites = () => {
                               </div>
                             </div>
                           ) : (
-                            <div
-                              className={`post-cards-wrap 
-                                ${
-                                  item?.delivery == 1
-                                    ? "post-cards-wrap disable"
-                                    : ""
-                                }`}
-                              key={index}
-                            >
-                              {item?.delivery == 1 && 
+                            <div className={`post-cards-wrap }`}
+                              key={index} >
+                            {/* <div className={`post-cards-wrap ${ item?.delivery == 1 ? "post-cards-wrap disable" : "" }`}
+                              key={index} > */}
+                              {/* {item?.delivery == 1 && 
                               <div className="adopted-icon" style={{ top: "32px" }}>
                                 <img src={"/images/Nextpet-imgs/dashboard-imgs/adopted.svg" }
                                   alt="adotpted"
                                 />
-                              </div>}
+                              </div>} */}
                               <div className="post-cardsimg-wrap">
                                 <Image src={item?.image?.[0] || "/images/Nextpet-imgs/Image_not_available.webp"} alt="pets Image" width={400} height={300} style={{minHeight:'175px', maxHeight:'175px'}}/>
                                 <div className="actionpost-heart">

@@ -206,9 +206,9 @@ function Header() {
                           />
                           {/* { userId ? ( userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "User Profile")
                           : ( userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "Breeder Profile" ) } */}
-
-                          {userId ? (userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "User Profile")
-                          : (userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "Breeder Profile" )}
+                          
+                          {userId ? (userData?.name ? (userData.name.length > 10 ? `${userData?.name.slice(0, 10)}...` : userData.name) : "User Profile")
+                          : (userData?.name ? (userData.name.length > 10 ? `${userData?.name.slice(0, 10)}...` : userData.name) : "Breeder Profile" )}
 
 
                           {/* <i className="far fa-chevron-down"></i> */}

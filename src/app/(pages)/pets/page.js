@@ -291,8 +291,8 @@ const Pets = () => {
     }
   };
 
-  const handleModal = (post_id, breeder_id, contacts_colour, contacts_date) => {
-    setModalData({ post_id, breeder_id,"date_contacts_breeder":contacts_date });
+  const handleModal = (post_id, breeder_id, contacts_colour, contacts_date, total_contact) => {
+    setModalData({ post_id, breeder_id,"contact_date":contacts_date, "total_contacts": total_contact });
     if (contacts_colour == 1) {
       setShowPreviousModal(true);
     } else {
@@ -325,8 +325,9 @@ const Pets = () => {
   // }
 
   function handleMail(item) {
+    console.log(item, 'clll')
     if(isAuthenticated){
-      handleModal(item.id, item.user_breeder_id, item?.contacts_colour, item?.contacts_date ) 
+      handleModal(item.id, item.user_breeder_id, item?.contacts_colour, item?.contacts_date, item?.total_contact ) 
     } else{
       toast.error("User must be logged in");
       setTimeout(() => {

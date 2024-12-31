@@ -77,7 +77,6 @@ const BreederProfileLeft = ({ data }) => {
       };
       const res = await DeleteBreeder(payload);
       if (res?.data?.status_code == 200) {
-        console.log("Account Deleted!");
         localStorage.removeItem("breeder_user_id");
         localStorage.removeItem("authToken");
         window.location.href = "/";

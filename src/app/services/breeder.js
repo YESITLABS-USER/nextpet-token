@@ -37,7 +37,6 @@ export const AddNotes = async (payload) => {
         },
       }
     );
-    console.log(response)
     return response;
   } catch (error) {
     toast.error(error?.response?.data?.message, 'err')

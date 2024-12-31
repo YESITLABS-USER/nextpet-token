@@ -48,7 +48,7 @@ const HomeRecentlyPostedSlider = ({ slides, onClick }) => {
   }, []);
 
   const handleModal = (post_id, breeder_id, contacts_colour, total_contact, contacts_date) => {
-    setModalData({ post_id, breeder_id, "total_contacts" : total_contact, "date_contacts_breeder" : contacts_date });
+    setModalData({ post_id, breeder_id, "total_contacts" : total_contact, "contact_date" : contacts_date });
     if (contacts_colour == 1) {
       setShowPreviousModal(true);
     } else {

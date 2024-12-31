@@ -158,12 +158,14 @@ const Breeder = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleModal = (value) => {
+    console.log(value)
     let checkConnect = value?.breeder_do_not_show_me == null ? 1 : 0;
     setModalData({
       user_id: userId,
       breeder_id: value?.breeder_id,
       breeder_do_not_show_me: checkConnect,
-      "date_contacts_breeder" : value?.date_contacts_breeder
+      "contact_date" : value?.date_contacts_breeder,
+      total_contacts: value?.breeder_total_count_all
     });
     if (checkConnect == 1) {
       setShowModal(true);

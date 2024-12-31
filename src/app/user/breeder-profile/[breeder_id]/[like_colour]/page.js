@@ -30,7 +30,6 @@ const ContactPetDetails = () => {
   const router = useRouter();
   const [likedData, setLikeData] = useState(like_colour);
   const { isAuthenticated } = useAuth(); 
-  
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id" || "breeder_user_id");
@@ -41,13 +40,13 @@ const ContactPetDetails = () => {
   const breederDetail = async () => {
     try {
       if(userId) {
-        const response = await axios.post(`${BASE_URL}/api/all_post_listing`, {
+        const response = await axios.post(`${BASE_URL}/api/all_breeders_listing_without_login`, {
           user_id: userId,
         });
         
         if (response.data.code === 200 && breeder_id) {
           // Find the breeder with the matching breeder_id
-          const liked = response.data.popular_breeder?.find(
+          const liked = response.data.all_breeders?.find(
           (breeder) => breeder.breeder_id == breeder_id
         );        
         setLikeData(liked?.like_colour);
@@ -192,11 +191,14 @@ const ContactPetDetails = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleModal = (value) => {
-    let checkConnect = value?.check_like_breeder == 0 ? 1 : 0;
+    console.log(value)
+    let checkConnect = value?.contacts_colour == 0 ? 1 : 0;
     setModalData({
       user_id: userId,
       breeder_id: breeder_id,
       breeder_do_not_show_me: checkConnect,
+      total_contacts: value.contacts_date,
+      contact_date: value?.contacts_date
     });
     if (checkConnect == 1) {
       setShowModal(true);

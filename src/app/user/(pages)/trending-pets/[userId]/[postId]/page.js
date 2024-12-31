@@ -62,8 +62,8 @@ const ContactPetDetails2 = () => {
         user_id: userId,
         breeder_id: value?.breeder_id,
         breeder_do_not_show_me: checkConnect,
-        "total_contacts": value?.breeder_total_count_all,
-        "date_contacts_breeder" :  value?.date_contacts_breeder,
+        "total_contacts": value?.total_contact,
+        "contact_date" :  value?.contacts_date,
         token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
       });
       if (checkConnect == 1) {
@@ -154,7 +154,7 @@ const ContactPetDetails2 = () => {
       token: JSON.parse(localStorage.getItem("authToken"))?.UniqueKey,
     };
   
-    if (addNotes === "") {
+    if (addNotes == "") {
       setErrorMsg('Please fill the notes!');
       return;
     }
@@ -356,8 +356,8 @@ const ContactPetDetails2 = () => {
                         </a>
                         <div> {postData?.total_like } </div>
                       </div>
-                      <div className="inner-heartt" onClick={handleShare}>
-                        <a style={{ padding: "7px 4px" }}>
+                      <div className="inner-heartt" style={{cursor:'pointer'}} onClick={handleShare}>
+                        <a style={{ padding: "7px 4px"}}>
                           <Image width={15} height={15}
                             src="/images/Nextpet-imgs/dashboard-imgs/share.svg"
                             alt=""

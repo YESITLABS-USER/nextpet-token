@@ -63,7 +63,7 @@ const Homenearyou = ({ slides, onLike }) => {
   };
 
   const handlePreviouslyContactedModal = (post_id, breeder_id, contacts_date) => {
-    setModalData({ post_id, breeder_id, "date_contacts_breeder" : contacts_date });
+    setModalData({ post_id, breeder_id, "contact_date" : contacts_date });
     setShowPreviouslyContactedModal(true);
   };
 

@@ -147,13 +147,12 @@ const PreviouslyContacted = ({ modalIsOpen, closeModal, modalDetails, onLike }) 
             : `${BASE_URL}/api/contact_breeder`;
     
         try {
-          const res = await axios.post(apiURL, formData, {
+          await axios.post(apiURL, formData, {
             headers: {
               "Authorization": `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
             },
           });  
-          console.log(res, 'res')
           if(onLike){
             onLike(userId);        
           }

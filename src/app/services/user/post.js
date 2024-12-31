@@ -65,7 +65,6 @@ export const UserShowNotes = async (payload) => {
 export const UserAddNotes = async (payload) => {
   try {
     const { token, ...data } = payload;
-    console.log(token)
     const response = await axios.post(
       `${BASE_URL}/api/user_add_notes`,
       data,

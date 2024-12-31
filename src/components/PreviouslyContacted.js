@@ -86,7 +86,7 @@ const PreviouslyContacted = ({ modalIsOpen, closeModal, modalDetails }) => {
         <div className="breederform-popup-wrap">
             <img src="/images/Nextpet-imgs/green-envelope.svg" alt=""/>
             <h6 className="pt-4">Previously Contacted
-              on {modalDetails?.date_contacts_breeder ? formatDate(modalDetails?.date_contacts_breeder) : "Some Day Ago "} </h6>
+              on {modalDetails?.contact_date ? formatDate(modalDetails?.contact_date) : "Some Day Ago "} </h6>
             <p>You have already contacted this breeder, please check contacted list.</p>
             <div className="userpopup-btn-wrap">
               <button type="button" className="" value="Submit" onClick={submitPreviouslyContacted}>Contact Breeder Again</button>

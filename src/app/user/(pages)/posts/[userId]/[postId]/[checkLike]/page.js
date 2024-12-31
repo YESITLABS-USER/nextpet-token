@@ -87,7 +87,7 @@ const ContactPetDetails = () => {
       }, 1000);
     }
   };
-  
+  console.log(postData)
   const handleModal = ({
     post_id = postData?.post_id,
     breeder_id = postData?.user_id,
@@ -97,7 +97,8 @@ const ContactPetDetails = () => {
       post_id,
       breeder_id,
       contacts_colour,
-      date_contacts_breeder: postData?.total_contact,
+      total_contacts: postData?.total_contact,
+      contact_date : postData?.contacts_date
     };
     setModalData(modalData);
     if (contacts_colour == 1) {
@@ -123,9 +124,7 @@ const ContactPetDetails = () => {
   const handleShare = async () => {
     if (navigator.share) {
       try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText( getFullUrl());
-        }
+        await navigator.clipboard.writeText( getFullUrl());
         // Use the Web Share API to share content (for mobile devices)
         await navigator.share({
           title: 'Breeder Details',
@@ -135,9 +134,7 @@ const ContactPetDetails = () => {
         console.error('Error sharing:', err);
       }
     } else {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText( getFullUrl());
-        }
+      await navigator.clipboard.writeText( getFullUrl());
     }
   };
 

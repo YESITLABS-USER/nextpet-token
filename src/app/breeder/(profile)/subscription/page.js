@@ -30,7 +30,7 @@ const Subscription = () => {
       const response = await axios.post(`${BASE_URL}/api/payment`, payload, {headers: { "Authorization" : "Bearer " + token}});
 
       if (response.data.url) {
-        console.log(response.data.message);
+        // console.log(response.data.message);
         window.location.href = response.data.url;
       } else {
         console.error("No URL in the response for redirection.");

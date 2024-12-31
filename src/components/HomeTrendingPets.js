@@ -59,7 +59,7 @@ const HomeRecentlyPostedSlider = ({ slides, onLike }) => {
   };
 
   const handlePreviouslyContactedModal = (post_id, breeder_id, date_contacts_breeder ) => {
-    setModalData({ post_id, breeder_id, "date_contacts_breeder": date_contacts_breeder });
+    setModalData({ post_id, breeder_id, "contact_date": date_contacts_breeder });
     setShowPreviouslyContactedModal(true);
   };
 

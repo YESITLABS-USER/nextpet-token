@@ -54,7 +54,7 @@ const ForgetPassword = () => {
       }
     }
     catch (error) {
-      console.log(error);
+      console.error(error);
       
     }
   }

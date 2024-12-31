@@ -25,6 +25,7 @@ const VerificationCode = () => {
   const [breeder_max_image_error, setBreederMaxImageError] = useState(null);
   const [breederUserId, setBreederUserId] = useState(null);
   const [token, setToken] = useState(null);
+  const [bioError, setBioError] = useState(null);
   // const router = useRouter();
 
   const handleLocationSelect = (lat, lng, address) => {
@@ -131,6 +132,22 @@ const VerificationCode = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if(bioError){
+      toast.error('Bio is required');
+      return;
+    }
+    const missingFields = [];
+    if (!name) missingFields.push("name");
+    if (!phone) missingFields.push("phone");
+    if (!website) missingFields.push("website");
+    if (!location) missingFields.push("location");
+    if (!bio) missingFields.push("bio");
+
+    // If there are missing fields, set the error message and return
+    if (missingFields.length > 0) {
+      toast.error(`${missingFields.join(", ")}. is required.`);
+      return;
+    }
     const formData = new FormData();
     formData.append("user_id", breederUserId);
     formData.append("bio", bio);
@@ -152,7 +169,6 @@ const VerificationCode = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response)
       if(response.data.code == 200) {
         toast.success(response.data.msg);
 
@@ -331,11 +347,23 @@ const VerificationCode = () => {
                 <textarea
                   placeholder="Business Description*"
                   required value={bio}
-                  onChange={(e) => setBio(e.target.value)}
+                  onChange={(e) => {
+                    if(e.target.value.split(" ").length > 20 && e.target.value.length < 500) {
+                      setBio(e.target.value);
+                      setBioError("");
+                    } else if(e.target.value.length > 500){
+                      setBio(e.target.value);
+                      setBioError("Business Description maximum 500 Character");
+                    } else {
+                      setBio(e.target.value);
+                      setBioError("Business Description must be at least 20 words");
+                    }
+                  }}
                 >
                   {bio}
                 </textarea>
               </label>
+              <p style={{color:'red'}}> {bioError && bioError} </p>
 
               <div className="gallery-imgs-wp">
                 <div className="gallery-heading">
@@ -393,8 +421,8 @@ const VerificationCode = () => {
                 {breeder_max_image_error && (
                   <p style={{ color: "red" }}>{breeder_max_image_error}</p>
                 )}
+                <p style={{color: 'red'}}> { error && error }</p>
               </div>
-
               <div className="profile-btn-wrap">
                 <button type="submit" value="Submit">
                   Submit
