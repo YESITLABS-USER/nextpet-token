@@ -1,164 +1,137 @@
 import axios from "axios";
 import BASE_URL from "../../utils/constant";
-import { toast } from "react-toastify";
 
 export const PostLike = async (payload) => {
   try {
-    const { token, ...data } = payload;
-    const response = await axios.post(`${BASE_URL}/api/like_post`, data, {
+    const response = await axios.post(`${BASE_URL}/api/like_post`, payload, {
       headers: {
-        'Authorization': `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
     return response;
   } catch (error) {
-    // toast.error(error.response?.data?.message || "Post Like Error");
-    toast.error(error || "Post Like Error");
+    throw new Error(error.response?.data?.message || "Post Like Error");
   }
 };
 
 //Home page View More
 export const PostDetail = async (payload) => {
   try {
-    const { token, ...data } = payload;
     const response = await axios.post(
       `${BASE_URL}/api/favourites_list_details`,
-      data,
+      payload,
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    return response;
-  } catch (error) {
-    toast.error(error.response?.data?.message || "Post Like Error");
-    throw error; 
-  }
-};
-
-
-//Trending Pets :: user_show_notes
-export const UserShowNotes = async (payload) => {
-  try {
-    const { token, ...data } = payload;
-    const response = await axios.post(
-      `${BASE_URL}/api/user_show_notes`,
-      data,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
     return response;
   } catch (error) {
-    // toast.error(error.response?.data?.message || "user_show_notes Error");
-    toast.error(error || "user_show_notes Error");
+    throw new Error(error.response?.data?.message || "Post Like Error");
+  }
+};
+
+//Trending Pets :: user_show_notes
+export const UserShowNotes = async (payload) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/user_show_notes`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "user_show_notes Error");
   }
 };
 
 //Trending Pets :: user_add_notes
 export const UserAddNotes = async (payload) => {
   try {
-    const { token, ...data } = payload;
     const response = await axios.post(
       `${BASE_URL}/api/user_add_notes`,
-      data,
+      payload,
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
     return response;
   } catch (error) {
-    // toast.error(error.response?.data?.message || "user_add_notes Error");
-    toast.error(error || "user_add_notes Error");
+    throw new Error(error.response?.data?.message || "user_add_notes Error");
   }
 };
 
 //Trending Pets :: user_status__notes_leads_update
 export const UserStatusNotesLeadsUpdate = async (payload) => {
   try {
-    const { token, ...data } = payload;
     const response = await axios.post(
       `${BASE_URL}/api/user_status__notes_leads_update`,
-      data,
+      payload,
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
     return response;
   } catch (error) {
-    // toast.error(error.response?.data?.message || "user_add_notes Error");
-    toast.error(error || "user_add_notes Error");
+    throw new Error(error.response?.data?.message || "user_add_notes Error");
   }
 };
 
 //Trending Pets :: user_status__notes_leads_update
 export const DeleteBreederPost = async (payload) => {
   try {
-    const { token, ...data } = payload;
-    const response = await axios.post(`${BASE_URL}/api/delete_post`, data, {
+    const response = await axios.post(`${BASE_URL}/api/delete_post`, payload, {
       headers: {
-        'Authorization': `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
     return response;
   } catch (error) {
-    // toast.error(error.response?.data?.message || "user_add_notes Error");
-    toast.error(error || "user_add_notes Error");
+    throw new Error(error.response?.data?.message || "user_add_notes Error");
   }
 };
 
 //Trending Pets :: Get Ratting
 export const GetRattingTrendingPost = async (payload) => {
   try {
-    const { token, ...data } = payload;
     const response = await axios.post(
       `${BASE_URL}/api/rating_breeder_get`,
-      data,
+      payload,
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
     return response;
   } catch (error) {
-    // toast.error(error.response?.data?.message || "Ratting Error");
-    toast.error(error || "Ratting Error");
-    throw error;
+    throw new Error(error.response?.data?.message || "Ratting Error");
   }
 };
 
 //Trending Pets :: Set and Update Ratting
 export const SetRattingTrendingPost = async (payload) => {
   try {
-    const { token,...data } = payload;
     const response = await axios.post(
       `${BASE_URL}/api/rating_breeder`,
-      data,
+      payload,
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
     return response;
   } catch (error) {
-    // toast.error(error.response?.data?.message || "user_add_notes Error");
-    toast.error(error || "user_add_notes Error");
+    throw new Error(error.response?.data?.message || "user_add_notes Error");
   }
 };

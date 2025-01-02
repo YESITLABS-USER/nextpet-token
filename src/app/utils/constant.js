@@ -1,2 +1,2 @@
-const BASE_URL = "https://frontendauth.nextpetapp.com";
+const BASE_URL = "https://frontend.nextpetapp.com";
 export default BASE_URL;

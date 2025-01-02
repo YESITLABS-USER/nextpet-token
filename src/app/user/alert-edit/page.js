@@ -177,6 +177,7 @@ const Alert = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         const { latitude, longitude } = coords;
+        console.log("Latitude ::", latitude, "Longitude ::", longitude);
         setLatitude(latitude);
         setLongitude(longitude);
       });

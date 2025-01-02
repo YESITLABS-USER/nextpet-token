@@ -87,7 +87,6 @@ const Index = () => {
 
   const getBreederList = async () => {
     const userId = localStorage.getItem("user_user_id");
-    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
     let apiURL = userId
       ? `${BASE_URL}/api/all_breeders_listing`
       : `${BASE_URL}/api/all_breeders_listing_without_login`;
@@ -98,7 +97,7 @@ const Index = () => {
       latitude: location?.lat,
       longitude: location?.lon,
     };
-    const response = await axios.post(apiURL, apiData, { header: { "Authorization": `Bearer ${token}` } });
+    const response = await axios.post(apiURL, apiData);
     if (response.data.code === 200) {
       setBreederList(
         response.data.breeder
@@ -151,7 +150,6 @@ const Index = () => {
   function handleModel() {
     setDropdownVisible(!isDropdownVisible);
   }
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if the click is outside the filter dropdown 

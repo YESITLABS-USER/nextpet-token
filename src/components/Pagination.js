@@ -1,24 +1,16 @@
-import { useEffect } from "react";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 const Pagination = ({ postPerPage, totalPosts, paginate, currentPage }) => {
   const pageNumbers = [];
-
   for (let i = 1; i <= Math.ceil(totalPosts / postPerPage); i++) {
     pageNumbers.push(i);
   }
 
-  useEffect(() => {
-    if (totalPosts < postPerPage && currentPage !== 1) {
-      paginate(1);
-    }
-  }, [totalPosts, postPerPage, currentPage, paginate]);
   return (
     <div className="influ-pagi">
       <ul>
         <li>
-          <a
-            style={{cursor: 'pointer'}}
+          <a style={{cursor:'pointer'}}
             onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
           >
             <MdArrowBackIosNew />
@@ -26,14 +18,13 @@ const Pagination = ({ postPerPage, totalPosts, paginate, currentPage }) => {
         </li>
         {pageNumbers.map((number) => (
           <li key={number} className={currentPage === number ? "active" : ""}>
-            <a style={{cursor: 'pointer'}} onClick={() => paginate(number)}>
+            <a style={{cursor:'pointer'}} onClick={() => paginate(number)}>
               {number}
             </a>
           </li>
         ))}
         <li>
-          <a
-            style={{cursor: 'pointer'}}
+          <a style={{cursor:'pointer'}}
             onClick={() =>
               paginate(
                 currentPage < pageNumbers.length

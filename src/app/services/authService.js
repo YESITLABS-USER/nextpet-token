@@ -24,10 +24,8 @@ export const signUpUser = async (formData) => {
 //Delete Breeder
 export const DeleteBreeder = async (payload) => {
   try {
-    const { token, ...data} = payload;
-    const response = await axios.post(`${BASE_URL}/api/delete_breed`, data, {
+    const response = await axios.post(`${BASE_URL}/api/delete_breed`, payload, {
       headers: {
-        "Authorization": `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });

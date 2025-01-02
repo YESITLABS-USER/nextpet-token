@@ -35,6 +35,7 @@ const VerificationCode = () => {
   const handleResendOtp = async() => {
     if(email){
       const response = await axios.post(`${BASE_URL}/api/UserLogin_first`, {'email' : email});
+      console.log(response.data)
       if(response.data.code===200){
         toast.success("Otp Send Successfully");
         const expireDate = new Date(new Date().getTime() + 1800 * 1000);
@@ -42,7 +43,7 @@ const VerificationCode = () => {
       }
     } else{
       setError('Otp Send Error. Please try again later')
-      console.error('Error in Sending OTP')
+      console.log('Error in Sending OTP')
     }
   }
 

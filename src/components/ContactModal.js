@@ -35,7 +35,6 @@ const SuccessModal = ({ modalIsOpen, closeModal, modalDetails }) => {
 
   const submitSuccessModal = async () => {
     const formData = new FormData();
-    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
     formData.append("user_id", localStorage.getItem("user_user_id"));
     formData.append("post_id", modalDetails.post_id);
     formData.append("breeder_id", modalDetails.breeder_id);
@@ -47,7 +46,6 @@ const SuccessModal = ({ modalIsOpen, closeModal, modalDetails }) => {
         formData,
         {
           headers: {
-            "Authorization": `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -128,7 +126,6 @@ const PreviouslyContacted = ({ modalIsOpen, closeModal, modalDetails, onLike }) 
   const submitContactBreeder = async () => {
       if (isAuthenticated) {
         const formData = new FormData();
-        const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
 
         if (modalDetails?.breeder_do_not_show_me) {
           formData.append("user_id", localStorage.getItem("user_user_id"));
@@ -149,7 +146,6 @@ const PreviouslyContacted = ({ modalIsOpen, closeModal, modalDetails, onLike }) 
         try {
           await axios.post(apiURL, formData, {
             headers: {
-              "Authorization": `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
             },
           });  

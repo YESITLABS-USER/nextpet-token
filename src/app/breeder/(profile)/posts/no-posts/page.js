@@ -7,72 +7,43 @@ import BreederProfileLeft from '../../../../../components/BreederProfileLeft'
 import BASE_URL from '../../../../utils/constant'
 
 const Post = () => {
-  const [token, setToken] = useState(null)
-
     const router = useRouter();
+    let breederUserId="";
+    useEffect(() => {
+      breederUserId = localStorage.getItem("breeder_user_id");
+    }, []);
     const [noPost, setNoPost] = useState(true);
     const [loding, setLoading] = useState(true);
-    useEffect(() => {
-      // Retrieve values from localStorage and set token
-      const storedBreederUserId = localStorage.getItem("breeder_user_id");
-      const storedToken = localStorage.getItem("authToken");
-  
-      if (storedToken) {
-        try {
-          const parsedToken = JSON.parse(storedToken);
-          setToken(parsedToken?.UniqueKey);
-        } catch (error) {
-          console.error("Error parsing token:", error);
-        }
-      } else {
-        console.error("No token found");
-      }
-  
-      if (!storedBreederUserId) {
-        console.error("No breeder user ID found");
-      }
-    }, []); // Run only once on mount
-  
-    useEffect(() => {
-      const loadPageData = async () => {
-        if (!token) {
-          console.error("Token not available yet");
-          return;
-        }
-  
-        const breederUserId = localStorage.getItem("breeder_user_id");
-        if (!breederUserId) {
-          console.error("No breeder user ID found");
-          return;
-        }
-  
-        const formData = new FormData();
-        formData.append("user_breeder_id", breederUserId);
-  
-        try {
-          const response = await axios.post(`${BASE_URL}/api/post_count`, formData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          });
-  
-          setLoading(false);
-  
-          if (response?.data?.data?.breeder_post > 0) {
-            setNoPost(false);
-          } else {
-            setNoPost(true);
-          }
-        } catch (error) {
-          setLoading(false);
-          console.error("Error fetching breeder posts:", error);
-        }
+   
+    const breederData = {
+        page: "posts",
       };
-  
-      loadPageData();
-    }, [token]);
-    
+
+      useEffect(()=>{
+       const LoadPageData = async () =>{
+        const formData = new FormData();
+        formData.append("user_breeder_id", breederUserId); // You can dynamically assign the user ID if needed
+        try {
+            // Any Post Present or not
+            const response = await axios.post(`${BASE_URL}/api/post_count`, formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            });
+            setLoading(false);
+            console.log("responseresponse",response.data.data.breeder_post)
+            // 
+            if(response.data.data.breeder_post!=0){
+              setNoPost(false);
+            }
+          } catch (error) {
+            setLoading(false);
+            console.error("error fetching breeder posts:", error);
+          }
+       }
+       LoadPageData();
+      },[])
+
       if(loding){
             return(
                 <>

@@ -34,37 +34,21 @@ const ContactPetDetails2 = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [showPreviousModal, setShowPreviousModal] = useState(false);
-
-  const [BearerToken, setBearerToken] = useState(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken")
-      if (token) {
-        try {
-          const parsedToken = JSON.parse(token);
-          setBearerToken(parsedToken?.UniqueKey);
-        } catch (error) {
-          console.error('Error parsing token:', error);
-        }
-      } else {
-        console.error('No token found');
-      }
-  },[]);
-
+  
     const [modalData, setModalData] = useState({
       post_id: "",
       breeder_id: "",
     });
 
     const handleModal = (value) => {
+      console.log(value)
       let checkConnect = value?.breeder_do_not_show_me == null ? 1 : 0;
       setModalData({
         user_id: userId,
         breeder_id: value?.breeder_id,
         breeder_do_not_show_me: checkConnect,
-        "total_contacts": value?.total_contact,
-        "contact_date" :  value?.contacts_date,
-        token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
+        "total_contacts": value?.breeder_total_count_all,
+        "date_contacts_breeder" :  value?.date_contacts_breeder
       });
       if (checkConnect == 1) {
         setShowPreviousModal(true);
@@ -90,7 +74,6 @@ const ContactPetDetails2 = () => {
     try {
       const response = await axios.post(`${BASE_URL}/api/like_post`, payload, {
         headers: {
-          'Authorization': `Bearer ${BearerToken}`,
           "Content-Type": "application/json",
         },
       });
@@ -121,11 +104,10 @@ const ContactPetDetails2 = () => {
     const payload = {
       user_id: userId,
       id: postId,
-      token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
     };
 
     const response = await PostDetail(payload);
-    if (response?.data.code === 200) {
+    if (response.data.code === 200) {
       setPostData(response.data.data[0]);
       setPreviousPostImage(response.data.data[0].image);
     }
@@ -135,12 +117,11 @@ const ContactPetDetails2 = () => {
     const payload = {
       user_id: userId,
       post_id: postId,
-      token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
     };
 
     const response = await UserShowNotes(payload);
 
-    if (response?.data.code === 200) {
+    if (response.data.code === 200) {
       setUserNotes(response.data.data);
     }
   };
@@ -151,28 +132,20 @@ const ContactPetDetails2 = () => {
       user_id: userId,
       post_id: postId,
       notes: addNotes,
-      token: JSON.parse(localStorage.getItem("authToken"))?.UniqueKey,
     };
-  
-    if (addNotes == "") {
-      setErrorMsg('Please fill the notes!');
+
+    if(addNotes == "") {
+      setErrorMsg('Please fill the notes!')
       return;
     }
-  
-    try {
+    else if(addNotes) {
       const response = await UserAddNotes(payload);
       if (response.data.code === 200) {
-        toast.success("Note Added Successfully");
         UserShowNotesFun();
-        setAddNotes("");
-      } else {
-        setErrorMsg('Failed to submit the note.');
       }
-    } catch (error) {
-      setErrorMsg('An error occurred. Please try again.');
     }
+    
   };
-  
 
   const handleUserStatusNotesLeadsUpdate = async (val) => {
     try {
@@ -181,7 +154,6 @@ const ContactPetDetails2 = () => {
         post_id: postId,
         status_leads: val,
         user_breeder_id: userId,
-        token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
       };
 
       const response = await UserStatusNotesLeadsUpdate(payload);
@@ -201,7 +173,6 @@ const ContactPetDetails2 = () => {
       breeder_id: userId,
       user_id: localStorage.getItem("user_user_id"),
       post_id: postId,
-      token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
     };
 
     const allReatingResponse = await GetRattingTrendingPost(payload);
@@ -214,7 +185,6 @@ const ContactPetDetails2 = () => {
         politeness_rating: num == 1 ? ret : res.politeness_rating,
         responsive_rating: num == 2 ? ret : res.responsive_rating,
         communication_rating: num == 3 ? ret : res.communication_rating,
-        token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
       };
 
       await SetRattingTrendingPost(payloadTwo);
@@ -227,7 +197,6 @@ const ContactPetDetails2 = () => {
         politeness_rating: num == 1 ? ret : 0,
         responsive_rating: num == 2 ? ret : 0,
         communication_rating: num == 3 ? ret : 0,
-        token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
       };
 
       await SetRattingTrendingPost(payloadTwo);
@@ -240,7 +209,6 @@ const ContactPetDetails2 = () => {
       breeder_id: userId,
       user_id: localStorage.getItem("user_user_id"),
       post_id: postId,
-      token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
     };
 
     const response = await GetRattingTrendingPost(payload);
@@ -290,24 +258,23 @@ const ContactPetDetails2 = () => {
   const handleShare = async () => {
     if (navigator.share) {
       try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(fullUrl);
+    }
         // Use the Web Share API to share content (for mobile devices)
         await navigator.share({
           title: 'Breeder Details',
           url: getFullUrl(),
         });
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText( getFullUrl());
-        }
       } catch (err) {
         console.error('Error sharing:', err);
       }
     } else {
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText( getFullUrl());
-      }
+      await navigator.clipboard.writeText(fullUrl);
+    }
     }
   };
-  
   //
   return (
     <>
@@ -356,8 +323,8 @@ const ContactPetDetails2 = () => {
                         </a>
                         <div> {postData?.total_like } </div>
                       </div>
-                      <div className="inner-heartt" style={{cursor:'pointer'}} onClick={handleShare}>
-                        <a style={{ padding: "7px 4px"}}>
+                      <div className="inner-heartt" onClick={handleShare}>
+                        <a style={{ padding: "7px 4px" }}>
                           <Image width={15} height={15}
                             src="/images/Nextpet-imgs/dashboard-imgs/share.svg"
                             alt=""
@@ -717,7 +684,6 @@ const ContactPetDetails2 = () => {
                           <textarea
                             name=""
                             id=""
-                            value={addNotes}
                             onChange={(e) => {setErrorMsg(''); setAddNotes(e.target.value)}}
                             placeholder="You can add a personal memo here..."
                           ></textarea>
@@ -740,7 +706,7 @@ const ContactPetDetails2 = () => {
                   <div className="contacted-breeder-inner">
                     <div className="col-lg-12 col-md-12">
                       {showUserNotes &&
-                        showUserNotes.map((note, index) => (
+                        showUserNotes?.map((note, index) => (
                           <div key={index}>
                             <div className="experience-user-wrap">
                               <div className="calender-warp">
@@ -749,7 +715,7 @@ const ContactPetDetails2 = () => {
                                   {note.date &&
                                     moment(note.date).format("MMMM D")}
                                 </span>
-                                <p>{note.notes ? note.notes : ""}</p>
+                                <p>{note?.notes ? note?.notes : ""}</p>
                               </div>
                             </div>
                           </div>

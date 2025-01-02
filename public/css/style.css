@@ -5001,7 +5001,6 @@ img {
       background: #fff;
       padding: 34px 24px;
       border-radius: 2px;
-      overflow-x: scroll;
 
       h1 {
         color: #000;
@@ -5707,7 +5706,7 @@ img {
       }
     }
   }
- G
+
   .gallery-uploadedbox-wrap {
     display: flex !important;
     gap: 12px;
@@ -6212,7 +6211,6 @@ img {
   background: #fff;
   padding: 34px 24px;
   border-radius: 2px;
-  overflow-x: scroll;
 
   h1 {
     color: #000;
@@ -6227,9 +6225,9 @@ img {
   & .subscription-payment-wrap {
     display: flex !important;
     gap: 10px;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     justify-content: center;
-width: 80rem;
+
     .subscription-payment-box {
       box-shadow: 0px 0px 12.98px 0px #00000040;
       padding: 0px 0px;
@@ -6379,20 +6377,4 @@ width: 80rem;
 }
 .leaflet-control-attribution .leaflet-control {
   display: none !important;
-}
-
-
-.breedeerdasboard-subscription-right::-webkit-scrollbar {
-  height: 10px;
-  width: 6px;
-}
-
-.breedeerdasboard-subscription-right::-webkit-scrollbar-track {
-  background: #000;
-  border: 1px solid #1e1e1e;
-}
-
-.breedeerdasboard-subscription-right::-webkit-scrollbar-thumb {
-  background-color: gray;
-  border-radius: 20px;
 }

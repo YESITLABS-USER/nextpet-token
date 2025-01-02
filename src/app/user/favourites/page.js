@@ -16,7 +16,7 @@ import { useAuth } from "../../context/AuthContext";
 const Favorites = () => {
   const [userId, setUserId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(9);
+  const [postsPerPage] = useState(8);
   const [showModal, setShowModal] = useState(false);
   const [showPreviousModal, setShowPreviousModal] = useState(false);
   const [favoriteList, setFavoriteList] = useState([]);
@@ -25,24 +25,12 @@ const Favorites = () => {
     post_id: "",
     breeder_id: "",
   });
-  const [token, setToken] = useState(null);
     const { isAuthenticated } = useAuth(); 
 
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id");
-      const token = localStorage.getItem("authToken")
-      if (token) {
-        try {
-          const parsedToken = JSON.parse(token);
-          setToken(parsedToken?.UniqueKey);
-        } catch (error) {
-          console.error('Error parsing token:', error);
-        }
-      } else {
-        console.error('No token found');
-      }
       setUserId(storedUserId);
     }
   }, []);
@@ -62,9 +50,7 @@ const Favorites = () => {
         : `${BASE_URL}/api/favourites_list`;
     try {
       if(userId){
-        const response = await axios.post(apiURL, user, {
-          headers: { Authorization: `Bearer ${token}`}});
-
+        const response = await axios.post(apiURL, user);
         if (response.data.code === 200 || 400) {
           setFavoriteList(response.data.data);
           setShowModal(false);
@@ -80,7 +66,6 @@ const Favorites = () => {
   const handlePostLike = async (value) => {
     let checkLikeDislike =
       value?.check_like == "0" || value?.like_count == "0" ? 1 : 111;
-      const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
 
     let likeData = {
       user_id: userId,
@@ -93,7 +78,7 @@ const Favorites = () => {
     try {
       let apiURL = isBreeder == true ? `${BASE_URL}/api/breeder_like` : `${BASE_URL}/api/like_post`;
 
-      const response = await axios.post(apiURL, likeData, { headers: { "Authorization" : `Bearer ${token}` } });
+      const response = await axios.post(apiURL, likeData);
       if (response.data.code === 200) {
         getFavoriteList();
       }
@@ -106,8 +91,8 @@ const Favorites = () => {
     setIsBreeder(!isBreeder);
   };
 
-  const handleModal = (post_id, breeder_id, contacts_colour, contacts_date, total_contact) => {
-    setModalData({ post_id, breeder_id, contacts_colour, "contact_date" : contacts_date, total_contact });
+  const handleModal = (post_id, breeder_id, contacts_colour, contacts_date,) => {
+    setModalData({ post_id, breeder_id, contacts_colour, "date_contacts_breeder" : contacts_date, });
     if (contacts_colour == 1) {
       setShowPreviousModal(true);
     } else {
@@ -121,8 +106,6 @@ const Favorites = () => {
       user_id: userId,
       breeder_id: value?.breeder_id,
       breeder_do_not_show_me: checkConnect,
-      contact_date: value?.date_contacts_breeder,
-      total_contacts: value?.breeder_total_count_all
     });
     if (checkConnect == 1) {
       setShowModal(true);
@@ -153,7 +136,6 @@ const Favorites = () => {
         item.user_breeder_id,
         item?.contacts_colour,
         item?.contacts_date,
-        item?.total_contact
       )
     } else{
       toast.error("User must be logged in");
@@ -273,15 +255,15 @@ const Favorites = () => {
                               : "Description not available"} </p>
 
                                 <div className="viewmore-wrap">
-                                  <h4> {item?.breeder_post_count ?? 0} active posts</h4>
+                                  <h4> {item?.breeder_post_count ?? 11} active posts</h4>
                                   <div className="action-wrap">
                                     <a
                                       href={`/user/breeder-profile/${item?.breeder_id}/${item?.like_colour} `}
                                     >
                                       View More&nbsp;
                                       <MdNavigateNext
-                                        size={20}
-                                        // style={{ marginLeft: "30px" }}
+                                        size={25}
+                                        style={{ marginLeft: "30px" }}
                                       />
                                     </a>
                                   </div>
@@ -289,16 +271,21 @@ const Favorites = () => {
                               </div>
                             </div>
                           ) : (
-                            <div className={`post-cards-wrap }`}
-                              key={index} >
-                            {/* <div className={`post-cards-wrap ${ item?.delivery == 1 ? "post-cards-wrap disable" : "" }`}
-                              key={index} > */}
-                              {/* {item?.delivery == 1 && 
+                            <div
+                              className={`post-cards-wrap 
+                                ${
+                                  item?.delivery == 1
+                                    ? "post-cards-wrap disable"
+                                    : ""
+                                }`}
+                              key={index}
+                            >
+                              {item?.delivery == 1 && 
                               <div className="adopted-icon" style={{ top: "32px" }}>
                                 <img src={"/images/Nextpet-imgs/dashboard-imgs/adopted.svg" }
                                   alt="adotpted"
                                 />
-                              </div>} */}
+                              </div>}
                               <div className="post-cardsimg-wrap">
                                 <Image src={item?.image?.[0] || "/images/Nextpet-imgs/Image_not_available.webp"} alt="pets Image" width={400} height={300} style={{minHeight:'175px', maxHeight:'175px'}}/>
                                 <div className="actionpost-heart">

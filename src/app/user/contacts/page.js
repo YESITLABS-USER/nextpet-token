@@ -23,22 +23,10 @@ const Contacts = () => {
     Archive: false,
     Adopted: false,
   });
-  const [token, setToken] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id");
-      const token = localStorage.getItem("authToken")
-      if (token) {
-        try {
-          const parsedToken = JSON.parse(token);
-          setToken(parsedToken?.UniqueKey);
-        } catch (error) {
-          console.error('Error parsing token:', error);
-        }
-      } else {
-        console.error('No token found');
-      }
       setUserId(storedUserId);
     }
   }, []);
@@ -53,8 +41,7 @@ const Contacts = () => {
     };
     let apiURL = `${BASE_URL}/api/contacted_list`;
     try {
-      const response = await axios.post(apiURL, user, {
-        headers: { Authorization: `Bearer ${token}`}});
+      const response = await axios.post(apiURL, user);
       if (response.data.status_code === 200) {
         setContactsList(response.data.data);
       }
@@ -71,9 +58,7 @@ const Contacts = () => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/contacted_list_filter`,
-        user,{
-          headers: { Authorization: `Bearer ${token}`}
-        }
+        user
       );
 
       if (response.data.status_code === 400) {

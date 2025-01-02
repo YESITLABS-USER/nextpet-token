@@ -1,47 +1,39 @@
 import axios from "axios";
 import BASE_URL from "../utils/constant";
-import { toast } from "react-toastify";
 
 //contacted  :: user_show_notes
 export const ShowNotes = async (payload) => {
-  const { token, ...data } = payload;
   try {
     const response = await axios.post(
       `${BASE_URL}/api/breeder_show_notes`,
-      data,
+      payload,
       {
         headers: {
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
     return response;
   } catch (error) {
-    toast.error(error?.message || "user_show_notes Error");
-    throw error;
+    throw new Error(error.response?.data?.message || "user_show_notes Error");
   }
 };
 
 //contacted  :: user_add_notes
 export const AddNotes = async (payload) => {
   try {
-    const { token, ...data } = payload;
     const response = await axios.post(
       `${BASE_URL}/api/breeder_add_notes`,
-      data,
+      payload,
       {
         headers: {
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
     return response;
   } catch (error) {
-    toast.error(error?.response?.data?.message, 'err')
-    // throw new Error(error.response?.data?.message || "breeder_add_notes Error");
-    throw error;
+    throw new Error(error.response?.data?.message || "breeder_add_notes Error");
   }
 };
 
@@ -49,13 +41,11 @@ export const AddNotes = async (payload) => {
 //contacted  :: user_status__notes_leads_update
 export const StatusNotesLeadsUpdate = async (payload) => {
   try {
-    const { token, ...data } = payload;
     const response = await axios.post(
       `${BASE_URL}/api/user_status__notes_leads_update`,
-      data,
+      payload,
       {
         headers: {
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
@@ -69,32 +59,27 @@ export const StatusNotesLeadsUpdate = async (payload) => {
 ////
 // Pets ::
 export const GetRatting = async (payload) => {
-  const { token, ...data } = payload;
   try {
     const response = await axios.post(
       `${BASE_URL}/api/rating_user_get`,
-      data,
+      payload,
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
     return response;
   } catch (error) {
-    toast.error(error?.message || "Ratting Error");
-    throw error;
+    throw new Error(error.response?.data?.message || "Ratting Error");
   }
 };
 
 // Pets :: Set and Update Ratting
 export const SetRatting = async (payload) => {
   try {
-    const { token,...data } = payload;
-    const response = await axios.post(`${BASE_URL}/api/rating_user`, data, {
+    const response = await axios.post(`${BASE_URL}/api/rating_user`, payload, {
       headers: {
-        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -107,13 +92,11 @@ export const SetRatting = async (payload) => {
 
 export const StatusLeadsBreederDetails = async (payload) => {
   try {
-    const { token,...data } = payload;
     const response = await axios.post(
       `${BASE_URL}/api/status_leads_breeder_details`,
-      data,
+      payload,
       {
         headers: {
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }

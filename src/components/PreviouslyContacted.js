@@ -47,7 +47,8 @@ const PreviouslyContacted = ({ modalIsOpen, closeModal, modalDetails }) => {
     }
   };
   const submitPreviouslyContacted = async () =>{
-    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
+
+
     const formData = new FormData();
     formData.append("user_id", localStorage.getItem("user_user_id"));
     formData.append("post_id", modalDetails.post_id);
@@ -58,7 +59,6 @@ const PreviouslyContacted = ({ modalIsOpen, closeModal, modalDetails }) => {
 
       await axios.post(`${BASE_URL}/api/contact_breeder`, formData, {
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
@@ -86,7 +86,7 @@ const PreviouslyContacted = ({ modalIsOpen, closeModal, modalDetails }) => {
         <div className="breederform-popup-wrap">
             <img src="/images/Nextpet-imgs/green-envelope.svg" alt=""/>
             <h6 className="pt-4">Previously Contacted
-              on {modalDetails?.contact_date ? formatDate(modalDetails?.contact_date) : "Some Day Ago "} </h6>
+              on {modalDetails?.date_contacts_breeder ? formatDate(modalDetails?.date_contacts_breeder) : "Some Day Ago "} </h6>
             <p>You have already contacted this breeder, please check contacted list.</p>
             <div className="userpopup-btn-wrap">
               <button type="button" className="" value="Submit" onClick={submitPreviouslyContacted}>Contact Breeder Again</button>

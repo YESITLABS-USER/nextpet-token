@@ -71,8 +71,6 @@ const Breeder = () => {
 
   const getBreederList = async () => {
     const userId = localStorage.getItem("user_user_id");
-    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
-
     let apiURL = userId
       ? `${BASE_URL}/api/all_breeders_listing`
       : `${BASE_URL}/api/all_breeders_listing_without_login`;
@@ -83,7 +81,7 @@ const Breeder = () => {
       latitude: location?.lat,
       longitude: location?.lon,
     };
-    const response = await axios.post(apiURL, apiData, { headers : { "Authorization" : `Bearer ${token}`}});
+    const response = await axios.post(apiURL, apiData);
     if (response.data.code === 200) {
       setBreederList(
         response.data.breeder
@@ -116,8 +114,6 @@ const Breeder = () => {
   const handlePostLike = async (value) => {
     if(isAuthenticated) {
       let checkLikeDislike = value?.like_colour == null ? 1 : 111;
-      const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
-
       let likeData = {
         user_id: localStorage.getItem("user_user_id"),
         breeder_id: value?.breeder_id || "",
@@ -126,7 +122,7 @@ const Breeder = () => {
       try {
         const response = await axios.post(
           `${BASE_URL}/api/breeder_like`,
-          likeData, { headers: { "Authorization" : `Bearer ${token}`}}
+          likeData
         );
         if (response.data.code === 200) {
           getBreederList();

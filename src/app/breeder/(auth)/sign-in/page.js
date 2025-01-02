@@ -41,7 +41,7 @@ const SignIn = () => {
       const response = await axios.post(`${BASE_URL}/api/SocialLogin`, payload);
   
       if (response.status === 200) {
-        login({UniqueKey: response.data.data.token, type: 'breeder-admin-type'});
+        login({UniqueKey: response.data.data.user_id, type: 'breeder-admin-type'});
         localStorage.setItem("breeder_user_id", response.data.data.user_id);
   
       } else {
@@ -67,7 +67,7 @@ const SignIn = () => {
         setValidationError(response.data.message);
       } else {
         // console.log("response.data", response.data);
-        login({UniqueKey: response.data.data.token, type: 'breeder-admin-type'});
+        login({UniqueKey: response.data.data.user_id, type: 'breeder-admin-type'});
         localStorage.setItem("breeder_user_id", response.data.data.user_id);
         // localStorage.setItem("name", response.data.data.name);
         // localStorage.setItem("email", response.data.data.email);
@@ -143,7 +143,7 @@ const SignIn = () => {
               <h3>Or Sign In using</h3>
             </div>
             <div className="social-login-wrap">
-              <a href="#">
+              <a style={{cursor:"pointer"}}>
                 <Image
                   src="/images/Nextpet-imgs/breeder-signin-imgs/socail1.png"
                   alt="Social 1"
@@ -151,7 +151,7 @@ const SignIn = () => {
                   height={40} style={{cursor:'pointer'}} onClick={handleBreederSignIn}
                 />
               </a>
-              <a href="#">
+              <a style={{cursor:"pointer"}}>
                 <Image
                   src="/images/Nextpet-imgs/breeder-signin-imgs/social2.png"
                   alt="Social 2"
@@ -159,7 +159,7 @@ const SignIn = () => {
                   height={40}
                 />
               </a>
-              {/* <a href="#">
+              {/* <a style={{cursor:"pointer"}}>
                 <Image
                   src="/images/Nextpet-imgs/breeder-signin-imgs/social3.png"
                   alt="Social 3"

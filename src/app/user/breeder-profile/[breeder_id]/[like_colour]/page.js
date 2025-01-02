@@ -30,6 +30,7 @@ const ContactPetDetails = () => {
   const router = useRouter();
   const [likedData, setLikeData] = useState(like_colour);
   const { isAuthenticated } = useAuth(); 
+  
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id" || "breeder_user_id");
@@ -40,13 +41,13 @@ const ContactPetDetails = () => {
   const breederDetail = async () => {
     try {
       if(userId) {
-        const response = await axios.post(`${BASE_URL}/api/all_breeders_listing_without_login`, {
+        const response = await axios.post(`${BASE_URL}/api/all_post_listing`, {
           user_id: userId,
         });
         
         if (response.data.code === 200 && breeder_id) {
           // Find the breeder with the matching breeder_id
-          const liked = response.data.all_breeders?.find(
+          const liked = response.data.popular_breeder?.find(
           (breeder) => breeder.breeder_id == breeder_id
         );        
         setLikeData(liked?.like_colour);
@@ -101,11 +102,8 @@ const ContactPetDetails = () => {
     }
   };
 
-  
   const handlePostLike = async (value) => {
     const storedUserId = localStorage.getItem("authToken");
-    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
-
     if (!storedUserId) {
       toast.error("User or Breeder must be logged in");
       setTimeout(() => {
@@ -129,7 +127,7 @@ const ContactPetDetails = () => {
       : `${BASE_URL}/api/breeder_like`;
   
     try {
-      const response = await axios.post(apiURL, likeData, { headers: { "Authorization" : `Bearer ${token}`}});
+      const response = await axios.post(apiURL, likeData);
       if (response.data.code === 200) {
         if (value?.post_id) {
           getAllRecentPost();
@@ -167,8 +165,8 @@ const ContactPetDetails = () => {
     if (navigator.share) {
       try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText( getFullUrl());
-        }
+      await navigator.clipboard.writeText(fullUrl);
+    }
         // Use the Web Share API to share content (for mobile devices)
         await navigator.share({
           title: 'Breeder Details',
@@ -179,8 +177,8 @@ const ContactPetDetails = () => {
       }
     } else {
       if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText( getFullUrl());
-        }
+      await navigator.clipboard.writeText(fullUrl);
+    }
     }
   };
 
@@ -191,14 +189,11 @@ const ContactPetDetails = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleModal = (value) => {
-    console.log(value)
-    let checkConnect = value?.contacts_colour == 0 ? 1 : 0;
+    let checkConnect = value?.check_like_breeder == 0 ? 1 : 0;
     setModalData({
       user_id: userId,
       breeder_id: breeder_id,
       breeder_do_not_show_me: checkConnect,
-      total_contacts: value.contacts_date,
-      contact_date: value?.contacts_date
     });
     if (checkConnect == 1) {
       setShowModal(true);

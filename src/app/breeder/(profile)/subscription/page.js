@@ -16,7 +16,6 @@ const Subscription = () => {
 
   const handleSubmit = async (plan) => {
     const user_id = localStorage.getItem("breeder_user_id");
-    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
 
     const payload = {
       user_id: user_id,
@@ -27,10 +26,10 @@ const Subscription = () => {
     };
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/payment`, payload, {headers: { "Authorization" : "Bearer " + token}});
+      const response = await axios.post(`${BASE_URL}/api/payment`, payload);
 
       if (response.data.url) {
-        // console.log(response.data.message);
+        console.log(response.data.message);
         window.location.href = response.data.url;
       } else {
         console.error("No URL in the response for redirection.");

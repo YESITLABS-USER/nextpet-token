@@ -16,7 +16,7 @@ const UserDashboard = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
-  const [token, setToken] = useState(null);
+  
 
   const [formData, setFormData] = useState({
     name: "",
@@ -35,17 +35,6 @@ const UserDashboard = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id");
-      const token = localStorage.getItem("authToken")
-      if (token) {
-        try {
-          const parsedToken = JSON.parse(token);
-          setToken(parsedToken?.UniqueKey);
-        } catch (error) {
-          console.error('Error parsing token:', error);
-        }
-      } else {
-        console.error('No token found');
-      }
       setUserId(storedUserId);
     }
   }, []);
@@ -70,31 +59,26 @@ const UserDashboard = () => {
 
   useEffect(() => {
     const loadUser = async () => {
-      if (!userId || !token) {
-        console.warn("User ID or token is missing");
-        return;
-      }
-  
-      try {
-        const response = await axios.post(
+      await axios
+        .post(
           `${BASE_URL}/api/user-get`,
           { user_id: userId },
           {
             headers: {
-              'Authorization': `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
-            }
+            },
           }
-        );
-        setFormData(response.data.data);
-      } catch (error) {
-        console.error("Error fetching user data:", error.message);
-      }
+        )
+        .then((response) => {
+          setFormData(response.data.data);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
     };
-  
+
     loadUser();
-  }, [userId, token]);
-  
+  }, [userId]);
 
   const handleSubmit = async () => {
     const { name, email, phone, location, } = formData;

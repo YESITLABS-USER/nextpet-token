@@ -14,48 +14,31 @@ const BreederDashboard = () => {
   const [overFlow, setOverFlow] = useState(false);
 
   // Fetch user details from API
+  const fetchUserDetails = async () => {
+    try {
+      const breederUserId = localStorage.getItem("breeder_user_id");
+      // console.log("breederUserId : ", breederUserId);
+      const response = await axios.post(
+        `${BASE_URL}/api/get-user`,
+        { user_id: breederUserId },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setFormData(response.data.data);
+
+      setLoading(false);
+    } catch (err) {
+      console.error("Show Error");
+      setError("Failed to load user details.");
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    let isMounted = true; // Flag to check if component is still mounted
-
-    const fetchUserDetails = async () => {
-      try {
-        const breederUserId = localStorage.getItem("breeder_user_id");
-        const authToken = JSON.parse(localStorage.getItem("authToken"));
-        const token = authToken?.UniqueKey;
-
-        if (!breederUserId || !token) {
-          throw new Error("Missing authentication information.");
-        }
-
-        const response = await axios.post(
-          `${BASE_URL}/api/get-user`,
-          { user_id: breederUserId },
-          {
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (isMounted) {
-          setFormData(response.data.data);
-          setLoading(false);
-        }
-      } catch (err) {
-        if (isMounted) {
-          console.error("Error fetching user details:", err);
-          setError("Failed to load user details.");
-          setLoading(false);
-        }
-      }
-    };
-
     fetchUserDetails();
-
-    return () => {
-      isMounted = false; // Cleanup flag on component unmount
-    };
   }, []);
 
   if (loading) {

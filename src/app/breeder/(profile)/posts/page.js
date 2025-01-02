@@ -23,25 +23,21 @@ const Post = () => {
     Archived: false,
     Adopted: false,
   });
-  const [token, setToken] = useState(null);
   const [breederId, setBreederId] = useState(null);
 
     useEffect(() => {
       if (typeof window !== "undefined") {
         setBreederId(localStorage.getItem("breeder_user_id"));
-        const token = localStorage.getItem("authToken")
-        if (token) {
-          try {
-            const parsedToken = JSON.parse(token);
-            setToken(parsedToken?.UniqueKey);
-          } catch (error) {
-            console.error('Error parsing token:', error);
-          }
-        } else {
-          console.error('No token found');
-        }
       }
     }, []);
+
+  // const breederId = localStorage.getItem("breeder_user_id");
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const storedUserId = localStorage.getItem("breeder_user_id");
+  //     setBreederId(storedUserId);
+  //   }
+  // }, []);
 
   const breederData = {
     page: "posts",
@@ -56,7 +52,6 @@ const Post = () => {
         formData,
         {
           headers: {
-            "Authorization": `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -82,7 +77,6 @@ const Post = () => {
   const DeleteBreederPostFun = async () => {
     let payload = {
       post_id: deletePostId,
-      token: token
     };
     try {
       await DeleteBreederPost(payload);
@@ -97,11 +91,8 @@ const Post = () => {
       user_breeder_id: breederId,
       search: [filters],
     };
-    
     try {
-      const response = await axios.post(`${BASE_URL}/api/post_filter`, user, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.post(`${BASE_URL}/api/post_filter`, user);
       if(response.data.code== 400){
         setAllBreederPosts([]);
       }
@@ -307,8 +298,8 @@ const Post = () => {
                             {/* <p>{post.description ? post.description : ""}</p> */}
                             <p style={{width:'85%'}}>
                               {post.description
-                                ? post.description.length > 35
-                                  ? `${post.description.slice(0, 35)}...`
+                                ? post.description.length > 50
+                                  ? `${post.description.slice(0, 50)}...`
                                   : post.description
                                 : "Description not available"}
                             </p>

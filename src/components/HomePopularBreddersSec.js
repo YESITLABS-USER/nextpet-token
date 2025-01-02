@@ -66,7 +66,7 @@ const HomePopularBreddersSec = ({ slides, onClick }) => {
       breeder_id: value?.breeder_id,
       breeder_do_not_show_me: checkConnect,
       "total_contacts": value?.breeder_total_count_all,
-      "contact_date" :  value?.date_contacts_breeder
+      "date_contacts_breeder" :  value?.date_contacts_breeder
     });
     if (checkConnect == 1) {
       setShowModal(true);

@@ -48,7 +48,7 @@ const HomeRecentlyPostedSlider = ({ slides, onClick }) => {
   }, []);
 
   const handleModal = (post_id, breeder_id, contacts_colour, total_contact, contacts_date) => {
-    setModalData({ post_id, breeder_id, "total_contacts" : total_contact, "contact_date" : contacts_date });
+    setModalData({ post_id, breeder_id, "total_contacts" : total_contact, "date_contacts_breeder" : contacts_date });
     if (contacts_colour == 1) {
       setShowPreviousModal(true);
     } else {
@@ -198,8 +198,8 @@ const HomeRecentlyPostedSlider = ({ slides, onClick }) => {
                        </p> */}
                        <p>
                         {slide.description
-                          ? slide.description.length > 35
-                            ? `${slide.description.slice(0, 35)}...`
+                          ? slide.description.length > 40
+                            ? `${slide.description.slice(0, 40)}...`
                             : slide.description
                           : "Description not available"}
                       </p>

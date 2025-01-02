@@ -12,21 +12,9 @@ const BreederProfileLeft = ({ data }) => {
   const [showDeleteAccount, setShowDeleteAccount] = useState(false);
   const [showLogOut, setShowLogOut] = useState(false);
   const [breeder_id, setBreeder_id] = useState();
-  const [token, setToken] = useState(null);
 
   useEffect(() => {
     setBreeder_id(localStorage.getItem("breeder_user_id"));
-    const token = localStorage.getItem("authToken")
-      if (token) {
-        try {
-          const parsedToken = JSON.parse(token);
-          setToken(parsedToken?.UniqueKey);
-        } catch (error) {
-          console.error('Error parsing token:', error);
-        }
-      } else {
-        console.error('No token found');
-      }
   }, []);
 
   const customStyles = {
@@ -73,12 +61,11 @@ const BreederProfileLeft = ({ data }) => {
     try {
       const payload = {
         user_id: breeder_id,
-        token : token
       };
       const res = await DeleteBreeder(payload);
       if (res?.data?.status_code == 200) {
+        console.log("Account Deleted!");
         localStorage.removeItem("breeder_user_id");
-        localStorage.removeItem("authToken");
         window.location.href = "/";
       }
     } catch (error) {
@@ -231,7 +218,7 @@ const BreederProfileLeft = ({ data }) => {
           </li>
 
           <li>
-            <a style={{cursor:'pointer'}} onClick={openDeleteAccountModal}>
+            <a href="#" onClick={openDeleteAccountModal}>
               <Image
                 src="/images/Nextpet-imgs/dashboard-imgs/icon6.svg"
                 alt=""

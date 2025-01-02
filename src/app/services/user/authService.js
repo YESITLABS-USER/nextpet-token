@@ -24,10 +24,8 @@ export const signUpUser = async (formData) => {
 //Delete User
 export const DeleteUser = async (payload) => {
   try {
-    const { token, ...data} = payload;
-    const response = await axios.post(`${BASE_URL}/api/delete_user`, data, {
+    const response = await axios.post(`${BASE_URL}/api/delete_user`, payload, {
       headers: {
-        "Authorization": `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
