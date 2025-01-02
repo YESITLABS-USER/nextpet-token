@@ -104,7 +104,7 @@ const SignIn = () => {
   const initializeAppleSignIn = () => {
     if (window.AppleID) {
       window.AppleID.auth.init({
-        clientId: "com.nextpet", // Replace with your Service ID
+        clientId: "app.vercel.nextpet-token", // Replace with your Service ID
         scope: "email name", // Request necessary fields
         redirectURI: "https://nextpet.vercel.app/user/sign-in/callback", // Replace with your redirect URL
         usePopup: true,
@@ -118,9 +118,9 @@ const SignIn = () => {
       const { authorization, user } = appleResponse;
       console.log(user, 'apple user')
       const payload = {
-        social_id: authorization.id_token, // Token for backend validation
-        name: user?.name || {},         // Optional: Extract user name
-        email: user?.email || "",       // Optional: Extract user email
+        social_id: authorization.id_token, 
+        name: user?.name || {},        
+        email: user?.email || "",       
       };
   
       console.log("Apple Sign-In Payload:", payload);
