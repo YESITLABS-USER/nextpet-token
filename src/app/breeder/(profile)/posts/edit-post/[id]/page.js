@@ -11,7 +11,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const EditPost = () => {
   const { id } = useParams();
-  const breederUserId = localStorage.getItem("breeder_user_id");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [animalTypes, setAnimalTypes] = useState([]);
@@ -29,21 +28,51 @@ const EditPost = () => {
   // const [selectedAnimal, setSelectedAnimal] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [additionalRequestAnimalType, setAdditionalRequestAnimalType] =
-    useState(null);
+  useState(null);
   const [additionalRequestBreedType, setAdditionalRequestBreedType] =
-    useState(null);
+  useState(null);
   const [errorAdditionalRequest, setErrorsAdditionalRequest] = useState(null);
   const [previousPostImage, setPreviousPostImage] = useState([]);
   const [editPostImageLength, setPostImageLength] = useState(null);
   const [editPostPage, setEditPostPage] = useState(false);
   const [countDetail, setCountDetail] = useState(null);
+  const [breederUserId, setBreederUserId] = useState(null);
+  const [token, setToken] = useState(null);
+  
+  useEffect(() => {
+    const breederUserId = localStorage.getItem("breeder_user_id");
+    setBreederUserId(breederUserId);
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        const { latitude, longitude } = coords;;
+        setLatitude(latitude);
+        setLongitude(longitude);
+      });
+    } else {
+      console.error("Not Allow location");
+    }
+    
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("authToken")
+      if (token) {
+        try {
+          const parsedToken = JSON.parse(token);
+          setToken(parsedToken?.UniqueKey);
+        } catch (error) {
+          console.error('Error parsing token:', error);
+        }
+      } else {
+        console.error('No token found');
+      }
+    }
+  }, []);
   
   useEffect(() => {
     const fetchPostCount = async () => {
       try {
         const response = await axios.post(`${BASE_URL}/api/post_count`, {
           user_breeder_id: breederUserId,
-        });
+        }, { headers: { "Authorization" : `Bearer ${token}`}});
         if (response.data.code === 200) {
           setCountDetail(response.data.data);
         }
@@ -55,20 +84,7 @@ const EditPost = () => {
       fetchPostCount();
     }
   }, [breederUserId]);
-
-
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(({ coords }) => {
-        const { latitude, longitude } = coords;;
-        setLatitude(latitude);
-        setLongitude(longitude);
-      });
-    } else {
-      console.error("Not Allow location");
-    }
-  }, []);
-
+  
   useEffect(() => {
     if (animalBreeds.length === 0 && postDetails?.type) {
       handleSelectedAnimalTypesChange({ value: postDetails?.type });
@@ -87,12 +103,13 @@ const EditPost = () => {
           formData,
           {
             headers: {
+              "Authorization": `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
             },
           }
         );
 
-        if (response.data.status) {
+        if (response.data.code == 200) {
           setPostDetails(response.data.data[0]);
           setIsDeliveryAvailable(response.data.data[0].delivery);
           setIsHealthGuarantee(response.data.data[0].health);
@@ -242,6 +259,7 @@ const EditPost = () => {
         formData,
         {
           headers: {
+            "Authorization" : `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -257,6 +275,7 @@ const EditPost = () => {
             formData2,
             {
               headers: {
+                "Authorization" : `Bearer ${token}`,
                 "Content-Type": "multipart/form-data",
               },
             }
@@ -282,6 +301,7 @@ const EditPost = () => {
         formData,
         {
           headers: {
+            "Authorization" : `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -332,8 +352,8 @@ const EditPost = () => {
     }
 
     const formData = new FormData();
-    const formattedBirthdate = values.birthdate ? new Date(values.birthdate).toISOString().split("T")[0] : "";
-  const formattedDateAvailable = values.date_available ? new Date(values.date_available).toISOString().split("T")[0] : "";
+    const formattedBirthdate = value.birthdate ? new Date(value.birthdate).toISOString().split("T")[0] : "";
+  const formattedDateAvailable = value.date_available ? new Date(value.date_available).toISOString().split("T")[0] : "";
     formData.append("post_id", id);
     formData.append("flying_availability", flying_availability);
     formData.append("boarding_availability", boarding_availability);
@@ -362,6 +382,7 @@ const EditPost = () => {
         formData,
         {
           headers: {
+            "Authorization" : `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }

@@ -63,6 +63,8 @@ const ContactPetDetails = () => {
   const handlePostLike = async () => {
     if(isAuthenticated){
       let checkLikeDislike = postData?.check_like == "0" ? 1 : 111;
+      const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
+
       let likeData = {
         user_id: userId,
         post_id: postData?.post_id || "",
@@ -71,7 +73,7 @@ const ContactPetDetails = () => {
       };
 
       try {
-        const response = await axios.post(`${BASE_URL}/api/like_post`, likeData);
+        const response = await axios.post(`${BASE_URL}/api/like_post`, likeData, { headers: { "Authorization" : `Bearer ${token}`}});
         if (response.data.code === 200) {
           PostDetailGet();
         }
@@ -85,37 +87,27 @@ const ContactPetDetails = () => {
       }, 1000);
     }
   };
-
-
-    const handleModal = ({
-      post_id = postData?.post_id,
-      breeder_id = postData?.user_id,
-      contacts_colour = postData?.contacts_colour,
-    } = {}) => {
-      const modalData = {
-        post_id,
-        breeder_id,
-        contacts_colour,
-        date_contacts_breeder: postData?.total_contact,
-      };
-      setModalData(modalData);
-      if (contacts_colour == 1) {
-        setShowPreviousModal(true);
-      } else {
-        setShowModal(true);
-      }
+  console.log(postData)
+  const handleModal = ({
+    post_id = postData?.post_id,
+    breeder_id = postData?.user_id,
+    contacts_colour = postData?.contacts_colour,
+  } = {}) => {
+    const modalData = {
+      post_id,
+      breeder_id,
+      contacts_colour,
+      total_contacts: postData?.total_contact,
+      contact_date : postData?.contacts_date
     };
-
-  function sethandleData () {
-    if(isAuthenticated){
-      handleModal()
+    setModalData(modalData);
+    if (contacts_colour == 1) {
+      setShowPreviousModal(true);
     } else {
-      toast.error("User must be logged in");
-      setTimeout(() => {
-        router.push('/user/sign-in');
-      }, 1000);
+      setShowModal(true);
     }
-  }
+  };
+
   const closeModal = () => {
     PostDetailGet();
     setShowModal(false);
@@ -132,9 +124,7 @@ const ContactPetDetails = () => {
   const handleShare = async () => {
     if (navigator.share) {
       try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(fullUrl);
-        }
+        await navigator.clipboard.writeText( getFullUrl());
         // Use the Web Share API to share content (for mobile devices)
         await navigator.share({
           title: 'Breeder Details',
@@ -144,12 +134,20 @@ const ContactPetDetails = () => {
         console.error('Error sharing:', err);
       }
     } else {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(fullUrl);
-    }
+      await navigator.clipboard.writeText( getFullUrl());
     }
   };
 
+  function sethandleData () {
+    if(isAuthenticated){
+      handleModal()
+    } else {
+      toast.error("User must be logged in");
+      setTimeout(() => {
+        router.push('/user/sign-in');
+      }, 1000);
+    }
+  }
 
   return (
     // <ProtectedRoute>

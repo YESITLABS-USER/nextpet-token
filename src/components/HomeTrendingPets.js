@@ -59,7 +59,7 @@ const HomeRecentlyPostedSlider = ({ slides, onLike }) => {
   };
 
   const handlePreviouslyContactedModal = (post_id, breeder_id, date_contacts_breeder ) => {
-    setModalData({ post_id, breeder_id, "date_contacts_breeder": date_contacts_breeder });
+    setModalData({ post_id, breeder_id, "contact_date": date_contacts_breeder });
     setShowPreviouslyContactedModal(true);
   };
 
@@ -244,8 +244,8 @@ const HomeRecentlyPostedSlider = ({ slides, onLike }) => {
                             </p> */}
                             <p>
                               {slide.description
-                                ? slide.description.length > 50
-                                  ? `${slide.description.slice(0, 50)}...`
+                                ? slide.description.length > 35
+                                  ? `${slide.description.slice(0, 35)}...`
                                   : slide.description
                                 : "Description not available"}
                             </p>

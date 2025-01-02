@@ -24,7 +24,8 @@ const Alert = () => {
   const [additionalRequestWeb, setAdditionalRequestWeb] = useState([]);
   const [breeds_typss, setBreedTypeInOption] = useState({ breed_type: [] });
   const [edit, setEdit] = useState(false);
-
+  const [token, setToken] = useState(null);
+  
   const handleLocationSelect = (lat, lng, address) => {
     setLatitude(lat || '35.1258');
     setLongitude(lng || '17.9859');
@@ -52,6 +53,18 @@ const Alert = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id");
+      const token = localStorage.getItem("authToken")
+      if (token) {
+        try {
+          const parsedToken = JSON.parse(token);
+          setToken(parsedToken?.UniqueKey);
+        } catch (error) {
+          console.error('Error parsing token:', error);
+        }
+      } else {
+        console.error('No token found');
+      }
+
       setUserId(storedUserId);
     }
   }, []);
@@ -86,6 +99,7 @@ const Alert = () => {
           { user_id: userId },
           {
             headers: {
+              'Authorization': `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
             },
           }
@@ -139,6 +153,7 @@ const Alert = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
+    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
 
     if (selectedAnimal == null) {
       toast.error("Animal Type is required!");
@@ -165,6 +180,7 @@ const Alert = () => {
         },
         {
           headers: {
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }

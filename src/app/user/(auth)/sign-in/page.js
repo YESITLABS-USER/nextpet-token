@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { auth, provider, signInWithPopup  } from "../../../../components/GoogleLogin";
 import axios from "axios";
 import BASE_URL from "@/src/app/utils/constant";
-
+import { initializeAppleSignInScript, handleAppleSignIn } from "../../../../components/GoogleLogin.js"
 
 const SignIn = () => {
   const { isAuthenticated, login } = useAuth();
@@ -41,7 +41,7 @@ const SignIn = () => {
       const response = await axios.post(`${BASE_URL}/api/user_social_login`, payload);
   
       if (response.status === 200) {
-        login({UniqueKey: response.data.data.user_id, type: 'user-type'});
+        login({UniqueKey: response.data.data.token, type: 'user-type'});
         localStorage.setItem("user_user_id", response.data.data.user_id);
   
       } else {
@@ -53,96 +53,63 @@ const SignIn = () => {
       toast.error("Failed to login with Google.");
     }
   };
-
-  // const handleUserAppleLogin = async () => {
+  
+  // apple login functionality
+  // useEffect(() => {
+  //   const scriptId = "apple-auth-script";
+  //   if (!document.getElementById(scriptId)) {
+  //     const script = document.createElement("script");
+  //     script.id = scriptId;
+  //     script.src = "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
+  //     script.onload = initializeAppleSignIn;
+  //     document.body.appendChild(script);
+  //   }
+  // }, []);
+  
+  // const initializeAppleSignIn = () => {
+  //   if (window.AppleID) {
+  //     window.AppleID.auth.init({
+  //       clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
+  //       scope: "email name", 
+  //       redirectURI: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URL,
+  //       usePopup: true,
+  //     });
+  //   }
+  // };
+  
+  // const handleAppleSignIn = async () => {
   //   try {
-  //     const provider = new OAuthProvider('apple.com');
-  //     const result = await signInWithPopup(auth, provider);
-  //     const user = result.user;
-  
-  //     // Extract user data
-  //     const { displayName, email, uid } = user;
-  //     console.log("User Info:", { displayName, email, uid });
-  
-  //     // Prepare payload
+  //     const appleResponse = await window.AppleID.auth.signIn();
+  //     const { authorization, user } = appleResponse;
+  //     const fullName = user?.name ? `${user.name.firstName || ""} ${user.name.lastName || ""}`.trim() : "";
+
   //     const payload = {
-  //       email,
-  //       name: displayName,
-  //       social_id: uid,
+  //       social_id: authorization.id_token, 
+  //       name: fullName,        
+  //       email: user?.email || "",       
   //     };
-  
-  //     // Send data to backend
+    
+  //     // Send payload to backend for authentication
   //     const response = await axios.post(`${BASE_URL}/api/user_social_login`, payload);
   
   //     if (response.status === 200) {
-  //       login({UniqueKey: response.data.data.user_id, type: 'user-type'});
+  //       login({UniqueKey: response.data.data.token, type: 'user-type'});
   //       localStorage.setItem("user_user_id", response.data.data.user_id);
   
-  //       toast.success("Login successful!");
-  //       window.location.href = "/user/dashboard-user-profile";
   //     } else {
   //       toast.error("Login successful, but an error occurred on the server.");
   //       console.error("Backend Response Error:", response.data);
   //     }
   //   } catch (error) {
-  //     console.error("Firebase Apple Login Error or Backend Error:", error);
+  //     console.error("Apple Sign-In Error:", error);
   //     toast.error("Failed to login with Apple.");
   //   }
   // };
   
   useEffect(() => {
-    const scriptId = "apple-auth-script";
-    if (!document.getElementById(scriptId)) {
-      const script = document.createElement("script");
-      script.id = scriptId;
-      script.src = "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
-      script.onload = initializeAppleSignIn;
-      document.body.appendChild(script);
-    }
+    initializeAppleSignInScript();
   }, []);
   
-  const initializeAppleSignIn = () => {
-    if (window.AppleID) {
-      window.AppleID.auth.init({
-        clientId: "com.nextpet", // Replace with your Service ID
-        scope: "email name", // Request necessary fields
-        redirectURI: "https://nextpet.vercel.app/user/sign-in/callback", // Replace with your redirect URL
-        usePopup: true,
-      });
-    }
-  };
-  
-  const handleAppleSignIn = async () => {
-    try {
-      const appleResponse = await window.AppleID.auth.signIn();
-      const { authorization, user } = appleResponse;
-      console.log(user, 'apple user')
-      const payload = {
-        social_id: authorization.id_token, // Token for backend validation
-        name: user?.name || {},         // Optional: Extract user name
-        email: user?.email || "",       // Optional: Extract user email
-      };
-  
-      console.log("Apple Sign-In Payload:", payload);
-  
-      // Send payload to backend for authentication
-      const response = await axios.post(`${BASE_URL}/api/user_social_login`, payload);
-  
-      if (response.status === 200) {
-        login({UniqueKey: response.data.data.user_id, type: 'user-type'});
-        localStorage.setItem("user_user_id", response.data.data.user_id);
-  
-      } else {
-        toast.error("Login successful, but an error occurred on the server.");
-        console.error("Backend Response Error:", response.data);
-      }
-    } catch (error) {
-      console.error("Apple Sign-In Error:", error);
-      toast.error("Failed to login with Apple.");
-    }
-  };
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -155,7 +122,7 @@ const SignIn = () => {
       if (response.data.status_code !== 200) {
         setValidationError(response.data.message);
       } else {
-        login({UniqueKey: response.data.data.user_id, type: 'user-type'});
+        login({UniqueKey: response.data.data.token, type: 'user-type'});
         localStorage.setItem("user_user_id", response.data.data.user_id);
         // localStorage.setItem("name", response.data.data.name);
         // localStorage.setItem("email", response.data.data.email);
@@ -253,7 +220,7 @@ const SignIn = () => {
                 <Image
                   src="/images/Nextpet-imgs/breeder-signin-imgs/social2.png"
                   alt="Social 2"
-                  width={40} onClick={handleAppleSignIn}
+                  width={40} onClick={() => handleAppleSignIn()}
                   height={40} style={{ cursor: 'pointer'}} 
                 />
               {/* </a> */}

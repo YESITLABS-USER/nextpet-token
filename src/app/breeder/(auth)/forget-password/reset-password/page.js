@@ -24,14 +24,12 @@ const ResetPassword = () => {
     setPassword(value);
     setIsPasswordValid(passwordRegex.test(value));
     setDoPasswordsMatch(value === cPassword);
-    setErrorMessage("")
   };
 
   const handleCPasswordChange = (e) => {
     const value = e.target.value;
     setCPassword(value);
     setDoPasswordsMatch(value === password);
-    setErrorMessage("")
   };
 
 
@@ -56,7 +54,8 @@ const ResetPassword = () => {
     if (email) {
       formData.append("email", email);
     } else {
-      toast.error("Invalid User");
+      toast.error("Email cookie expired.");
+      console.error("Error: Email cookie is missing or expired.");
       return;
     }
 
@@ -71,6 +70,7 @@ const ResetPassword = () => {
       toast.success("Password successfully updated!");
       router.push('/breeder/sign-in');
     } catch (error) {
+      console.error("Error updating password:", error);
       toast.error("Error updating password. Please try again.");
     }
   };

@@ -85,19 +85,17 @@ const Payment = () => {
       );
 
       // Check if the response has a URL to redirect to
-      const { message, url } = response.data;
+      const { url } = response.data;
+      // const { message, url } = response.data;
       // const { message, code, msg_type, url } = response.data;
 
       // If a URL is returned, redirect to that URL
       if (url) {
-        // Optionally log the message
-        console.log(message);
-
         // Redirect the user
         window.location.href = url;
       } else {
         // Handle the case where no URL is provided (e.g., show an error message)
-        console.log("No URL in the response for redirection");
+        console.error("No URL in the response for redirection");
       }
     } catch (error) {
       // Handle any errors during the request or response

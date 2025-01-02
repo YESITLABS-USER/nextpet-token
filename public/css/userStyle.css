@@ -6641,6 +6641,7 @@ img {
     .viewmore-wrap {
       display: flex !important;
       justify-content: space-between;
+      align-items: center;
     }
 
     .rating-wrap {

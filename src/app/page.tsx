@@ -19,6 +19,7 @@ import BreederPopup from '../components/BreederPopup'
 function Page() {
   const [homePageData, setHomePageData] = useState([]);
   const [userId, setUserId] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   const [data, setData] = useState({
     msg: "",
@@ -34,7 +35,17 @@ function Page() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id");
-
+      const token = localStorage.getItem("authToken")
+        if (token) {
+          try {
+            const parsedToken = JSON.parse(token);
+            setToken(parsedToken?.UniqueKey);
+          } catch (error) {
+            console.error('Error parsing token:', error);
+          }
+        } else {
+          console.error('No token found');
+        }
       if(storedUserId){
         setUserId(storedUserId);
         NearYou(storedUserId);
@@ -78,11 +89,13 @@ function Page() {
       payload.post_id = post_id;
       payload.breeder_id = breeder_id;
       payload.like_post = 1;
+      payload.token = token
     } else {
       payload.user_id = userId;
       payload.post_id = post_id;
       payload.breeder_id = breeder_id;
       payload.like_post = 111;
+      payload.token = token
     }
 
     try {
@@ -127,7 +140,7 @@ function Page() {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/breeder_like`,
-        payload
+        payload, { headers: { "Authorization": `Bearer ${token}` }}
       );
       NearYou(payload.user_id);
       if (response.data.code === 200) {
@@ -154,7 +167,7 @@ function Page() {
       payload.like_post = checkLikeDislike;
     // };
     try {
-      const response = await axios.post(`${BASE_URL}/api/like_post`, payload);
+      const response = await axios.post(`${BASE_URL}/api/like_post`, payload, { headers: { "Authorization": `Bearer ${token}`}});
       NearYou(payload.user_id);
       if (response.data.code === 200) {
         NearYou(payload.user_id);

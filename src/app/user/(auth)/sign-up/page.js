@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { auth, provider, signInWithPopup } from "../../../../components/GoogleLogin";
 import axios from "axios";
 import BASE_URL from "@/src/app/utils/constant";
+import { initializeAppleSignInScript, handleAppleSignIn } from "../../../../components/GoogleLogin.js"
 
 const SignUp = () => {
   const router = useRouter();
@@ -27,6 +28,10 @@ const SignUp = () => {
       localStorage.removeItem("breeder_user_id");
     }
   }, []);
+
+  useEffect(() => {
+    initializeAppleSignInScript()
+  },[])
 
   const handleFirebaseGoogleSignUp = async () => {
     try {
@@ -165,7 +170,7 @@ const SignUp = () => {
                 placeholder="Create Password"
                 required autoComplete="new-password"
                 value={password}
-                onChange={(e) => {setErrorMessage("");setPassword(e.target.value)}}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <Image src={showPassword ? "/images/Nextpet-imgs/breeder-signin-imgs/eye-open.svg" : "/images/Nextpet-imgs/breeder-signin-imgs/eye-close.svg"} alt="Password" width={20} height={20} style={{ position: 'absolute', zIndex: 200, right: '10px', width: '50px',height: '14px', top: '17px', cursor: 'pointer' }} onClick={() => setShowPassword(!showPassword)}/>
             </label>
@@ -205,8 +210,9 @@ const SignUp = () => {
                 <Image
                   src="/images/Nextpet-imgs/breeder-signin-imgs/social2.png"
                   alt="Social 2"
-                  width={40}
-                  height={40} 
+                  width={40} height={40} 
+                  style={{cursor:'pointer'}}
+                  onClick={() => handleAppleSignIn()}
                 />
                 {/* <Image
                   src="/images/Nextpet-imgs/breeder-signin-imgs/social3.png"

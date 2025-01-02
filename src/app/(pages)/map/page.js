@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import "leaflet/dist/leaflet.css";
 import Image from "next/image";
 import { MdLocationOn } from "react-icons/md";
 import Select from "react-select";
@@ -9,8 +11,6 @@ import BASE_URL from "../../utils/constant";
 import { useRouter } from "next/navigation";
 
 // Dynamically import the Map component to ensure it only runs on the client
-import "leaflet/dist/leaflet.css";
-import dynamic from "next/dynamic";
 const Map = dynamic(() => import("../../../components/Map"), { ssr: false });
 
 const Index = () => {
@@ -122,10 +122,11 @@ const Index = () => {
   }, [userIdOrBreederId]);
 
   const getAllPets = async (filters = {}) => {
+    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
     let user = {
       user_id: userIdOrBreederId,
       type: filters.animalType || animalTypeFilter,
-      breed: filters?.breedType?.value.toLowerCase().replace(" ", "_") || breedTypeFilter,
+      breed: filters.breedType || breedTypeFilter,
       recent: recentDate,
       latitude: location?.latitude,
       longitude: location?.longitude,
@@ -133,7 +134,7 @@ const Index = () => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/all_pets_listing`,
-        user
+        user, { headers: { "Authorization" : `Bearer ${token}`}}
       );
       if (response.data.code === 200) {
         setAllPets(response.data.pets_list);
@@ -147,7 +148,7 @@ const Index = () => {
   const getAllPetsWithoutLogin = async (filters = {}) => {
     let user = {
       type: filters.animalType || animalTypeFilter,
-      breed: filters?.breedType?.value.toLowerCase().replace(" ", "_") || breedTypeFilter,
+      breed: filters.breedType || breedTypeFilter,
       recent: "recent",
       latitude: location?.latitude,
       longitude: location?.longitude,
@@ -277,7 +278,7 @@ const Index = () => {
   function handleModel() {
     setDropdownVisible(!isDropdownVisible);
   }
-
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if the click is outside the filter dropdown 
@@ -293,7 +294,7 @@ const Index = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
   return (
     <>
       <div className="pets-breeder-wrap">

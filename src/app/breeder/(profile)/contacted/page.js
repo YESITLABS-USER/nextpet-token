@@ -9,7 +9,7 @@ import { ShowNotes, AddNotes, StatusNotesLeadsUpdate, GetRatting, SetRatting,Sta
 import { useRouter } from "next/navigation";
 
 const Contacted = () => {
-  const [addNotes, setAddNotes] = useState();
+  const [addNotesData, setAddNotes] = useState(null);
   const [showBreederNotes, setBreederShowNotes] = useState();
   const [pageData, setPageData] = useState({});
 
@@ -49,6 +49,7 @@ const Contacted = () => {
         user_id: user_id,
         post_id: post_id,
         breeder_id: breeder_id,
+        token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
       };
 
       // Call the API and await the response
@@ -68,15 +69,16 @@ const Contacted = () => {
     const payload = {
       post_id: post_id,
       breeder_id: breeder_id,
+      token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
     };
     const response = await ShowNotes(payload);
-    if (response.data.code === 200) {
-      setBreederShowNotes(response.data.data);
+    if (response?.data?.code === 200) {
+      setBreederShowNotes(response?.data?.data);
     }
   };
 
   const AddNotesSave = async () => {
-    if (!addNotes || addNotes.trim() === "") {
+    if (!addNotesData || addNotesData.trim() == "") {
       setErrors("Please fill the Notes field");
       return;
     }
@@ -85,13 +87,19 @@ const Contacted = () => {
       user_id: user_id,
       post_id: post_id,
       breeder_id: breeder_id,
-      notes: addNotes,
+      notes: addNotesData,
+      token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
     };
   
-    const response = await AddNotes(payload);
-    if (response.data.code === 200) {
-      setAddNotes(null);
-      ShowNotesFunction();
+    try {
+      const response = await AddNotes(payload);
+      if (response?.data.code === 200) {
+        setAddNotes("");
+        ShowNotesFunction();
+      } 
+    } catch (error) {
+      setErrors("An error occurred while saving notes. Please try again.");
+      console.error("Error in AddNotesSave:", error);
     }
   };
   
@@ -130,7 +138,7 @@ const Contacted = () => {
 
   const fetchRatings = async () => {
     try {
-      const payload = { breeder_id, post_id, user_id };
+      const payload = { breeder_id, post_id, user_id, token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey };
       const response = await GetRatting(payload);
       if (response.status === 200 && response.data.data.length > 0) {
         setRatings(response.data.data[0]);
@@ -142,7 +150,7 @@ const Contacted = () => {
 
   const handleRatingClick = async (ratingType, newValue) => {
     try {
-      const payload = { breeder_id, post_id, user_id, ...ratings, [ratingType]: newValue, };
+      const payload = { breeder_id, post_id, user_id, ...ratings, [ratingType]: newValue, token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey };
       const response = await SetRatting(payload)
       if (response.status === 200) {
         setRatings((prev) => ({ ...prev, [ratingType]: newValue }));
@@ -236,9 +244,10 @@ const Contacted = () => {
               <div className="col-lg-5 col-md-6">
                 <div className="contacted-breeder-img">
                   <Image
-                     src={
-                      pageData?.pet_breeder_details?.[0]?.image?.[0] || 
-                      "/images/Nextpet-imgs/Image_not_available.webp"
+                    src={
+                      pageData?.pet_breeder_details?.[0].image[0]
+                        ? pageData?.pet_breeder_details?.[0].image[0]
+                        : "/images/Nextpet-imgs/Image_not_available.webp"
                     }
                     alt=""
                     loading="lazy"
@@ -452,14 +461,16 @@ const Contacted = () => {
                   </div>
 
                   <label>
-                    <textarea style={{border: errors ? '1px solid red' : ''}}
+                    <textarea
+                      style={{ border: errors ? '1px solid red' : '' }}
                       name=""
+                      value={addNotesData || ""} // Ensure value is never null
                       placeholder="You can add a personal memo here.."
                       onChange={(e) => {
                         const value = e.target.value.trim();
                         if (value === "") {
                           setErrors("Fill the Notes field");
-                          setAddNotes(null);
+                          setAddNotes(""); // Reset to an empty string
                         } else {
                           setErrors("");
                           setAddNotes(e.target.value);
@@ -467,6 +478,7 @@ const Contacted = () => {
                       }}
                     ></textarea>
                   </label>
+
 
                   <p>These notes are only visible to you.</p>
                   <p style={{color:'red'}}> {errors} </p>

@@ -23,14 +23,31 @@ const Leads = () => {
     Archived: false,
     Adopted: false,
   });
+  const [token, setToken] = useState(null);
 
   const breederData = {
     page: "leads",
   };
 
   useEffect(() => {
-    fetchLeads();
+    const storedToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      try {
+        const parsedToken = JSON.parse(storedToken);
+        setToken(parsedToken?.UniqueKey);
+      } catch (error) {
+        console.error("Error parsing token:", error);
+      }
+    } else {
+      console.error("No token found");
+    }
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      fetchLeads();
+    }
+  }, [token]);
 
   const fetchLeads = async () => {
     let user = {
@@ -39,13 +56,12 @@ const Leads = () => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/status_leads_breeder`,
-        user
+        user, {
+          headers: { Authorization: `Bearer ${token}`}}
       );
       if (response.data.status_code === 200) {
-        const filteredData = response.data.data.filter((item) => item.pet_name !== null);
-        setLeadsData(filteredData);
+        setLeadsData(response.data.data);
       }
-      
     } catch (err) {
       console.error("error : ", err);
     }
@@ -59,7 +75,8 @@ const Leads = () => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/status_leads_breeder_filter`,
-        user
+        user, {
+          headers: { Authorization: `Bearer ${token}`}}
       );
 
       if(response.data.status_code ===400){
@@ -87,9 +104,7 @@ const Leads = () => {
     } else if (checked) {
       updatedCheckedValues[name] = true;
     }
-
     setCheckedValues(updatedCheckedValues);
-
     if (name === "All" && checked) {
       fetchLeads();
     } else if (checked) {
@@ -101,7 +116,9 @@ const Leads = () => {
         fillterLeads();
       }
     }
-    setDropdownVisible(!isDropdownVisible)
+    setTimeout(() => {
+      setDropdownVisible(!isDropdownVisible)
+    }, 500);
   };
 
   // Logic for pagination
@@ -116,6 +133,7 @@ const Leads = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Check if the click is outside the filter dropdown 
       if (!event.target.closest(".dropdown-showfilter") && 
           !event.target.closest(".dropdown-filterbtn")) {
         setDropdownVisible(false);

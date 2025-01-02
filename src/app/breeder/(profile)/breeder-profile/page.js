@@ -24,7 +24,8 @@ const VerificationCode = () => {
   const [saveInputBreederImage, setSaveInputBreederImage] = useState([]);
   const [breeder_max_image_error, setBreederMaxImageError] = useState(null);
   const [breederUserId, setBreederUserId] = useState(null);
-
+  const [token, setToken] = useState(null);
+  const [bioError, setBioError] = useState(null);
   // const router = useRouter();
 
   const handleLocationSelect = (lat, lng, address) => {
@@ -37,6 +38,17 @@ const VerificationCode = () => {
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("breeder_user_id");
       if (id) setBreederUserId(id);
+      const token = localStorage.getItem("authToken")
+      if (token) {
+        try {
+          const parsedToken = JSON.parse(token);
+          setToken(parsedToken?.UniqueKey);
+        } catch (error) {
+          console.error('Error parsing token:', error);
+        }
+      } else {
+        console.error('No token found');
+      }
     }
   }, []);
 
@@ -51,6 +63,7 @@ const VerificationCode = () => {
         { user_id: breederUserId },
         {
           headers: {
+            'Authorization': `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -119,6 +132,22 @@ const VerificationCode = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if(bioError){
+      toast.error('Bio is required');
+      return;
+    }
+    const missingFields = [];
+    if (!name) missingFields.push("name");
+    if (!phone) missingFields.push("phone");
+    if (!website) missingFields.push("website");
+    if (!location) missingFields.push("location");
+    if (!bio) missingFields.push("bio");
+
+    // If there are missing fields, set the error message and return
+    if (missingFields.length > 0) {
+      toast.error(`${missingFields.join(", ")}. is required.`);
+      return;
+    }
     const formData = new FormData();
     formData.append("user_id", breederUserId);
     formData.append("bio", bio);
@@ -136,10 +165,10 @@ const VerificationCode = () => {
     try {
       const response = await axios.post(`${BASE_URL}/api/update_profile`, formData, {
         headers: {
+          "Authorization": `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response)
       if(response.data.code == 200) {
         toast.success(response.data.msg);
 
@@ -170,6 +199,7 @@ const VerificationCode = () => {
       try {
         await axios.post(`${BASE_URL}/api/edit_image_breeder`, breederImageFormData, {
           headers: {
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         });
@@ -317,11 +347,23 @@ const VerificationCode = () => {
                 <textarea
                   placeholder="Business Description*"
                   required value={bio}
-                  onChange={(e) => setBio(e.target.value)}
+                  onChange={(e) => {
+                    if(e.target.value.split(" ").length > 20 && e.target.value.length < 500) {
+                      setBio(e.target.value);
+                      setBioError("");
+                    } else if(e.target.value.length > 500){
+                      setBio(e.target.value);
+                      setBioError("Business Description maximum 500 Character");
+                    } else {
+                      setBio(e.target.value);
+                      setBioError("Business Description must be at least 20 words");
+                    }
+                  }}
                 >
                   {bio}
                 </textarea>
               </label>
+              <p style={{color:'red'}}> {bioError && bioError} </p>
 
               <div className="gallery-imgs-wp">
                 <div className="gallery-heading">
@@ -363,6 +405,7 @@ const VerificationCode = () => {
                           alt="Add new image"
                           width={40}
                           height={40}
+                          style={{width: "40px", height: "auto", objectFit: "contain"}}
                         />
                         <input
                           type="file"
@@ -378,8 +421,8 @@ const VerificationCode = () => {
                 {breeder_max_image_error && (
                   <p style={{ color: "red" }}>{breeder_max_image_error}</p>
                 )}
+                <p style={{color: 'red'}}> { error && error }</p>
               </div>
-
               <div className="profile-btn-wrap">
                 <button type="submit" value="Submit">
                   Submit

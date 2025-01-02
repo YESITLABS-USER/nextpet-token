@@ -28,11 +28,23 @@ const CreatePost = () => {
   const [errorAdditionalRequest, setErrorsAdditionalRequest] = useState(null);
   const [breederUserId, setBreederUserId] = useState(null);
   const [countDetail, setCountDetail] = useState(null);
+  const [token, setToken] = useState(null);
   const router = useRouter();
   
   useEffect(() => {
     if (typeof window !== "undefined") {
       setBreederUserId(localStorage.getItem("breeder_user_id"));
+      const token = localStorage.getItem("authToken")
+      if (token) {
+        try {
+          const parsedToken = JSON.parse(token);
+          setToken(parsedToken?.UniqueKey);
+        } catch (error) {
+          console.error('Error parsing token:', error);
+        }
+      } else {
+        console.error('No token found');
+      }
     }
   }, []);
 
@@ -41,7 +53,8 @@ const CreatePost = () => {
       try {
         const response = await axios.post(`${BASE_URL}/api/post_count`, {
           user_breeder_id: breederUserId,
-        });
+        }, {
+          headers: { Authorization: `Bearer ${token}`}});
    
         if (response.data.code === 200) {
           setCountDetail(response.data.data);
@@ -249,7 +262,7 @@ const CreatePost = () => {
         `${BASE_URL}/api/post_breed`,
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
         }
       );
       if(response.data.code === 400) {

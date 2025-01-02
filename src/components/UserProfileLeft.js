@@ -57,8 +57,10 @@ const UserProfileLeft = ({ userPages = {} }) => {
 
   const DeleteUserAccount = async () => {
     try {
+      const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
       const payload = {
         user_id: userId,
+        token: token
       };
       const res = await DeleteUser(payload);
       if (res?.data?.status_code === 200) {

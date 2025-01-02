@@ -9,7 +9,7 @@ import { signUpUser } from "../../../services/authService"; // Import the API se
 import BASE_URL from "../../../utils/constant";
 import axios from "axios";
 import { auth, provider, signInWithPopup } from "../../../../components/GoogleLogin";
-
+import { initializeAppleSignInScript, handleAppleSignIn } from "../../../../components/GoogleLogin.js"
 
 const SignUp = () => {
   const router = useRouter();
@@ -20,7 +20,10 @@ const SignUp = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   
-  
+  useEffect(() => {
+    initializeAppleSignInScript()
+  },[])
+
   useEffect(() => {
     // Check if localStorage is available
     if (typeof window !== "undefined") {
@@ -201,8 +204,9 @@ const SignUp = () => {
                 <Image
                   src="/images/Nextpet-imgs/breeder-signin-imgs/social2.png"
                   alt="Social 2"
-                  width={40}
-                  height={40}
+                  width={40} height={40}
+                  style={{cursor:'pointer'}}
+                  onClick={() => handleAppleSignIn()}
                 />
               </a>
               {/* <a href="#">

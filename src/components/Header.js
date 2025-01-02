@@ -19,13 +19,25 @@ function Header() {
   const [notificationDetails, setNotificationDetails] = useState(null);
   const [mobileToggleBtn, setMobileToggleBtn] = useState(false);
   const [userData, setUserData] = useState(null);
-
+  const [token, setToken] = useState(null);
   const pathname = usePathname();
   const isActive = (path) => pathname === path;
 
   useEffect(() => {
     const breederId = JSON.parse(localStorage.getItem("breeder_user_id"));
     const userId = JSON.parse(localStorage.getItem("user_user_id"));
+    const token = localStorage.getItem("authToken")
+      if (token) {
+        try {
+          const parsedToken = JSON.parse(token);
+          setToken(parsedToken?.UniqueKey);
+        } catch (error) {
+          console.error('Error parsing token:', error);
+        }
+      } else {
+        console.error('No token found');
+      }
+
     if (breederId || userId) {
       setUserId(userId);
       setBreederId(breederId);
@@ -50,7 +62,9 @@ function Header() {
       ? `${BASE_URL}/api/get-user`
       : `${BASE_URL}/api/user-get`;
     try {
-      const response = await axios.post(apiURL, userLogin);
+      const response = await axios.post(apiURL, userLogin, {
+        headers: { Authorization: `Bearer ${token}`}});
+
       if (response.status === 200) {
         setUserData(response?.data?.data)
       }
@@ -67,7 +81,8 @@ function Header() {
       ? `${BASE_URL}/api/breeder_notification`
       : `${BASE_URL}/api/user_notification`;
     try {
-      const response = await axios.post(apiURL, userLogin);
+      const response = await axios.post(apiURL, userLogin,{
+        headers: { Authorization: `Bearer ${token}`}});
       if (response.data.code === 200) {
         setNotificationDetails(response.data.data);
       }
@@ -189,8 +204,12 @@ function Header() {
                             width={100}
                             height={100} style={{ borderRadius: "50%"}}
                           />
-                          { userId ? ( userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "User Profile")
-                          : ( userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "Breeder Profile" ) }
+                          {/* { userId ? ( userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "User Profile")
+                          : ( userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "Breeder Profile" ) } */}
+                          
+                          {userId ? (userData?.name ? (userData.name.length > 10 ? `${userData?.name.slice(0, 10)}...` : userData.name) : "User Profile")
+                          : (userData?.name ? (userData.name.length > 10 ? `${userData?.name.slice(0, 10)}...` : userData.name) : "Breeder Profile" )}
+
 
                           {/* <i className="far fa-chevron-down"></i> */}
                           <span style={{ display: "inline-block", transition: "transform 0.3s ease",

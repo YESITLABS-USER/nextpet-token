@@ -17,7 +17,6 @@ import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 const Map = dynamic(() => import("../../../components/Map"), { ssr: false });
 
-
 const Pets = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [activeRadio, setActiveRadio] = useState("");
@@ -43,7 +42,6 @@ const Pets = () => {
   });
   const [ requiredFields, setRequiredFields] = useState(false);
   const [searchItemParam, setSearchItem] = useState('');
-
   const [mapToggle, setMapToggle] = useState(true)
 
   const { isAuthenticated } = useAuth();
@@ -110,9 +108,10 @@ const Pets = () => {
     }
     isAuthenticated ? getAllPets() : getAllPetsWithoutLogin();
     fetchAnimalTypes();
-  }, [userIdOrBreederId,filteredData]);
+  }, [userIdOrBreederId]);
 
   const getAllPets = async (filters = {}) => {
+    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
     let user = {
       user_id: userIdOrBreederId,
       type: filters.animalType || animalTypeFilter,
@@ -124,7 +123,7 @@ const Pets = () => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/all_pets_listing`,
-        user
+        user, { headers: { "Authorization" : `Bearer ${token}` } }
       );
       
       if(response.data.code === 404){
@@ -154,7 +153,6 @@ const Pets = () => {
         setAllPets([])
       }
       if (response.data.code === 200) {
-        console.log(response.data.pets_list_without_login, 'response.data.pets_list_without_login')
         setAllPets(response.data.pets_list_without_login);
       }
     } catch (err) {
@@ -261,14 +259,7 @@ const Pets = () => {
       );
     });
     setFilteredData(filtered);
-    if (filtered.length > 0 && filtered[0].latitude && filtered[0].longitude) {
-      setLocation({
-        lat: filtered[0].latitude,
-        lon: filtered[0].longitude,
-      });
-    }
   };
-  
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -281,6 +272,8 @@ const Pets = () => {
   }
   
   const handlePostLike = async (value) => {
+    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
+
     let checkLikeDislike = value?.check_like == "0" ? "1" : "0";
     let likeData = {
       user_id: userIdOrBreederId,
@@ -289,7 +282,7 @@ const Pets = () => {
       like_post: checkLikeDislike,
     };
     try {
-      const response = await axios.post(`${BASE_URL}/api/like_post`, likeData);
+      const response = await axios.post(`${BASE_URL}/api/like_post`, likeData, { headers: { "Authorization": `Bearer ${token}`}});
       if (response.data.code === 200) {
         getAllPets();
       }
@@ -298,8 +291,8 @@ const Pets = () => {
     }
   };
 
-  const handleModal = (post_id, breeder_id, contacts_colour, contacts_date) => {
-    setModalData({ post_id, breeder_id,"date_contacts_breeder":contacts_date });
+  const handleModal = (post_id, breeder_id, contacts_colour, contacts_date, total_contact) => {
+    setModalData({ post_id, breeder_id,"contact_date":contacts_date, "total_contacts": total_contact });
     if (contacts_colour == 1) {
       setShowPreviousModal(true);
     } else {
@@ -332,8 +325,9 @@ const Pets = () => {
   // }
 
   function handleMail(item) {
+    console.log(item, 'clll')
     if(isAuthenticated){
-      handleModal(item.id, item.user_breeder_id, item?.contacts_colour, item?.contacts_date ) 
+      handleModal(item.id, item.user_breeder_id, item?.contacts_colour, item?.contacts_date, item?.total_contact ) 
     } else{
       toast.error("User must be logged in");
       setTimeout(() => {
@@ -341,6 +335,7 @@ const Pets = () => {
       }, 1000);
     }
   }
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if the click is outside the filter dropdown 
@@ -432,11 +427,16 @@ const Pets = () => {
 
                 <div className="filter-sec">
                   <div className="quotes2">
-                    <div className="dropdown-filterbtn"
+                    <div
+                      className="dropdown-filterbtn"
                       data-bs-target="#contact-coach"
-                      data-bs-toggle="modal" >
+                      data-bs-toggle="modal"
+                    >
                       Filter
-                      <img src="images/Nextpet-imgs/dashboard-imgs/mi_filter.svg" alt="mi_filter" />
+                      <img
+                        src="images/Nextpet-imgs/dashboard-imgs/mi_filter.svg"
+                        alt=""
+                      />
                     </div>
                   </div>
                 </div>
@@ -459,8 +459,6 @@ const Pets = () => {
 
           {mapToggle ? ( 
             <>
-            
-           
           <div className="pets-breeder-cards">
             
             {/* {(currentPosts && currentPosts.length < 0) && <p> No data available...</p>} */}
@@ -547,20 +545,19 @@ const Pets = () => {
               </div>
             )))}
           </div>
+
           <div className="influ-pagi pt-4">
-          <Pagination
-            postPerPage={postsPerPage}
-            totalPosts={currentPosts?.length === 0 || petsData?.length}
-            paginate={paginate}
-            currentPage={currentPage}
-          />
-        </div> </>
-        ) 
-          :
-          (
-          <Map data={currentPosts && currentPosts.length > 0 ? currentPosts : allPets} location={location} />)
-          }
-          
+            <Pagination
+              postPerPage={postsPerPage}
+              totalPosts={currentPosts?.length === 0 || petsData?.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
+          </div>
+        </>
+        ) :
+          ( <Map data={currentPosts && currentPosts.length > 0 ? currentPosts : allPets} location={location} />)}
+
         </div>
         <ContactModal
           modalIsOpen={showModal}
@@ -590,10 +587,12 @@ const Pets = () => {
         >
           <div className="modal-content">
             <div className="modal-heading">
-              <button type="button"
+              <button
+                type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close" >
+                aria-label="Close"
+              >
                 X
               </button>
             </div>
@@ -604,7 +603,7 @@ const Pets = () => {
                     width={71}
                     height={71}
                     src="/images/Nextpet-imgs/all-icons/filter-pop-icon.svg"
-                    alt="filter-pop"
+                    alt=""
                   />
                   <h1>Filter</h1>
                   <div className="coach-form-wrap">
