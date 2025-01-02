@@ -56,7 +56,7 @@ const EditCarousel = ({ previousPostImage = [], onEditImage, onDeleteImage, edit
 
   const editIconStyle = {
     ...iconStyle,
-    right: "40px",
+    right: "42px",
     backgroundColor: "rgba(255, 255, 255, 0.7)",
     borderRadius: "50%",
     padding: "5px",
@@ -65,7 +65,7 @@ const EditCarousel = ({ previousPostImage = [], onEditImage, onDeleteImage, edit
 
   const deleteIconStyle = {
     ...iconStyle,
-    right: "10px",
+    right: "7px",
     // backgroundColor: "rgba(255, 0, 0, 0.7)",
     backgroundColor: "white",
     borderRadius: "50%",

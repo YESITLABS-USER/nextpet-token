@@ -43,7 +43,7 @@ const Pets = () => {
   const [ requiredFields, setRequiredFields] = useState(false);
   const [searchItemParam, setSearchItem] = useState('');
   const [mapToggle, setMapToggle] = useState(true)
-
+  const [isLoading, setLoading] = useState(false)
   const { isAuthenticated } = useAuth();
   
   const router = useRouter();
@@ -55,16 +55,19 @@ const Pets = () => {
       setSearchItem(searchItemParam || '');  
     }
     if (!searchItemParam) return;
+    setLoading(true);
     const query = searchItemParam.toLowerCase();
     const filtered = allPets.filter((pet) => {
       return (
         pet.type?.toLowerCase().includes(query) ||
         pet.name?.toLowerCase().includes(query) ||
         pet.breed?.toLowerCase().includes(query.replace(" ", "_")) ||
+        pet.breed?.toLowerCase().includes(query) ||
         pet.location?.toLowerCase().includes(query)
       );
     });
     setFilteredData(filtered);
+    setLoading(false);
   }, [searchItemParam, allPets]);
 
 
@@ -249,11 +252,9 @@ const Pets = () => {
       const query = searchQuery.toLowerCase();
       return (
         pet.type?.toLowerCase().includes(query) ||
-        "" ||
         pet.name?.toLowerCase().includes(query) ||
-        "" ||
         pet.breed?.toLowerCase().includes(query.replace(" ", "_")) ||
-        "" ||
+        pet.breed?.toLowerCase().includes(query) ||
         pet.location?.toLowerCase().includes(query) ||
         ""
       );
@@ -325,7 +326,6 @@ const Pets = () => {
   // }
 
   function handleMail(item) {
-    console.log(item, 'clll')
     if(isAuthenticated){
       handleModal(item.id, item.user_breeder_id, item?.contacts_colour, item?.contacts_date, item?.total_contact ) 
     } else{
@@ -462,8 +462,12 @@ const Pets = () => {
           <div className="pets-breeder-cards">
             
             {/* {(currentPosts && currentPosts.length < 0) && <p> No data available...</p>} */}
-            {currentPosts?.length === 0 ? (
-              <h1 style={{ fontFamily:'GoodDog New', display:'flex', justifyContent:'center', width:'100%', padding:'50px 0'}}> No Data Found...</h1>
+          {isLoading ? (
+            <h1 style={{ fontFamily: "GoodDog New", display: "flex", justifyContent: "center", width: "100%",
+              padding: "50px 0", }} > Loading... </h1>
+            ) : currentPosts?.length === 0 ? (
+            <h1 style={{ fontFamily: "GoodDog New", display: "flex", justifyContent: "center",
+                width: "100%", padding: "50px 0", }} > No Data Found... </h1>
             ) : (
             currentPosts?.map((item, index) => (
             // (currentPosts?.map((item, index) => (

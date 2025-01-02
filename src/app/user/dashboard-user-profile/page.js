@@ -116,6 +116,7 @@ const UserDashboard = () => {
         },
         {
           headers: {
+            'Authorization': `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -123,6 +124,9 @@ const UserDashboard = () => {
   
       toast.success(response.data.msg);
       setMakeEditable(false);
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000);
     } catch (error) {
       console.error("error config:", error);
       toast.error("Failed to update profile. Please try again.");

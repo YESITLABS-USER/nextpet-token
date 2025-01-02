@@ -33,6 +33,10 @@ const Post = () => {
       }
     }, []); // Run only once on mount
   
+    const breederData = {
+      page: "posts",
+    };
+
     useEffect(() => {
       const loadPageData = async () => {
         if (!token) {
@@ -47,10 +51,12 @@ const Post = () => {
         }
   
         const formData = new FormData();
-        formData.append("user_breeder_id", breederUserId);
+        formData.append("user_id", breederUserId);
+        // formData.append("user_breeder_id", breederUserId);
   
         try {
-          const response = await axios.post(`${BASE_URL}/api/post_count`, formData, {
+          const response = await axios.post(`${BASE_URL}/api/get_post_breeder`, formData, {
+          // const response = await axios.post(`${BASE_URL}/api/post_count`, formData, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
@@ -58,8 +64,9 @@ const Post = () => {
           });
   
           setLoading(false);
-  
-          if (response?.data?.data?.breeder_post > 0) {
+          // console.log(response.data.data.length)
+          if (response?.data?.data?.length > 0) {
+          // if (response?.data?.data?.breeder_post > 0) {
             setNoPost(false);
           } else {
             setNoPost(true);
