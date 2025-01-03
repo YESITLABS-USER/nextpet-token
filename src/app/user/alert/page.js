@@ -24,7 +24,7 @@ const Alert = () => {
   const [additionalRequestWeb, setAdditionalRequestWeb] = useState([]);
   const [breeds_typss, setBreedTypeInOption] = useState({ breed_type: [] });
   const [edit, setEdit] = useState(false);
-  const [token, setToken] = useState(null);
+  // const [token, setToken] = useState(null);
   
   const handleLocationSelect = (lat, lng, address) => {
     setLatitude(lat || '35.1258');
@@ -53,17 +53,17 @@ const Alert = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id");
-      const token = localStorage.getItem("authToken")
-      if (token) {
-        try {
-          const parsedToken = JSON.parse(token);
-          setToken(parsedToken?.UniqueKey);
-        } catch (error) {
-          console.error('Error parsing token:', error);
-        }
-      } else {
-        console.error('No token found');
-      }
+      // const token = localStorage.getItem("authToken")
+      // if (token) {
+      //   try {
+      //     const parsedToken = JSON.parse(token);
+      //     setToken(parsedToken?.UniqueKey);
+      //   } catch (error) {
+      //     console.error('Error parsing token:', error);
+      //   }
+      // } else {
+      //   console.error('No token found');
+      // }
 
       setUserId(storedUserId);
     }
@@ -94,12 +94,13 @@ const Alert = () => {
 
     const setAlertsGet = async () => {
       try {
+        const tokken = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
         const response = await axios.post(
           `${BASE_URL}/api/set_alerts_get`,
           { user_id: userId },
           {
             headers: {
-              'Authorization': `Bearer ${token}`,
+              'Authorization': `Bearer ${tokken}`,
               "Content-Type": "multipart/form-data",
             },
           }
@@ -132,10 +133,15 @@ const Alert = () => {
     additionalRequest();
   }, [userId]);
 
+  useEffect(() => {
+    handleChangeAnimalType(selectedAnimal);
+  }, [selectedAnimal])
+
   const handleChangeAnimalType = async (selectedOption) => {
-    setSelectedAnimal(selectedOption.target.value);
+    const selectedValue = selectedOption?.target?.value
+    setSelectedAnimal(selectedValue || selectedOption);
     const selected_typeAnimal = animalTypes.find(
-      (animal) => animal.value === selectedOption.target.value
+      (animal) => animal.value === (selectedValue || selectedOption)
     );
     const breeds_typ = additionalRequestWeb.filter(
       (item) => item.animal === selected_typeAnimal.label
@@ -290,8 +296,6 @@ const Alert = () => {
                               <option disabled>No breeds available</option>
                             )}
                           </select>
-
-                          {/* {console.log(animalTypes,"asdfghjkl")} */}
                         </label>
                         <div className="alert-plans-wp">
                           <div className="alert-heading">

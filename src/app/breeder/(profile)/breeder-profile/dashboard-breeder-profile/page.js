@@ -6,6 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 import BASE_URL from "../../../../utils/constant";
 import BreederProtectedRoute from "@/src/app/context/BreederProtectedRoute";
+import { toast } from "react-toastify";
 
 const BreederDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -248,41 +249,9 @@ const BreederDashboard = () => {
                           Contact a Coach
                         </button>
                       </div>
-                      <div className="modal fade modal-common" id="contact-coach" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div className="modal-dialog modal-dialog-edit" role="document">
-                          <div className="modal-content">
-                            <div className="modal-heading">
-                              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" style={{ background: 'url(/images/Nextpet-imgs/close-icon.svg', backgroundSize:'contain'}}></button>
-                            </div>
-                            <div className="modal-body">
-                              <form action="">
-                                <div className="conatctcpach-popup-wrap">
-                                  <h1>Contact Coach</h1>
-                                  <div className="coach-form-wrap">
-                                    <input type="text" placeholder="Anna Brown" />
-                                    <input type="text" placeholder="richardbrown78@gmai.com"/>
-                                    <select name="" id="">
-                                      <option value="0">Select animal type</option>
-                                      <option value="0">Cat</option>
-                                    </select>
-                                    <select name="" id="">
-                                      <option value="0">Select breed type</option>
-                                      <option value="0">Cat</option>
-                                    </select>
-                                    <textarea name="" id="" placeholder="Please add details"></textarea>
-                                    <div className="d-flex justify-content-center">
-                                      <button type="button" value="Submit" data-bs-toggle="modal" data-bs-dismiss="close">Send</button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </form>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </form>
+                <ContactCoach />
                 </div>
               </div>
             </div>
@@ -393,3 +362,164 @@ const CoachingSection = () => (
 );
 
 export default BreederDashboard;
+
+const ContactCoach = () => {
+  const [animals, setAnimals] = useState([]); 
+  // const [selectedAnimal, setSelectedAnimal] = useState(""); 
+  const [breeds, setBreeds] = useState([]); 
+  const [formData2, setFormData2] = useState({
+    name: "",
+    email: "",
+    selectedAnimal: "",
+    selectedBreed: "",
+    details: "",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/additional_request_web`);
+        // Ensure data is an array and set it
+        if (Array.isArray(response.data.data)) {
+          setAnimals(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching animal data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleAnimalChange = (e) => {
+    const animal = e.target.value;
+    // setSelectedAnimal(animal); // Update the selected animal in state
+
+    // Update formData2 to reflect the selected animal
+    setFormData2((prevState) => ({
+      ...prevState,
+      selectedAnimal: animal, // Set selected animal in formData2 as well
+      selectedBreed: "", // Reset breed when the animal is changed
+    }));
+
+    // Find and set breeds based on the selected animal
+    const animalData = animals.find((item) => item.animal === animal);
+    if (animalData) {
+      setBreeds(animalData.sub[0]?.breed_type || []);
+    } else {
+      setBreeds([]);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData2((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleContactCoach = async () => {
+    const breeder_id = localStorage.getItem("breeder_user_id");
+    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
+  
+    const payload = {
+      breeder_id: breeder_id,
+      name: formData2.name,
+      email: formData2.email,
+      animal: formData2.selectedAnimal,
+      breed: formData2.selectedBreed,
+      message: formData2.details,
+    };
+
+    if(!(payload.breeder_id, payload.name, payload.email, payload.breed, payload.message)){
+      toast.error("Please fill all the required fields");
+      return;
+    }
+  
+    try {
+      const response = await axios.post(`${BASE_URL}/api/contact_coach`, payload, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+  
+      if (response.data.code === 200) {
+        toast.success("Coach request sent successfully");
+      } else {
+        toast.error("Failed to send coach request");
+      }
+    } catch (error) {
+      console.error("Error contacting coach:", error);
+      toast.error("An error occurred while sending the request");
+    }
+  };
+  
+
+  return (
+    <div className="modal fade modal-common" id="contact-coach" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div className="modal-dialog modal-dialog-edit" role="document">
+        <div className="modal-content">
+          <div className="modal-heading">
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" style={{ background: 'url(/images/Nextpet-imgs/close-icon.svg', backgroundSize: 'contain' }}></button>
+          </div>
+          <div className="modal-body">
+            <div>
+              <div className="conatctcpach-popup-wrap">
+                <h1>Contact Coach</h1>
+                <div className="coach-form-wrap">
+                  <input
+                    name="name"
+                    type="text"
+                    placeholder="Anna Brown"
+                    onChange={handleInputChange}
+                    value={formData2.name}
+                  />
+                  <input
+                    name="email"
+                    type="text"
+                    placeholder="richardbrown78@gmai.com"
+                    onChange={handleInputChange}
+                    value={formData2.email}
+                  />
+                  <select
+                    name="selectedAnimal"
+                    id="animal-select"
+                    onChange={handleAnimalChange}
+                    value={formData2.selectedAnimal} // Bind to formData2.selectedAnimal
+                  >
+                    <option value="">Select animal type</option>
+                    {animals.map((animal) => (
+                      <option key={animal.id} value={animal.animal}>
+                        {animal.animal}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    name="selectedBreed"
+                    id="breed-select"
+                    onChange={handleInputChange}
+                    value={formData2.selectedBreed}
+                  >
+                    <option value="">Select breed type</option>
+                    {breeds.map((breed, index) => (
+                      <option key={index} value={breed}>
+                        {breed}
+                      </option>
+                    ))}
+                  </select>
+                  <textarea
+                    name="details"
+                    placeholder="Please add details"
+                    onChange={handleInputChange}
+                    value={formData2.details}
+                  ></textarea>
+                  <div className="d-flex justify-content-center">
+                    <button onClick={handleContactCoach} data-bs-toggle="modal" data-bs-dismiss="close">
+                      Send
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

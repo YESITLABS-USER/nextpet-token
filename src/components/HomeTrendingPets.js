@@ -194,12 +194,7 @@ const HomeRecentlyPostedSlider = ({ slides, onLike }) => {
                                     width={20}
                                     height={20}
                                   />
-                                  <div
-                                    className="mail-count pt-1"
-                                    style={{
-                                      cursor: "pointer",
-                                    }}
-                                  >
+                                  <div className="mail-count pt-1" style={{ cursor: "pointer", }}>
                                     <span>
                                       {slide.total_contact
                                         ? slide.total_contact
@@ -219,13 +214,8 @@ const HomeRecentlyPostedSlider = ({ slides, onLike }) => {
                                     width={35} height={35} className="p-2"
                                     style={{boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)', borderRadius:"50%"}}
                                   />
-                                  <div
-                                    
-                                    style={{
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    <span>
+                                   <div className="mail-count" style={{ cursor: "pointer", }}>
+                                    <span style={{textAlign:'center', paddingLeft:'12px', fontSize:'14px'}}>
                                       {slide.total_contact
                                         ? slide.total_contact
                                         : 0}

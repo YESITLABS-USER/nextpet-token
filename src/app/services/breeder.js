@@ -50,6 +50,7 @@ export const AddNotes = async (payload) => {
 export const StatusNotesLeadsUpdate = async (payload) => {
   try {
     const { token, ...data } = payload;
+    console.log(token, data)
     const response = await axios.post(
       `${BASE_URL}/api/user_status__notes_leads_update`,
       data,

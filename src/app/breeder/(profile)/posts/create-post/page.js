@@ -232,6 +232,15 @@ const CreatePost = () => {
   });
 
   const submitPostForm = async (values) => {
+
+    if(countDetail){
+      const postCount = countDetail?.total_post;
+      if(postCount <= countDetail?.breeder_post){
+        toast.error("Please Upgrade your Plan");
+        return;
+      }
+    }
+
     const formData = new FormData();
     formData.append("health_guarantee", healthGuarantee ? 1 : 0);
     formData.append("delivery_availability", deliveryAvailability ? 1 : 0);

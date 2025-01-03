@@ -119,7 +119,7 @@ const ContactPetDetails2 = () => {
 
   const PostDetailGet = async () => {
     const payload = {
-      user_id: userId,
+      user_id: localStorage.getItem("user_user_id"),
       id: postId,
       token : JSON.parse(localStorage.getItem("authToken"))?.UniqueKey
     };
