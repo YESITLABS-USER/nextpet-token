@@ -36,7 +36,7 @@ function page() {
                       Connecting quality breeders to loving families
                     </h2>
                     <p>
-                    NextPet was founded on the idea of providing a platform for breeders to simply create an account and seamlessly connect with loving homes. Users are able to search for pets and breeders by location, breed, and name with the click of a button. By creating an account, breeders are able to post their high-quality pets on NextPet's platform with ease. 
+                    NextPet was founded on the idea of providing a platform for breeders to simply create an account and seamlessly connect with loving homes. Users are able to search for pets and breeders by location, breed, and name with the click of a button. By creating an account, breeders are able to post their high-quality pets on NextPet&apos;s platform with ease. 
                     </p>
                     <p>
                     Users are guaranteed that all breeders have been vetted and NextPet certified before posting, ensuring the highest quality of pets. Click the button below to learn more! 
@@ -123,7 +123,7 @@ function page() {
                         src="images/Nextpet-imgs/Aboutus-imgs/checklist.png"
                         alt=""
                       />
-                      Once their NextPet User account is set up, they can "like" posts, reach out to breeders, and set notifications for future pet availability.
+                      Once their NextPet User account is set up, they can &quot;like&quot; posts, reach out to breeders, and set notifications for future pet availability.
 
                     </li>
                   </ul>
