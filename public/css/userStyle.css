@@ -7412,13 +7412,11 @@ img {
 .formdata-wrap .react-datepicker-wrapper {
   width: 50%;
 }
-.formdata-wrap .react-datepicker-wrapper input[type="text"]
-{
+.formdata-wrap .react-datepicker-wrapper input[type="text"] {
   width: 100% !important;
 }
 
 /* DK-CSS */
-
 
 /* -------- DK CSS ---------  03-01-2025 -------- */
 
@@ -7435,12 +7433,14 @@ img {
   padding: 10px 13px 10px 13px !important;
 }
 
-
 /* -------- DK CSS ---------  03-01-2025 -------- */
 
+.custom-navigation {
+  width: 91.2% !important;
+  margin: auto !important;
+}
 
-
-.swiper-button-prev
-{
-  margin: 0;
+.swiper-button-prev,
+.swiper-button-next {
+  margin: 0 !important;
 }
