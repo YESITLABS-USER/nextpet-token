@@ -231,7 +231,7 @@ const ContactPetDetails = () => {
           <div className="container">
             <div className="col-lg-12">
               {breederDetails === undefined ? (
-                "This Breeder have no data"
+                "This Breeder does not have any data yet"
               ) : (
                 <div className="breedeerdasboard-createpost-inner">
                   <div className="breedeerdasboard-createpost-left">
@@ -355,7 +355,7 @@ const ContactPetDetails = () => {
                     </div>
                   </div>
                 </div>
-              )) : <p style={{ textAlign: 'center', width:'100%'}}> No Recent Post Available </p>}
+              )) : <p style={{ textAlign: 'center', width:'100%'}}> No recent Posts are available </p>}
             </div>
 
             {currentPosts && currentPosts.length > 0 && 

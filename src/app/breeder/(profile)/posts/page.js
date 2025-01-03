@@ -307,8 +307,8 @@ const Post = () => {
                             {/* <p>{post.description ? post.description : ""}</p> */}
                             <p style={{width:'85%'}}>
                               {post.description
-                                ? post.description.length > 35
-                                  ? `${post.description.slice(0, 35)}...`
+                                ? post.description.length > 40
+                                  ? `${post.description.slice(0, 40)}...`
                                   : post.description
                                 : "Description not available"}
                             </p>

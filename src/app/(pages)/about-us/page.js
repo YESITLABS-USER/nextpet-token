@@ -33,19 +33,13 @@ function page() {
                   <div className="aboutus-wrap-in">
                     <span>About Us</span>
                     <h2>
-                      Breeders are reviewed and approved before posting pets.
+                      Connecting quality breeders to loving families
                     </h2>
                     <p>
-                      NextPet is committed to eliminating unhealthy breeding
-                      environments. Before posting, each breeder submits an
-                      application and is interviewed by the NextPet team to
-                      determine the treatment of their pets. A videoconference
-                      or a personal visit by the NextPet team is required prior
-                      to approval.
+                    NextPet was founded on the idea of providing a platform for breeders to simply create an account and seamlessly connect with loving homes. Users are able to search for pets and breeders by location, breed, and name with the click of a button. By creating an account, breeders are able to post their high-quality pets on NextPet's platform with ease. 
                     </p>
                     <p>
-                      Once approved, high quality breeders are connected to
-                      loving homes that are looking for their next best friend.
+                    Users are guaranteed that all breeders have been vetted and NextPet certified before posting, ensuring the highest quality of pets. Click the button below to learn more! 
                     </p>
                     {/* <!-- <a href="#">Know More</a> --> */}
                   </div>
@@ -66,9 +60,7 @@ function page() {
                 />
                 <h2>Mission</h2>
                 <p>
-                  NextPet is committed to eliminating unhealthy breeding
-                  environments. NextPet team to determine the treatment of their
-                  pets.
+                  Connect high quality breeders with loving homes.
                 </p>
               </div>
               <div className="box">
@@ -80,9 +72,7 @@ function page() {
                 <h2>Vision</h2>
                 <p></p>
                 <p>
-                  NextPet is committed to eliminating unhealthy breeding
-                  environments. NextPet team to determine the treatment of their
-                  pets.
+                  Eliminate unhealthy breeding environments.
                 </p>
                 <p></p>
               </div>
@@ -95,9 +85,7 @@ function page() {
                 <h2>Values</h2>
                 <p></p>
                 <p>
-                  NextPet is committed to eliminating unhealthy breeding
-                  environments. NextPet team to determine the treatment of their
-                  pets.
+                  Transparency, Integrity and Service
                 </p>
                 <p></p>
               </div>
@@ -110,14 +98,10 @@ function page() {
             <div className="row align-items-center">
               <div className="col-lg-8 col-md-6">
                 <div className="howit-wrap-in">
-                  <span>Lorem Ipsum</span>
-                  <h2>How It Work</h2>
+                  <span> The Process </span>
+                  <h2> How It Works </h2>
                   <p>
-                    PetQuest connects loving homes with high quality
-                    breeders.All breeders pass an in depth PetQuest approval
-                    process.Users can save, favorite and archive a pet, and when
-                    ready, connect to a breeder when they find a pet they are
-                    interested in
+                    NextPet is committed to connecting reputable breeders with loving homes. Breeders can create an account, complete our thorough vetting process, and showcase their available pets. To ensure quality and transparency, a one-on-one videoconference is scheduled between the breeder and a NextPet team member before posting. We are dedicated to promoting responsible breeding practices, ensuring that every pet listed on NextPet meets the highest standards of health and care for our users.
                   </p>
                   <ul>
                     <li>
@@ -125,23 +109,22 @@ function page() {
                         src="images/Nextpet-imgs/Aboutus-imgs/checklist.png"
                         alt=""
                       />
-                      PetQuest connects loving homes with high quality breeders.
+                      By prioritizing the highest quality of pets for our users, we uphold our core values of transparency, integrity, and exceptional service.
                     </li>
                     <li>
                       <img
                         src="images/Nextpet-imgs/Aboutus-imgs/checklist.png"
                         alt=""
                       />
-                      All breeders pass an in depth PetQuest approval process.
+                      Users can freely browse available pets, viewing detailed posts before deciding to engage with breeders. When ready to take the next step in their pet search, users can easily create an account to get started.
                     </li>
                     <li>
                       <img
                         src="images/Nextpet-imgs/Aboutus-imgs/checklist.png"
                         alt=""
                       />
-                      Users can save, favorite and archive a pet, and when
-                      ready, connect to a breeder when they find a pet they are
-                      interested in.
+                      Once their NextPet User account is set up, they can "like" posts, reach out to breeders, and set notifications for future pet availability.
+
                     </li>
                   </ul>
                 </div>

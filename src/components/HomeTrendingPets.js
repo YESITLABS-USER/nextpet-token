@@ -140,8 +140,8 @@ const HomeRecentlyPostedSlider = ({ slides, onLike }) => {
                         <div className="recentposted-cat-dog-in">
                           <div className="trending-pets-wrap">
                             <Image src={Array.isArray(slide.image) && slide.image.length > 0 ? slide.image[0] : "/images/Nextpet-imgs/Image_not_available.webp"} alt="Pet image" 
-                              width={500} 
-                              height={300}
+                              width={100} 
+                              height={100}
                               loading="lazy" 
                             />
                             <div

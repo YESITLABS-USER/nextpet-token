@@ -1370,7 +1370,7 @@ img {
   .newyear-catimg-wrap img {
     /* width: 274px; */
     width: 100%;
-    height: auto;
+    height: 223px;
     object-fit: cover;
     border-radius: 10px 10px 66px 0px;
   }
@@ -1578,11 +1578,11 @@ img {
 /* BETWEEN BANNERS CSS */
 
 .between-bannershead-wrap {
-  padding: 0px 40px 3px 40px;
+  /* padding: 0px 40px 3px 40px;
   display: flex !important;
   align-items: baseline;
   justify-content: space-between;
-  margin-top: -36px;
+  margin-top: -36px; */
 
   h1 {
     color: #000;
@@ -1637,7 +1637,7 @@ img {
   .recentposted-catimg-wrap img {
     width: 100%;
     /* width: 274px; */
-    height: auto;
+    height: 223px;
     object-fit: cover;
     border-radius: 10px 10px 66px 0px;
   }
@@ -6381,7 +6381,7 @@ width: 80rem;
   display: none !important;
 }
 
-
+ 
 .breedeerdasboard-subscription-right::-webkit-scrollbar {
   height: 10px;
   width: 6px;

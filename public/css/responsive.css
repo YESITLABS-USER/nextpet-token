@@ -43,6 +43,150 @@
 }
 
 @media only screen and (min-width: 800px) and (max-width: 911px) {
+
+
+  /* ===============  NEW CSS 03-01-2025 ================ */
+
+  .swiper-button-prev.jsx-a528faae39ef6585, .swiper-button-next.jsx-a528faae39ef6585 {
+    margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-2c9559a663a74f55, .swiper-button-next.jsx-2c9559a663a74f55 {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-752a178fbf0af1dd, .swiper-button-next.jsx-752a178fbf0af1dd {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-26310faeb959e664, .swiper-button-next.jsx-26310faeb959e664 {
+  margin: 0 -5px !important;
+}
+
+.bone-img-wrap {
+  position: relative;
+  top: 9px;
+}
+
+
+
+.mission-values-inner {
+  flex-direction: column;
+}
+
+.mission-values-inner .box {
+      width: 100%;
+}
+
+.mission-values-inner .box h2 {
+      font-size: 28px;
+      line-height: 28.46px;
+}
+
+
+.aligns-filter-pets {
+  flex-direction: column;
+  gap: 14px;
+}
+
+.aligns-filter-pets .searchbar-filter-sec {
+  width: 100% !important;
+}
+
+.search-wrap {
+  width: 100%;
+}
+
+.contacted-breeder-wrap .contacted-breeder-inner {
+  flex-direction: column;
+}
+
+.contacted-breeder-wrap .expreience-btn-ratingwrap .inner-btns-rating{
+          align-items: flex-start;
+          gap: 0;
+          flex-direction: column;
+}
+
+
+.contacted-breeder-wrap 
+  .expreience-btn-ratingwrap 
+      .inner-btns-rating 
+          button {
+              width: max-content;
+  }
+
+  .contacted-breeder-wrap 
+    .expreience-btn-ratingwrap 
+        .inner-btns-rating {
+            gap: 11px;
+  }
+
+.contacted-breeder-wrap 
+  .experience-heading 
+        .tooltip:hover .tooltiptext {
+            width: 100% !important;
+            left: -188px !important;
+            position: absolute !important;
+            z-index: 3 !important;
+  }
+
+  .contacted-breeder-wrap 
+    .contacted-breeder-img 
+        img {
+            width: 100%;
+            height: 220px;
+}
+
+.contacted-breeder-wrap 
+  .updatedstatus-btn-ratingwrap {
+      gap: 0;
+      justify-content: center;
+      flex-direction: column;
+  }
+
+  
+.breedeerdasboard-createpost-right .posts-btn-wrap p{
+  font-size: 16px;
+  line-height: 27.6px;
+  text-align: center;
+}
+       
+
+.breedeerdasboard-subscription-right {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.breedeerdasboard-subscription-right 
+  .subscription-payment-wrap {
+      width: 100%;
+      flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  .breedeerdasboard-subscription-right .subscription-payment-wrap .subscription-payment-box {
+    box-shadow: 0px 0px 12.98px 0px #00000040;
+    padding: 0px 0px;
+    width: 100%;
+    border-radius: 44px 8px 8px 8px;
+}
+          
+
+.pets-breeder-wrap 
+.pets-breeder-cards 
+      .newyear-catimg-wrap img.home-Image-height {
+          width: 100%;
+          height: 223px;
+      }
+          
+  
+
+ /* ===============  NEW CSS 03-01-2025 ================ */
+
+
+
+
   /* NAVBAR */
 
   .navbar-toggler:focus {
@@ -780,6 +924,150 @@
 }
 
 @media only screen and (min-width: 768px) and (max-width: 799px) {
+
+  /* ===============  NEW CSS 03-01-2025 ================ */
+
+  .swiper-button-prev.jsx-a528faae39ef6585, .swiper-button-next.jsx-a528faae39ef6585 {
+    margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-2c9559a663a74f55, .swiper-button-next.jsx-2c9559a663a74f55 {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-752a178fbf0af1dd, .swiper-button-next.jsx-752a178fbf0af1dd {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-26310faeb959e664, .swiper-button-next.jsx-26310faeb959e664 {
+  margin: 0 -5px !important;
+}
+
+.bone-img-wrap {
+  position: relative;
+  top: 9px;
+}
+
+
+
+.mission-values-inner {
+  flex-direction: column;
+}
+
+.mission-values-inner .box {
+      width: 100%;
+}
+
+.mission-values-inner .box h2 {
+      font-size: 28px;
+      line-height: 28.46px;
+}
+
+
+.aligns-filter-pets {
+  flex-direction: column;
+  gap: 14px;
+}
+
+.aligns-filter-pets .searchbar-filter-sec {
+  width: 100% !important;
+}
+
+.search-wrap {
+  width: 100%;
+}
+
+.contacted-breeder-wrap .contacted-breeder-inner {
+  flex-direction: column;
+}
+
+.contacted-breeder-wrap .expreience-btn-ratingwrap .inner-btns-rating{
+          align-items: flex-start;
+          gap: 0;
+          flex-direction: column;
+}
+
+
+.contacted-breeder-wrap 
+  .expreience-btn-ratingwrap 
+      .inner-btns-rating 
+          button {
+              width: max-content;
+  }
+
+  .contacted-breeder-wrap 
+    .expreience-btn-ratingwrap 
+        .inner-btns-rating {
+            gap: 11px;
+  }
+
+.contacted-breeder-wrap 
+  .experience-heading 
+        .tooltip:hover .tooltiptext {
+            width: 100% !important;
+            left: -188px !important;
+            position: absolute !important;
+            z-index: 3 !important;
+  }
+
+  .contacted-breeder-wrap 
+    .contacted-breeder-img 
+        img {
+            width: 100%;
+            height: 220px;
+}
+
+.contacted-breeder-wrap 
+  .updatedstatus-btn-ratingwrap {
+      gap: 0;
+      justify-content: center;
+      flex-direction: column;
+  }
+
+  
+.breedeerdasboard-createpost-right .posts-btn-wrap p{
+  font-size: 16px;
+  line-height: 27.6px;
+  text-align: center;
+}
+       
+
+.breedeerdasboard-subscription-right {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.breedeerdasboard-subscription-right 
+  .subscription-payment-wrap {
+      width: 100%;
+      flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  .breedeerdasboard-subscription-right .subscription-payment-wrap .subscription-payment-box {
+    box-shadow: 0px 0px 12.98px 0px #00000040;
+    padding: 0px 0px;
+    width: 100%;
+    border-radius: 44px 8px 8px 8px;
+}
+
+
+.pets-breeder-wrap 
+.pets-breeder-cards 
+      .newyear-catimg-wrap img.home-Image-height {
+          width: 100%;
+          height: 223px;
+      }
+          
+              
+  
+
+ /* ===============  NEW CSS 03-01-2025 ================ */
+
+
+
+
   /* NAVBAR */
 
   .navbar-toggler:focus {
@@ -1529,6 +1817,158 @@
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
+
+
+  /* ===============  NEW CSS 03-01-2025 ================ */
+
+  .swiper-button-prev.jsx-a528faae39ef6585, .swiper-button-next.jsx-a528faae39ef6585 {
+    margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-2c9559a663a74f55, .swiper-button-next.jsx-2c9559a663a74f55 {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-752a178fbf0af1dd, .swiper-button-next.jsx-752a178fbf0af1dd {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-26310faeb959e664, .swiper-button-next.jsx-26310faeb959e664 {
+  margin: 0 -5px !important;
+}
+
+.bone-img-wrap {
+  position: relative;
+  top: 9px;
+}
+
+
+
+.mission-values-inner {
+  flex-direction: column;
+}
+
+.mission-values-inner .box {
+      width: 100%;
+}
+
+.mission-values-inner .box h2 {
+      font-size: 28px;
+      line-height: 28.46px;
+}
+
+
+.aligns-filter-pets {
+  flex-direction: column;
+  gap: 14px;
+}
+
+.aligns-filter-pets .searchbar-filter-sec {
+  width: 100% !important;
+}
+
+.search-wrap {
+  width: 100%;
+}
+
+.contacted-breeder-wrap .contacted-breeder-inner {
+  flex-direction: column;
+}
+
+.contacted-breeder-wrap .expreience-btn-ratingwrap .inner-btns-rating{
+          align-items: flex-start;
+          gap: 0;
+          flex-direction: column;
+}
+
+
+.contacted-breeder-wrap 
+  .expreience-btn-ratingwrap 
+      .inner-btns-rating 
+          button {
+              width: max-content;
+  }
+
+  .contacted-breeder-wrap 
+    .expreience-btn-ratingwrap 
+        .inner-btns-rating {
+            gap: 11px;
+  }
+
+.contacted-breeder-wrap 
+  .experience-heading 
+        .tooltip:hover .tooltiptext {
+            width: 100% !important;
+            left: -188px !important;
+            position: absolute !important;
+            z-index: 3 !important;
+  }
+
+  .contacted-breeder-wrap 
+    .contacted-breeder-img 
+        img {
+            width: 100%;
+            height: 220px;
+}
+
+.contacted-breeder-wrap 
+  .updatedstatus-btn-ratingwrap {
+      gap: 0;
+      justify-content: center;
+      flex-direction: column;
+  }
+
+  
+.breedeerdasboard-createpost-right .posts-btn-wrap p{
+  font-size: 16px;
+  line-height: 27.6px;
+  text-align: center;
+}
+       
+
+.breedeerdasboard-subscription-right {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.breedeerdasboard-subscription-right 
+  .subscription-payment-wrap {
+      width: 100%;
+      flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  .breedeerdasboard-subscription-right .subscription-payment-wrap .subscription-payment-box {
+    box-shadow: 0px 0px 12.98px 0px #00000040;
+    padding: 0px 0px;
+    width: 100%;
+    border-radius: 44px 8px 8px 8px;
+}
+
+.pets-breeder-wrap 
+.pets-breeder-cards 
+      .newyear-catimg-wrap img {
+          width: 100%;
+          height: 223px;
+      }
+          
+          
+      
+      .pets-breeder-wrap 
+      .pets-breeder-cards 
+            .newyear-catimg-wrap img.home-Image-height {
+                width: 100%;
+                height: 223px;
+            }
+                
+  
+
+ /* ===============  NEW CSS 03-01-2025 ================ */
+
+
+
+
   /* NAVBAR */
 
   /* HOME */
@@ -1745,7 +2185,7 @@
   .between-bannershead-wrap {
     padding: 0px 3px 3px 0px;
     margin-top: -11px;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
 
     h1 {
@@ -1792,7 +2232,7 @@
 
     img {
       width: 100%;
-      height: auto;
+      height: 400px;
     }
   }
 
@@ -2281,6 +2721,149 @@
 }
 
 @media only screen and (min-width: 390px) and (max-width: 479px) {
+
+  /* ===============  NEW CSS 03-01-2025 ================ */
+
+  .swiper-button-prev.jsx-a528faae39ef6585, .swiper-button-next.jsx-a528faae39ef6585 {
+    margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-2c9559a663a74f55, .swiper-button-next.jsx-2c9559a663a74f55 {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-752a178fbf0af1dd, .swiper-button-next.jsx-752a178fbf0af1dd {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-26310faeb959e664, .swiper-button-next.jsx-26310faeb959e664 {
+  margin: 0 -5px !important;
+}
+
+.bone-img-wrap {
+  position: relative;
+  top: 9px;
+}
+
+
+
+.mission-values-inner {
+  flex-direction: column;
+}
+
+.mission-values-inner .box {
+      width: 100%;
+}
+
+.mission-values-inner .box h2 {
+      font-size: 28px;
+      line-height: 28.46px;
+}
+
+
+.aligns-filter-pets {
+  flex-direction: column;
+  gap: 14px;
+}
+
+.aligns-filter-pets .searchbar-filter-sec {
+  width: 100% !important;
+}
+
+.search-wrap {
+  width: 100%;
+}
+
+.contacted-breeder-wrap .contacted-breeder-inner {
+  flex-direction: column;
+}
+
+.contacted-breeder-wrap .expreience-btn-ratingwrap .inner-btns-rating{
+          align-items: flex-start;
+          gap: 0;
+          flex-direction: column;
+}
+
+
+.contacted-breeder-wrap 
+  .expreience-btn-ratingwrap 
+      .inner-btns-rating 
+          button {
+              width: max-content;
+  }
+
+  .contacted-breeder-wrap 
+    .expreience-btn-ratingwrap 
+        .inner-btns-rating {
+            gap: 11px;
+  }
+
+.contacted-breeder-wrap 
+  .experience-heading 
+        .tooltip:hover .tooltiptext {
+            width: 100% !important;
+            left: -188px !important;
+            position: absolute !important;
+            z-index: 3 !important;
+  }
+
+  .contacted-breeder-wrap 
+    .contacted-breeder-img 
+        img {
+            width: 100%;
+            height: 220px;
+}
+
+.contacted-breeder-wrap 
+  .updatedstatus-btn-ratingwrap {
+      gap: 0;
+      justify-content: center;
+      flex-direction: column;
+  }
+
+  
+.breedeerdasboard-createpost-right .posts-btn-wrap p{
+  font-size: 16px;
+  line-height: 27.6px;
+  text-align: center;
+}
+       
+
+.breedeerdasboard-subscription-right {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.breedeerdasboard-subscription-right 
+  .subscription-payment-wrap {
+      width: 100%;
+      flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  .breedeerdasboard-subscription-right .subscription-payment-wrap .subscription-payment-box {
+    box-shadow: 0px 0px 12.98px 0px #00000040;
+    padding: 0px 0px;
+    width: 100%;
+    border-radius: 44px 8px 8px 8px;
+}
+
+.pets-breeder-wrap 
+.pets-breeder-cards 
+      .newyear-catimg-wrap img.home-Image-height {
+          width: 100%;
+          height: 223px;
+      }
+          
+              
+  
+
+ /* ===============  NEW CSS 03-01-2025 ================ */
+
+
+
+
   /* NAVBAR */
 
   .navbar-toggler:focus {
@@ -3028,6 +3611,149 @@
 }
 
 @media only screen and (min-width: 360px) and (max-width: 389px) {
+
+
+    /* ===============  NEW CSS 03-01-2025 ================ */
+
+    .swiper-button-prev.jsx-a528faae39ef6585, .swiper-button-next.jsx-a528faae39ef6585 {
+      margin: 0 -5px !important;
+  }
+  
+  .swiper-button-prev.jsx-2c9559a663a74f55, .swiper-button-next.jsx-2c9559a663a74f55 {
+    margin: 0 -5px !important;
+  }
+  
+  .swiper-button-prev.jsx-752a178fbf0af1dd, .swiper-button-next.jsx-752a178fbf0af1dd {
+    margin: 0 -5px !important;
+  }
+  
+  .swiper-button-prev.jsx-26310faeb959e664, .swiper-button-next.jsx-26310faeb959e664 {
+    margin: 0 -5px !important;
+  }
+  
+  .bone-img-wrap {
+    position: relative;
+    top: 9px;
+  }
+  
+  
+  
+  .mission-values-inner {
+    flex-direction: column;
+  }
+  
+  .mission-values-inner .box {
+        width: 100%;
+  }
+  
+  .mission-values-inner .box h2 {
+        font-size: 28px;
+        line-height: 28.46px;
+  }
+  
+  
+  .aligns-filter-pets {
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .aligns-filter-pets .searchbar-filter-sec {
+    width: 100% !important;
+  }
+  
+  .search-wrap {
+    width: 100%;
+  }
+  
+  .contacted-breeder-wrap .contacted-breeder-inner {
+    flex-direction: column;
+  }
+  
+  .contacted-breeder-wrap .expreience-btn-ratingwrap .inner-btns-rating{
+            align-items: flex-start;
+            gap: 0;
+            flex-direction: column;
+  }
+  
+  
+  .contacted-breeder-wrap 
+    .expreience-btn-ratingwrap 
+        .inner-btns-rating 
+            button {
+                width: max-content;
+    }
+  
+    .contacted-breeder-wrap 
+      .expreience-btn-ratingwrap 
+          .inner-btns-rating {
+              gap: 11px;
+    }
+  
+  .contacted-breeder-wrap 
+    .experience-heading 
+          .tooltip:hover .tooltiptext {
+              width: 100% !important;
+              left: -188px !important;
+              position: absolute !important;
+              z-index: 3 !important;
+    }
+  
+    .contacted-breeder-wrap 
+      .contacted-breeder-img 
+          img {
+              width: 100%;
+              height: 220px;
+  }
+  
+  .contacted-breeder-wrap 
+    .updatedstatus-btn-ratingwrap {
+        gap: 0;
+        justify-content: center;
+        flex-direction: column;
+    }
+  
+    
+  .breedeerdasboard-createpost-right .posts-btn-wrap p{
+    font-size: 16px;
+    line-height: 27.6px;
+    text-align: center;
+  }
+         
+  
+  .breedeerdasboard-subscription-right {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .breedeerdasboard-subscription-right 
+    .subscription-payment-wrap {
+        width: 100%;
+        flex-direction: column;
+      align-items: flex-start;
+    }
+  
+  
+    .breedeerdasboard-subscription-right .subscription-payment-wrap .subscription-payment-box {
+      box-shadow: 0px 0px 12.98px 0px #00000040;
+      padding: 0px 0px;
+      width: 100%;
+      border-radius: 44px 8px 8px 8px;
+  }
+
+  .pets-breeder-wrap 
+  .pets-breeder-cards 
+        .newyear-catimg-wrap img.home-Image-height {
+            width: 100%;
+            height: 223px;
+        }
+            
+          
+                
+    
+  
+   /* ===============  NEW CSS 03-01-2025 ================ */
+
+
   /* NAVBAR */
 
   .navbar-toggler:focus {
@@ -3775,6 +4501,151 @@
 }
 
 @media only screen and (min-width: 320px) and (max-width: 359px) {
+
+
+  /* ===============  NEW CSS 03-01-2025 ================ */
+
+  .swiper-button-prev.jsx-a528faae39ef6585, .swiper-button-next.jsx-a528faae39ef6585 {
+    margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-2c9559a663a74f55, .swiper-button-next.jsx-2c9559a663a74f55 {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-752a178fbf0af1dd, .swiper-button-next.jsx-752a178fbf0af1dd {
+  margin: 0 -5px !important;
+}
+
+.swiper-button-prev.jsx-26310faeb959e664, .swiper-button-next.jsx-26310faeb959e664 {
+  margin: 0 -5px !important;
+}
+
+.bone-img-wrap {
+  position: relative;
+  top: 9px;
+}
+
+
+
+.mission-values-inner {
+  flex-direction: column;
+}
+
+.mission-values-inner .box {
+      width: 100%;
+}
+
+.mission-values-inner .box h2 {
+      font-size: 28px;
+      line-height: 28.46px;
+}
+
+
+.aligns-filter-pets {
+  flex-direction: column;
+  gap: 14px;
+}
+
+.aligns-filter-pets .searchbar-filter-sec {
+  width: 100% !important;
+}
+
+.search-wrap {
+  width: 100%;
+}
+
+.contacted-breeder-wrap .contacted-breeder-inner {
+  flex-direction: column;
+}
+
+.contacted-breeder-wrap .expreience-btn-ratingwrap .inner-btns-rating{
+          align-items: flex-start;
+          gap: 0;
+          flex-direction: column;
+}
+
+
+.contacted-breeder-wrap 
+  .expreience-btn-ratingwrap 
+      .inner-btns-rating 
+          button {
+              width: max-content;
+  }
+
+  .contacted-breeder-wrap 
+    .expreience-btn-ratingwrap 
+        .inner-btns-rating {
+            gap: 11px;
+  }
+
+.contacted-breeder-wrap 
+  .experience-heading 
+        .tooltip:hover .tooltiptext {
+            width: 100% !important;
+            left: -188px !important;
+            position: absolute !important;
+            z-index: 3 !important;
+  }
+
+  .contacted-breeder-wrap 
+    .contacted-breeder-img 
+        img {
+            width: 100%;
+            height: 220px;
+}
+
+.contacted-breeder-wrap 
+  .updatedstatus-btn-ratingwrap {
+      gap: 0;
+      justify-content: center;
+      flex-direction: column;
+  }
+
+  
+.breedeerdasboard-createpost-right .posts-btn-wrap p{
+  font-size: 16px;
+  line-height: 27.6px;
+  text-align: center;
+}
+       
+
+.breedeerdasboard-subscription-right {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.breedeerdasboard-subscription-right 
+  .subscription-payment-wrap {
+      width: 100%;
+      flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  .breedeerdasboard-subscription-right .subscription-payment-wrap .subscription-payment-box {
+    box-shadow: 0px 0px 12.98px 0px #00000040;
+    padding: 0px 0px;
+    width: 100%;
+    border-radius: 44px 8px 8px 8px;
+}
+
+.pets-breeder-wrap 
+.pets-breeder-cards 
+      .newyear-catimg-wrap img.home-Image-height {
+          width: 100%;
+          height: 223px;
+      }
+          
+              
+  
+
+ /* ===============  NEW CSS 03-01-2025 ================ */
+
+
+
+
+
   /* NAVBAR */
   .navbar-toggler:focus {
     box-shadow: none;
@@ -3986,7 +4857,7 @@
   .between-bannershead-wrap {
     padding: 0px 3px 3px 0px;
     margin-top: -11px;
-    align-items: baseline;
+    align-items: center;
     justify-content: center;
 
     h1 {

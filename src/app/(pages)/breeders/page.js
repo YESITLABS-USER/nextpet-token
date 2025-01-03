@@ -222,7 +222,7 @@ const Breeder = () => {
             <div className="searchbar-filter-sec">
               <div className="search-wrap">
                 {/* <form action=""> */}
-                <div style={{ width: "90%" }}>
+                <div style={{  }}>
                   <label htmlFor="">
                     <input
                       id="search-input"

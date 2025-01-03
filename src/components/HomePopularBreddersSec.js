@@ -140,7 +140,7 @@ const HomePopularBreddersSec = ({ slides, onClick }) => {
             <h1>Popular Breeders</h1>
           </div>
           <div className="col-lg-12">
-            <section className="lg:px-32 md:px-30 sm:px-10 px-4 py-16 max-md:py-8">
+            <section className="lg:px-32 md:px-30 sm:px-10 py-16 max-md:py-8">
               <main className="flex flex-col gap-7 mb-20">
                 <div className="flex justify-center items-center text-primary_dark"></div>
               </main>
@@ -235,7 +235,7 @@ const HomePopularBreddersSec = ({ slides, onClick }) => {
                               : "Description not available"}
                           </p>
                           <div className="viewmore-wrap">
-                            <h4>{slide?.breeder_post_count} posts active</h4>
+                            <h4>{slide?.breeder_post_count} active posts </h4>
 
                             <div className="action-wrap" onClick={() => handleViewMore(slide)} style={{fontSize:'14px', color:'#4e4e4e', cursor:'pointer'}}>
                               View More  &gt;

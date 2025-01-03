@@ -101,21 +101,21 @@ function Header() {
     setDropdownVisible(!isDropdownVisible);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Check if the click is outside the filter dropdown 
-      if (!event.target.closest(".dropdown-showfilter") && 
-          !event.target.closest(".dropdown-filterbtn")) {
-        setDropdownVisible(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     // Check if the click is outside the filter dropdown 
+  //     if (!event.target.closest(".dropdown-showfilter") && 
+  //         !event.target.closest(".dropdown-filterbtn")) {
+  //       setDropdownVisible(false);
+  //     }
+  //   };
   
-    document.addEventListener("mousedown", handleClickOutside);
+  //   document.addEventListener("mousedown", handleClickOutside);
   
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
   
   return (
     <>
@@ -173,22 +173,22 @@ function Header() {
               <div className={`navbar-collapse ${mobileToggleBtn ? "show" : "collapse"}`} id="navbarNav" >
                 <ul className="navbar-nav">
                   <li className="nav-item">
-                    <Link className={`nav-link ${isActive("/") ? "active" : ''} `} href="/" >
+                    <Link className={`nav-link ${isActive("/") ? "active" : ''} `} href="/"  onClick={() => setMobileToggleBtn((prev) => !prev)}>
                       Home
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className={`nav-link ${isActive("/about-us") ? "active" : ''} `} href="/about-us">
+                    <Link className={`nav-link ${isActive("/about-us") ? "active" : ''} `} href="/about-us"  onClick={() => setMobileToggleBtn((prev) => !prev)}>
                       About
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className={`nav-link ${isActive("/pets") ? "active" : ''} `} href="/pets">
+                    <Link className={`nav-link ${isActive("/pets") ? "active" : ''} `} href="/pets" onClick={() => setMobileToggleBtn((prev) => !prev)}>
                       Pets
                     </Link>
                   </li>
                   <li className="nav-item" style={{paddingRight:'10px'}}>
-                    <Link className={`nav-link ${isActive("/breeders") ? "active" : ''} `} href="/breeders">
+                    <Link className={`nav-link ${isActive("/breeders") ? "active" : ''} `} href="/breeders" onClick={() => setMobileToggleBtn((prev) => !prev)}>
                       Breeders
                     </Link>
                   </li>
@@ -197,9 +197,7 @@ function Header() {
                       <Link
                         className="nav-link user-signin"
                         href="/user/sign-in"
-                        onClick={() => {
-                          // localStorage.removeItem("breeder_user_id");
-                        }}
+                        onClick={() => setMobileToggleBtn((prev) => !prev)}
                       >
                         User Sign In
                       </Link>
@@ -253,9 +251,7 @@ function Header() {
                       <Link
                         href={routes.breeder_sign_in}
                         className="nav-link breeder-signin"
-                        onClick={() => {
-                          // logout();
-                        }}
+                        onClick={() => setMobileToggleBtn((prev) => !prev)}
                       >
                         Breeder Sign In
                       </Link>
@@ -384,16 +380,19 @@ const DropdownUserMenu = ({
 }) => {
   return (
     <>
-      <div
+      <div  onMouseLeave={closeDropdown}
         className="influ-drop-list-header"
         style={{
           display: isDropdownVisible ? "block" : "none",
         }}
       >
         {userId ? (
-          <div  onMouseLeave={closeDropdown}>
+          <div >
             <div className="influ-drop-list-item">
-              <Link href="/user/favourites" onClick={closeDropdown}>
+              <Link href="/user/favourites" onClick={() => { 
+                setMobileToggleBtn((prev) => !prev); 
+                closeDropdown(); // Ensure this is called as a function
+              }} >
                 <Image
                   src="/images/Nextpet-imgs/all-icons/send.png"
                   alt="Posts"
@@ -406,7 +405,10 @@ const DropdownUserMenu = ({
             </div>
 
             <div className="influ-drop-list-item">
-              <Link href="/user/contacts" onClick={closeDropdown}>
+              <Link href="/user/contacts" onClick={() => { 
+                setMobileToggleBtn((prev) => !prev); 
+                closeDropdown(); // Ensure this is called as a function
+              }} >
                 <Image
                   src="/images/Nextpet-imgs/all-icons/copy.png"
                   alt="Subscription"
@@ -418,7 +420,10 @@ const DropdownUserMenu = ({
               </Link>
             </div>
             <div className="influ-drop-list-item">
-              <Link href="/user/alert" onClick={closeDropdown}>
+              <Link href="/user/alert" onClick={() => { 
+                setMobileToggleBtn((prev) => !prev); 
+                closeDropdown(); // Ensure this is called as a function
+              }} >
                 <Image
                   src="/images/Nextpet-imgs/all-icons/profile.png"
                   width={15}
@@ -430,7 +435,10 @@ const DropdownUserMenu = ({
               </Link>
             </div>
             <div className="influ-drop-list-item">
-              <Link href="/user/dashboard-user-profile" onClick={closeDropdown}>
+              <Link href="/user/dashboard-user-profile" onClick={() => { 
+                setMobileToggleBtn((prev) => !prev); 
+                closeDropdown(); // Ensure this is called as a function
+              }} >
                 <Image
                   src="/images/Nextpet-imgs/all-icons/profile.png"
                   width={15}
@@ -444,8 +452,11 @@ const DropdownUserMenu = ({
           </div>
         ) : (
           <div onMouseLeave={closeDropdown}>
-            <div className="influ-drop-list-item">
-              <Link href="/breeder/leads" onClick={closeDropdown}>
+            <div className="influ-drop-list-item" >
+              <Link href="/breeder/leads" onClick={() => { 
+                setMobileToggleBtn((prev) => !prev); 
+                closeDropdown(); // Ensure this is called as a function
+              }}  >
                 <Image
                   src="/images/Nextpet-imgs/all-icons/sms.png"
                   alt=""
@@ -457,7 +468,10 @@ const DropdownUserMenu = ({
               </Link>
             </div>
             <div className="influ-drop-list-item">
-              <Link href="/breeder/posts/no-posts" onClick={closeDropdown}>
+              <Link href="/breeder/posts/no-posts" onClick={() => { 
+                setMobileToggleBtn((prev) => !prev); 
+                closeDropdown(); // Ensure this is called as a function
+              }} >
                 <Image
                   src="/images/Nextpet-imgs/all-icons/send.png"
                   alt="Posts"
@@ -470,7 +484,10 @@ const DropdownUserMenu = ({
             </div>
 
             <div className="influ-drop-list-item">
-              <Link href="/breeder/subscription" onClick={closeDropdown}>
+              <Link href="/breeder/subscription" onClick={() => { 
+                setMobileToggleBtn((prev) => !prev); 
+                closeDropdown(); // Ensure this is called as a function
+              }} >
                 <Image
                   src="/images/Nextpet-imgs/all-icons/copy.png"
                   alt="Subscription"
@@ -484,7 +501,10 @@ const DropdownUserMenu = ({
               </Link>
             </div>
             <div className="influ-drop-list-item">
-              <Link href="/breeder/breeder-profile/dashboard-breeder-profile" onClick={closeDropdown}>
+              <Link href="/breeder/breeder-profile/dashboard-breeder-profile" onClick={() => { 
+                setMobileToggleBtn((prev) => !prev); 
+                closeDropdown(); // Ensure this is called as a function
+              }} >
                 <Image
                   src="/images/Nextpet-imgs/all-icons/profile.png"
                   width={15}
