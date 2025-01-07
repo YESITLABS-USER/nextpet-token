@@ -125,7 +125,9 @@ const VerificationCode = () => {
       return;
     }
 
+    const newImageUrls = files.map((file) => URL.createObjectURL(file));
     setSaveInputBreederImage((prev) => [...prev, ...files]);
+    setBreederImage((prev) => [...prev, ...newImageUrls])
     setBreederMaxImageError(null);
   };
 

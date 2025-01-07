@@ -25,6 +25,8 @@ const CreatePost = () => {
   const [flyingAvailability, setFlyingAvailability] = useState(false);
   const [images, setImages] = useState([]);
   const [imageError, setImageError] = useState("");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const [errorAdditionalRequest, setErrorsAdditionalRequest] = useState(null);
   const [breederUserId, setBreederUserId] = useState(null);
   const [countDetail, setCountDetail] = useState(null);
@@ -47,6 +49,17 @@ const CreatePost = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (images.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prevIndex) =>
+          prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 1000); // 1 second interval
+      return () => clearInterval(interval); // Cleanup on unmount
+    }
+  }, [images]);
 
   useEffect(() => {
     const fetchPostCount = async () => {
@@ -82,16 +95,24 @@ const CreatePost = () => {
   }, []);
 
   const handlePostImage = (e) => {
-    const files = e.target.files;
+    const files = Array.from(e.target.files);
+
+    // Check for file limits and size
     if (files.length === 0) return;
-    if (files.length > 10) {
+    if (files.length + images.length > 10) {
       setImageError("Error: You can only add up to 10 images.");
       return;
     }
+    if (files.some((file) => file.size > 5 * 1024 * 1024)) {
+      setImageError("Error: Each image must be up to 5MB.");
+      return;
+    }
+
+    // Reset error and add new images
     setImageError("");
-    const imagesArray = Array.from(files).map((file) => file);
-    setImages((prevImages) => [...prevImages, ...imagesArray]);
+    setImages((prevImages) => [...prevImages, ...files]);
   };
+
 
   const fetchAnimalTypes = async () => {
     try {
@@ -267,6 +288,7 @@ const CreatePost = () => {
     });
 
     try {
+      const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
       const response = await axios.post(
         `${BASE_URL}/api/post_breed`,
         formData,
@@ -296,7 +318,17 @@ const CreatePost = () => {
         <div className="col-lg-12">
           <div className="breedeerdasboard-createpost-inner">
             <div className="breedeerdasboard-createpost-left">
-              <div className="create-uploadpost-wrap">
+              <div className="create-uploadpost-wrap" style={{
+                backgroundImage:
+                  images.length > 0
+                    ? `url(${URL.createObjectURL(images[currentImageIndex])})`
+                    : "none",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                height: "300px", // Adjust as needed
+                position: "relative",
+                transition: "background-image 0.5s ease-in-out", // Smooth transition
+              }}>
                 <div className="edit-post-icon">
                   <a href="#">
                     <Image
@@ -328,6 +360,7 @@ const CreatePost = () => {
                 </label>
               </div>
               {imageError && <p style={{ color: "red" }}>{imageError}</p>}
+              
             </div>
             <div className="breedeerdasboard-createpost-right">
               <div className="postcreate-heading">

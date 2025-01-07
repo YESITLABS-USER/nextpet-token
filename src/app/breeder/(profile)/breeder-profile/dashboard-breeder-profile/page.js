@@ -7,6 +7,9 @@ import axios from "axios";
 import BASE_URL from "../../../../utils/constant";
 import BreederProtectedRoute from "@/src/app/context/BreederProtectedRoute";
 import { toast } from "react-toastify";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE);
 
 const BreederDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -263,91 +266,126 @@ const BreederDashboard = () => {
   );
 };
 
-const AvailablePlansSection = () => (
-  <div className="available-plans-wp">
-    <div className="available-heading">
-      <h3>Available Plans</h3>
-      <div className="tooltip">
-        <Image
-          src="/images/Nextpet-imgs/profile-page-imgs/i-icon.svg"
-          alt="Info Icon"
-          width={15}
-          height={15}
-        />
-        <span className="tooltiptext">
-          A simple gallery of nine photos of the breeder’s choice.
-        </span>
-      </div>
-    </div>
-    <div className="available-plansbox-wrap">
-      {[
-        {
-          name: "Free",
-          price: "$0",
-          description: "First 6 posts are free",
-          buttonText: "Active",
-        },
-        {
-          name: "Silver",
-          price: "$20",
-          description: "First 6 posts are free",
-          buttonText: "Subscribe",
-        },
-        {
-          name: "Gold",
-          price: "$150",
-          description: "First 6 posts are free",
-          buttonText: "Subscribe",
-        },
-        {
-          name: "Platinum",
-          price: "$480",
-          description: "First 6 posts are free",
-          buttonText: "Subscribe",
-        },
-      ].map((plan, index) => (
-        <div className="available-plans-box" key={index}>
-          <div className="price-sec-wrap">
-            <span>{plan.name}</span>
-            <span>{plan.price}</span>
-          </div>
-          <p>{plan.description}</p>
-          <div className="available-plans-btns">
-            <Link
-              href={{
-                pathname: `/breeder/subscription/payment`,
-                query: {
-                  // user_id: lead?.user_id,
-                  // sub_id: lead?.post_id,
-                  price: plan?.price,
-                  sub_plan: plan?.name,
-                  // name:
-                },
-              }}
-              // href={`/breeder/subscription/payment/${plan.name}/${plan.price} `}
-            >
-              <button
-                type="button"
-                className={plan.name === "Free" ? "active" : ""}
-                onClick={() => {
-                  // Add logic to handle subscription
-                  console.log(`Subscribed777 ${plan.name} plan`);
-                }}
-              >
-                {plan.buttonText}
-              </button>
-            </Link>
-          </div>
+const AvailablePlansSection = () => {
+
+  const handleSubmit = async (plan) => {
+    const user_id = localStorage.getItem("breeder_user_id");
+    const token = JSON.parse(localStorage.getItem("authToken"))?.UniqueKey;
+
+    const payload = {
+      user_id: user_id,
+      sub_id: plan.sub_id,
+      price: parseInt(plan.price),
+      sub_plan: plan.sub_plan,
+      name: plan.name,
+    };
+
+    try {
+      const response = await axios.post(`${BASE_URL}/api/payment`, payload, {headers: { "Authorization" : "Bearer " + token}});
+
+      if (response.data.url) {
+        // console.log(response.data.message);
+        window.location.href = response.data.url;
+      } else {
+        console.error("No URL in the response for redirection.");
+      }
+    } catch (error) {
+      console.error("Error:", error.response ? error.response.data : error.message);
+    }
+  };
+
+  return (
+    <div className="available-plans-wp">
+      <div className="available-heading">
+        <h3>Available Plans</h3>
+        <div className="tooltip">
+          <Image
+            src="/images/Nextpet-imgs/profile-page-imgs/i-icon.svg"
+            alt="Info Icon"
+            width={15}
+            height={15}
+          />
+          <span className="tooltiptext">
+            A simple gallery of nine photos of the breeder’s choice.
+          </span>
         </div>
-      ))}
+      </div>
+      <div className="available-plansbox-wrap">
+        {[
+          {
+            name: "Free",
+            price: "0",
+            description: "First 6 posts are free",
+            buttonText: "Active",
+            sub_id: 1,
+            sub_plan: 1,
+          },
+          {
+            name: "Silver",
+            price: "20",
+            description: "First 6 posts are free",
+            buttonText: "Subscribe",
+            sub_id: 2,
+            sub_plan: 2,
+          },
+          {
+            name: "Gold",
+            price: "150",
+            description: "First 6 posts are free",
+            buttonText: "Subscribe",
+            sub_id: 3,
+            sub_plan: 3,
+          },
+          {
+            name: "Platinum",
+            price: "480",
+            description: "First 6 posts are free",
+            buttonText: "Subscribe",
+            sub_id: 4,
+            sub_plan: 4,
+          },
+        ].map((plan, index) => (
+          <div className="available-plans-box" key={index}>
+            <div className="price-sec-wrap">
+              <span>{plan.name}</span>
+              <span>${plan.price}</span>
+            </div>
+            <p>{plan.description}</p>
+            <div className="available-plans-btns">
+              <a onClick={() => handleSubmit(plan)}
+                // href={{
+                //   pathname: `/breeder/subscription/payment`,
+                //   query: {
+                //     // user_id: lead?.user_id,
+                //     // sub_id: lead?.post_id,
+                //     price: plan?.price,
+                //     sub_plan: plan?.name,
+                //     // name:
+                //   },
+                // }}
+                // href={`/breeder/subscription/payment/${plan.name}/${plan.price} `}
+              >
+                <button
+                  type="button"
+                  className={plan.name === "Free" ? "active" : ""}
+                >
+                  {plan.buttonText}
+                </button>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="note-wrap">
+        <p>
+          <span>Note:&nbsp;</span>Post Validity 1 month, per post payment $20
+        </p>
+      </div>
+      <Elements stripe={stripePromise}/>
+
     </div>
-    <div className="note-wrap">
-      <p>
-        <span>Note:&nbsp;</span>Post Validity 1 month, per post payment $20
-      </p>
-    </div>
-  </div>
-);
+  );
+} 
 
 const CoachingSection = () => (
   <div className="coaching-wp">
