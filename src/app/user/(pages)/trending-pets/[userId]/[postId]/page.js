@@ -21,6 +21,7 @@ import axios from "axios";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import ContactModal from "@/src/components/ContactModal";
 import PreviouslyContacted from "@/src/components/PreviouslyContacted";
+import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from "react-icons/io";
 
 const ContactPetDetails2 = () => {
   const { postId, userId } = useParams();
@@ -34,6 +35,8 @@ const ContactPetDetails2 = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [showPreviousModal, setShowPreviousModal] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  
 
   const [BearerToken, setBearerToken] = useState(null);
 
@@ -323,7 +326,7 @@ const ContactPetDetails2 = () => {
                     data-bs-toggle="modal"
                   >
                     <div className="">
-                      <Carousel previousPostImage={previousPostImage} />
+                      <Carousel previousPostImage={previousPostImage} onClick={() => setIsImageModalOpen(!isImageModalOpen)} />
                     </div>
                   </div>
                 </div>
@@ -771,9 +774,112 @@ const ContactPetDetails2 = () => {
         closeModal={closeModal}
         modalDetails={modalData}
       />
+
+      <ImageShowModal 
+          isOpen={isImageModalOpen}
+          onClose={() => setIsImageModalOpen(false)}
+          data={previousPostImage}
+        />
       {/* </ProtectedRoute> */}
     </>
   );
 };
 
 export default ContactPetDetails2;
+
+function ImageShowModal({ isOpen, onClose, data }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (!isOpen) return null; // Don't render if modal is not open
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length); // Loop back to the first image
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + data.length) % data.length); // Loop to the last image
+  };
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+        zIndex: 1000,
+        display: "flex", // To center content horizontally and vertically
+        alignItems: "center", // Vertically center
+        justifyContent: "center", // Horizontally center
+      }}
+      onClick={onClose} // Close the modal when clicking the black overlay
+    >
+      {/* Black overlay */}
+      <div
+        style={{
+          position: "absolute",
+          top: "0",
+          left: "0",
+          width: "100%",
+          height: "100%",
+          margin:'0 auto',
+          backgroundColor: "rgba(0, 0, 0, 0.5)", // Black semi-transparent background
+        }}
+      />
+
+      {/* Image container */}
+      <div
+        style={{
+          position: "relative",
+          width: "500px",
+          height: "500px",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1100, // Ensure this sits above the overlay
+        }}
+        onClick={(e) => e.stopPropagation()} // Prevent closing the modal when clicking inside the content area
+      >
+        {/* Left Arrow */}
+        <IoIosArrowDropleftCircle
+          onClick={handlePrev}
+          style={{
+            position: "absolute",
+            left: "10px",
+            color: "white",
+            cursor: "pointer",
+            fontSize: "30px",
+            zIndex: 1100,
+          }}
+        />
+
+        <img
+          src={data[currentIndex]}
+          alt={`Image ${currentIndex}`}
+          style={{
+            minWidth: "400px",
+            maxWidth: "100%", // Ensure the image fills the container width
+            maxHeight: "400px", // Ensure the image fills the container height
+            objectFit: "contain", // Maintain aspect ratio without distorting the image
+            position: "relative",
+          }}
+        />
+
+        {/* Right Arrow */}
+        <IoIosArrowDroprightCircle
+          onClick={handleNext}
+          style={{
+            position: "absolute",
+            right: "10px",
+            color: "white",
+            cursor: "pointer",
+            fontSize: "30px",
+            zIndex: 1100,
+          }}
+        />
+      </div>
+    </div>
+  );
+}

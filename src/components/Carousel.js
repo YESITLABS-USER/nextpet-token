@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-const Carousel = ({previousPostImage = []}) => {
+const Carousel = ({previousPostImage = [], onClick}) => {
   // const images = [
   //   "/images/Nextpet-imgs/all-icons/user.svg", // replace with your image paths
   //   "/images/Nextpet-imgs/dashboard-imgs/brreder-info-img.png",
@@ -66,7 +66,7 @@ const Carousel = ({previousPostImage = []}) => {
   });
 
   return (
-    <div style={carouselStyle}>
+    <div style={carouselStyle} onClick={onClick}>
       <div style={imageContainerStyle}>
         {previousPostImage.map((image, index) => (
           <img

@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 
 const EditCarousel = ({ previousPostImage = [], onEditImage, onDeleteImage, editPostPage }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [newImages, setNewImages] = useState([]); // Store selected images temporarily
 
   // Function to go to the next image
   const nextImage = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % previousPostImage.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % (previousPostImage.length + newImages.length));
   };
 
   // Auto play the carousel
@@ -15,7 +16,21 @@ const EditCarousel = ({ previousPostImage = [], onEditImage, onDeleteImage, edit
       nextImage();
     }, 3000); // Change image every 3 seconds
     return () => clearInterval(interval);
-  }, [previousPostImage]);
+  }, [previousPostImage, newImages]);
+
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    const imagePreviews = selectedFiles.map((file) => URL.createObjectURL(file));
+    setNewImages((prev) => [...prev, ...imagePreviews]);
+  };
+
+  const handleUpload = () => {
+    const fileInput = document.getElementById("fileInput");
+    const selectedFiles = Array.from(fileInput.files);
+    onEditImage(selectedFiles); // Trigger API call or parent callback
+    setNewImages([]); // Clear previews after upload
+    fileInput.value = ""; // Reset file input
+  };
 
   // Inline styles
   const carouselStyle = {
@@ -47,32 +62,28 @@ const EditCarousel = ({ previousPostImage = [], onEditImage, onDeleteImage, edit
     boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
   };
 
-  const iconStyle = {
+  const editIconStyle = {
     position: "absolute",
     top: "10px",
-    cursor: "pointer",
-    zIndex: 10,
-  };
-
-  const editIconStyle = {
-    ...iconStyle,
     right: "5px",
     backgroundColor: "rgba(255, 255, 255, 0.7)",
     borderRadius: "50%",
     padding: "5px",
     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    cursor: "pointer",
+    zIndex: 10,
   };
 
   const deleteIconStyle = {
-    ...iconStyle,
-    left: "-5px",
-    // backgroundColor: "rgba(255, 0, 0, 0.7)",
-    backgroundColor: "white",
+    position: "absolute",
+    top: "10px",
+    left: "5px",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
     borderRadius: "50%",
     padding: "5px",
-    marginLeft: "10px",
     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-
+    cursor: "pointer",
+    zIndex: 10,
   };
 
   const indicatorsStyle = {
@@ -93,47 +104,27 @@ const EditCarousel = ({ previousPostImage = [], onEditImage, onDeleteImage, edit
     transition: "background-color 0.3s ease",
   });
 
-  const handleFileChange = (e, image) => {
-    const selectedFiles = Array.from(e.target.files);
-    onEditImage(selectedFiles, image);
-  };
-
   return (
     <div style={carouselStyle}>
-      {previousPostImage.length > 0 ? (
+      {(previousPostImage.length > 0 || newImages.length > 0) ? (
         <>
           <div style={imageContainerStyle}>
-            {previousPostImage.map((image, index) => (
+            {previousPostImage.concat(newImages).map((image, index) => (
               <div key={index} style={imageWrapperStyle}>
                 <img src={image} alt={`Image ${index + 1}`} style={imageStyle} />
-                {editPostPage && (
-                  <>
-                    <div
-                      style={editIconStyle}
-                      onClick={() => document.getElementById("fileInput").click()}
-                    >
-                      ✏️
-                    </div>
-                    <input
-                      type="file"
-                      id="fileInput"
-                      style={{ display: "none" }}
-                      multiple
-                      onChange={(e) => handleFileChange(e, image)}
-                    />
-                    <div
-                      style={deleteIconStyle}
-                      onClick={() => onDeleteImage(image)}
-                    >
-                      ❌
-                    </div>
-                  </>
+                {index >= previousPostImage.length && editPostPage && (
+                  <div
+                    style={deleteIconStyle}
+                    onClick={() => setNewImages((prev) => prev.filter((_, i) => i !== (index - previousPostImage.length)))}
+                  >
+                    ❌
+                  </div>
                 )}
               </div>
             ))}
           </div>
           <div style={indicatorsStyle}>
-            {previousPostImage.map((_, index) => (
+            {previousPostImage.concat(newImages).map((_, index) => (
               <span
                 key={index}
                 onClick={() => setCurrentIndex(index)}
@@ -146,18 +137,33 @@ const EditCarousel = ({ previousPostImage = [], onEditImage, onDeleteImage, edit
         editPostPage && (
           <div>
             <p>Add New Image</p>
-            <input
-              type="file"
-              id="fileInput"
-              style={{ display: "none" }}
-              multiple
-              onChange={(e) => handleFileChange(e)}
-            />
-            <button onClick={() => document.getElementById("fileInput").click()} style={{ padding: "10px", marginLeft: "100px"}}>
-              Upload Image
-            </button>
           </div>
         )
+      )}
+      {editPostPage && (
+        <>
+          <input
+            type="file"
+            id="fileInput"
+            style={{ display: "none" }}
+            multiple
+            onChange={handleFileChange}
+          />
+          <button
+            onClick={() => document.getElementById("fileInput").click()}
+            style={{ padding: "10px", margin: "10px 0" }}
+          >
+            Select Images
+          </button>
+          {newImages.length > 0 && (
+            <button
+              onClick={handleUpload}
+              style={{ padding: "10px", backgroundColor: "green", color: "white" }}
+            >
+              Upload Images
+            </button>
+          )}
+        </>
       )}
     </div>
   );

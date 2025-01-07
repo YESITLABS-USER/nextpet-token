@@ -22,6 +22,7 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [clickedBtn, setClickedBtn] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -88,6 +89,7 @@ const SignUp = () => {
     formData.append("password", password);
 
     try {
+      setClickedBtn(true)
       const response = await signUpUser(formData); // Call the API service
 
       if (response.data.msg_type === "false") {
@@ -107,6 +109,7 @@ const SignUp = () => {
     } catch (error) {
       setErrorMessage(error.message);
       setSuccessMessage("");
+      setClickedBtn(false)
     }
   };
 
@@ -170,7 +173,7 @@ const SignUp = () => {
                 placeholder="Create Password"
                 required autoComplete="new-password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {setErrorMessage(false); setPassword(e.target.value)}}
               />
               <Image src={showPassword ? "/images/Nextpet-imgs/breeder-signin-imgs/eye-open.svg" : "/images/Nextpet-imgs/breeder-signin-imgs/eye-close.svg"} alt="Password" width={20} height={20} style={{ position: 'absolute', zIndex: 200, right: '10px', width: '50px',height: '14px', top: '17px', cursor: 'pointer' }} onClick={() => setShowPassword(!showPassword)}/>
             </label>
@@ -187,7 +190,7 @@ const SignUp = () => {
               </div>
             )}
 
-            <input type="submit" className="login-btn" value="Sign Up" />
+            <input type="submit" disabled={clickedBtn} className="login-btn" value="Sign Up" style={{ filter: clickedBtn ? "brightness(80%)" : "" }}/>
 
             <div className="terms-condition-paragraph">
               <p>
