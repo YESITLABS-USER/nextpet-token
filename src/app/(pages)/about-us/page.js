@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import BASE_URL from "../../utils/constant.js";
 
-function page() {
+const Page = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -210,7 +210,7 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
 
 
 // "use client";
