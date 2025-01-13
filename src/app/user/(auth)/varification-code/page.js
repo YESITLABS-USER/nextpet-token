@@ -28,19 +28,41 @@ const VerificationCode = () => {
     setEmail(data)
   },[email])
 
-  const handleResendOtp = async() => {
-    if(email){
-      const response = await axios.post(`${BASE_URL}/api/user_forget_password`, {'email' : email});
-      if(response.data.code===200){
-        toast.success("Otp Send Successfully");
-        const expireDate = new Date(new Date().getTime() + 1800 * 1000);
-        Cookies.set('otp_email', response.data.otp, { expires: expireDate });
+  // const handleResendOtp = async() => {
+  //   if(email){
+  //     const response = await axios.post(`${BASE_URL}/api/user_forget_password`, {'email' : email});
+  //     if(response.data.code===200){
+  //       toast.success("Otp Send Successfully");
+  //       const expireDate = new Date(new Date().getTime() + 1800 * 1000);
+  //       Cookies.set('otp_email', response.data.otp, { expires: expireDate });
+  //     }
+  //   } else{
+  //     setError('Otp Send Error. Please try again later')
+  //     console.error('Error in Sending OTP')
+  //   } 
+  // }
+
+  const handleResendOtp = async () => {
+    if (email) {
+      try {
+        const response = await axios.post(`${BASE_URL}/api/user_forget_password`, { email });
+  
+        if (response.data.code === 200) { // Adjusted to access `response.data.code`
+          toast.success("OTP Sent Successfully");
+          const expireDate = new Date(new Date().getTime() + 1800 * 1000);
+          Cookies.set('otp_email', response.data.otp, { expires: expireDate });
+        } else {
+          toast.error("Failed to send OTP. Please try again.");
+        }
+      } catch (error) {
+        console.error('Error in sending OTP:', error);
+        setError('OTP send error. Please try again later.');
       }
-    } else{
-      setError('Otp Send Error. Please try again later')
-      console.error('Error in Sending OTP')
-    } 
-  }
+    } else {
+      setError('Please provide a valid email.');
+      console.error('No email provided');
+    }
+  };
 
   useEffect(() => {
     if (Cookies.get("otp_email")) {
