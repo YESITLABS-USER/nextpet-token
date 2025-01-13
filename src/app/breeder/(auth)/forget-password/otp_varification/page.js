@@ -13,7 +13,6 @@ const VerificationCode = () => {
   const router = useRouter();
   const savedOtp = Cookies.get('otp_email');
   // console.log(savedOtp);
-
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -73,19 +72,28 @@ const VerificationCode = () => {
   }, []);
 
 
-  const handleResendOtp = () => {
-    if(email){
-      const response = axios.post(`${BASE_URL}/api/send_forget_password`, {'email' : email});
-      if(response.code===200){
-        toast.success("Otp Send Successfully");
-        const expireDate = new Date(new Date().getTime() + 1800 * 1000);
-        Cookies.set('otp_email', response.data.otp, { expires: expireDate });
+  const handleResendOtp = async () => {
+    if (email) {
+      try {
+        const response = await axios.post(`${BASE_URL}/api/send_forget_password`, { email });
+  
+        if (response.data.code === 200) { // Adjusted to access `response.data.code`
+          toast.success("OTP Sent Successfully");
+          const expireDate = new Date(new Date().getTime() + 1800 * 1000);
+          Cookies.set('otp_email', response.data.otp, { expires: expireDate });
+        } else {
+          toast.error("Failed to send OTP. Please try again.");
+        }
+      } catch (error) {
+        console.error('Error in sending OTP:', error);
+        setError('OTP send error. Please try again later.');
       }
-    } else{
-      setError('Otp Send Error. Please try again later')
-      console.error('Error in Sending OTP')
+    } else {
+      setError('Please provide a valid email.');
+      console.error('No email provided');
     }
-  }
+  };
+  
  
   // const formData = new FormData();
   // formData.append("email", Cookies.get('email'));

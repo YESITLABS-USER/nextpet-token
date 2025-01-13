@@ -30,7 +30,7 @@ const VerificationCode = () => {
   useEffect(() => {
     const data = Cookies.get('email')
     setEmail(data)
-  },[email])
+  },[email]) 
 
   const handleResendOtp = async() => {
     if(email){

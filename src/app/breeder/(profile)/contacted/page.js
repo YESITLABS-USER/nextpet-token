@@ -211,7 +211,8 @@ const Contacted = () => {
                         alt=""
                       />
                       &nbsp;
-                      <Link href={pageData.data?.[0].user_email ? `mailto:${pageData.data?.[0].user_email}` : "#"} style={{ textDecoration: "underline" }}>
+                      <Link href={pageData.data?.[0].user_email ? `mailto:${pageData.data?.[0].user_email}` : "#"} style={{ textDecoration: "underline", color:"#1f87b2"
+                       }}>
                         {pageData.data?.[0].user_email
                           ? pageData.data?.[0].user_email
                           : "Email Not Available"}

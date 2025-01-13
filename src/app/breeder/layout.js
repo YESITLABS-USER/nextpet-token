@@ -11,8 +11,8 @@ const Layout = ({children}) => {
   return (
     <>
      {/* <Header /> */}
-      {children}
       <ToastContainer limit={1}/>
+      {children}
       {/* <Footer /> */}
     </>
   )

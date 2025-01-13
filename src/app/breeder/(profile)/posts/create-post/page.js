@@ -253,11 +253,12 @@ const CreatePost = () => {
   });
 
   const submitPostForm = async (values) => {
-
+    setLoading(true)
     if(countDetail){
       const postCount = countDetail?.total_post;
       if(postCount <= countDetail?.breeder_post){
         toast.error("Please Upgrade your Plan");
+        setLoading(false);
         return;
       }
     }
@@ -298,18 +299,20 @@ const CreatePost = () => {
       );
       if(response.data.code === 400) {
         toast.error(response.data.msg);
+        setLoading(false)
         return;
       }
       if(response.data.code === 200){
         toast.success('Post Created Successfully');
         router.push('/breeder/posts')
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error submitting post:", error);
+      setLoading(false)
     }
   };
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -622,7 +625,10 @@ const CreatePost = () => {
                       </div>
 
                       <div className="posts-btn-wrap">
-                        <button type="submit">Post a Pet</button>
+                        <button type="submit">{loading ? "Loading...": "Post a pet"}</button>
+                        
+                        {loading && <p className="w-100 text-center"> Depending on the size of your images and connection speed, posting may take some time </p>}
+
                           {countDetail && <p> {countDetail?.breeder_post} out of {countDetail?.total_post} posts remaining</p>}
                       </div>
                     </div>

@@ -12,6 +12,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 const EditPost = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [editLoading, setEditLoading] = useState(false);
   const [error, setError] = useState(null);
   const [animalTypes, setAnimalTypes] = useState([]);
   const [animalBreeds, setAnimalBreeds] = useState([]);
@@ -335,6 +336,7 @@ const EditPost = () => {
   };
 
   const handleSubmit = async (value) => {
+    setEditLoading(true)
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         const { latitude, longitude } = coords;
@@ -345,6 +347,7 @@ const EditPost = () => {
       console.error("Not Allow location");
       setLatitude(35.1258);
       setLongitude(117.9859);
+      setEditLoading(false)
     }
     if (latitude == null || longitude == null) {
       setLatitude(35.1258);
@@ -353,7 +356,7 @@ const EditPost = () => {
 
     const formData = new FormData();
     const formattedBirthdate = value.birthdate ? new Date(value.birthdate).toISOString().split("T")[0] : "";
-  const formattedDateAvailable = value.date_available ? new Date(value.date_available).toISOString().split("T")[0] : "";
+    const formattedDateAvailable = value.date_available ? new Date(value.date_available).toISOString().split("T")[0] : "";
     formData.append("post_id", id);
     formData.append("flying_availability", flying_availability);
     formData.append("boarding_availability", boarding_availability);
@@ -393,6 +396,7 @@ const EditPost = () => {
       toast.success("Breeder’s post updated successfully");
     } catch (error) {
       console.error("Error registering user:", error);
+      setEditLoading(false)
     }
   };
 
@@ -760,7 +764,9 @@ const EditPost = () => {
 
                     {editPostPage && 
                       <div className="posts-btn-wrap">
-                        <button type="submit">Post a Pet</button>
+
+                        <button type="submit">{editLoading ? "Loading...": "Post a pet"}</button>
+                        {editLoading &&<p className="w-100 text-center"> Depending on the size of your images and connection speed, posting may take some time </p>}
                         {/* <p>4 out of 6 posts remaining</p> */}
                         {countDetail && <p> {countDetail?.breeder_post} out of {countDetail?.total_post} posts remaining</p>}
 

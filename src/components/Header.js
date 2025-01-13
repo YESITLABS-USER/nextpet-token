@@ -315,24 +315,40 @@ const NotificationItem = ({ item }) => (
 
     </div>
     <div className="notification-list-item-text">
-    {[ "post_moderate", "post_approved", "post_block_message", "account_verified", "post_hold_up",    "account_under_verified", ].includes(item?.type_notification)  ? (
+    {[ "post_moderate", "post_approved", "post_block_message", "account_verified", "post_hold_up", "account_under_verified", ].includes(item?.type_notification)  ? (
       <>
+      {console.log(item.date_time, 'sss')}
       <p style={{maxWidth:"300px"}}>{item?.message_one}</p>
       <span>
               <i className="far fa-clock"></i>
               <p>
                 <GoClock style={{ margin: "3px", marginBottom: "6px" }} />
-                  {item.date_time
-                    ? `${new Date(item?.date_time).toLocaleDateString("en-US", {
-                        month: "2-digit",
-                        day: "2-digit",
-                        year: "numeric",
-                      })} | ${new Date(item?.date_time).toLocaleTimeString("en-US", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: true,
-                      }).toLowerCase()}`
-                  : "Date not available"}
+                
+                {(() => {
+            if (item.date_time) {
+              let date = new Date(item.date_time);
+
+              // Add 1 hour only for specific notification types
+              if (
+                item?.type_notification === "post_approved" ||
+                item?.type_notification === "account_verified"
+              ) {
+                date.setHours(date.getHours() + 1);
+              }
+
+              // Format the date
+              return `${date.toLocaleDateString("en-US", {
+                month: "2-digit",
+                day: "2-digit",
+                year: "numeric",
+              })} | ${date.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              }).toLowerCase()}`;
+            }
+            return "Date not available";
+          })()}
               </p>
             </span></>
       ) : (

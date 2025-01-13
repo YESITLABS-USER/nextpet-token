@@ -566,7 +566,7 @@ const ContactPetDetails2 = () => {
                             src="/images/Nextpet-imgs/all-icons/lo-icon.png"
                             alt=""
                           />
-                          <a href={postData.breeder_email ? `mailto:${postData.breeder_email}` : "#"}>
+                          <a style={{color:"#1f87b2"}} href={postData.breeder_email ? `mailto:${postData.breeder_email}` : "#"}>
                             {postData.breeder_email
                               ? postData.breeder_email
                               : "Email not available "}
