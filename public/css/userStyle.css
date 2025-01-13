@@ -2393,12 +2393,12 @@ img {
     height: auto;
     color: #000 !important;
     border: none;
-    display: flex;
+    display: flex !important;
     border-radius: 30px;
     background: linear-gradient(270deg, #e09100 -18.6%, #f5c006 100%);
     text-align: center;
     align-items: center;
-    justify-content: center;
+    justify-content: center !important;
     font-size: 18px;
     font-weight: 700;
     padding: 12px 0;

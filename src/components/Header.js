@@ -395,10 +395,10 @@ const DropdownUserMenu = ({
                 closeDropdown(); // Ensure this is called as a function
               }} >
                 <Image
-                  src="/images/Nextpet-imgs/all-icons/send.png"
+                  src="/images/Nextpet-imgs/dashboard-imgs/icon4.svg"
                   alt="Posts"
                   width={15}
-                  height={15}
+                  height={15} style={{color:'black'}}
                 />
                 &nbsp;
                 <span className="influ-drop-list-header-text">Favorites</span>
@@ -411,7 +411,7 @@ const DropdownUserMenu = ({
                 closeDropdown(); // Ensure this is called as a function
               }} >
                 <Image
-                  src="/images/Nextpet-imgs/all-icons/copy.png"
+                  src="/images/Nextpet-imgs/all-icons/send.png"
                   alt="Subscription"
                   width={15}
                   height={15}

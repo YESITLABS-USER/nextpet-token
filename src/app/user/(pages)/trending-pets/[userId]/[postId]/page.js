@@ -552,12 +552,12 @@ const ContactPetDetails2 = () => {
                     <h3>
                       {postData.breeder_name
                         ? postData.breeder_name
-                        : "breeder Name"}
+                        : "Name not available"}
                     </h3>
                     <p>
                       {postData.breeder_bio
                         ? postData.breeder_bio
-                        : "breeder Bio"}
+                        : "Bio not available"}
                     </p>
                     <div className="contact-details-wrap">
                       <ul>
@@ -566,10 +566,10 @@ const ContactPetDetails2 = () => {
                             src="/images/Nextpet-imgs/all-icons/lo-icon.png"
                             alt=""
                           />
-                          <a href="#">
+                          <a href={postData.breeder_email ? `mailto:${postData.breeder_email}` : "#"}>
                             {postData.breeder_email
                               ? postData.breeder_email
-                              : "breeder Email"}
+                              : "Email not available "}
                           </a>
                         </li>
                         <li>
@@ -580,7 +580,7 @@ const ContactPetDetails2 = () => {
                           <a href="#">
                             {postData.breeder_location
                               ? postData.breeder_location
-                              : "breeder Location"}
+                              : "Location Not available"}
                           </a>
                         </li>
                         <li>
@@ -588,11 +588,11 @@ const ContactPetDetails2 = () => {
                             src="/images/Nextpet-imgs/all-icons/call-icon.png"
                             alt=""
                           />
-                          <a href="#">
+                          <a href={postData.breeder_phone ? `tel:+1${postData.breeder_phone}` : "#"}> 
                             +1
                             {postData.breeder_phone
                               ? postData.breeder_phone
-                              : "breeder Phone"}
+                              : "Phone not available"}
                           </a>
                         </li>
                         <li>
@@ -603,7 +603,7 @@ const ContactPetDetails2 = () => {
                           <a href="#">
                             {postData.website
                               ? postData.website
-                              : "breeder Website"}
+                              : "Website not available"}
                           </a>
                         </li>
                       </ul>
