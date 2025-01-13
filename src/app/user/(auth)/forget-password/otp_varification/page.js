@@ -34,7 +34,7 @@ const VerificationCode = () => {
 
   const handleResendOtp = async() => {
     if(email){
-      const response = await axios.post(`${BASE_URL}/api/UserLogin_first`, {'email' : email});
+      const response = await axios.post(`${BASE_URL}/api/user_forget_password`, {'email' : email});
       if(response.data.code===200){
         toast.success("Otp Send Successfully");
         const expireDate = new Date(new Date().getTime() + 1800 * 1000);

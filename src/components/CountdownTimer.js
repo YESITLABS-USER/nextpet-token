@@ -25,7 +25,7 @@ const CountdownTimer = () => {
   return (
     <div>
       <p>Resend OTP in {formatTime(seconds)} sec</p>
-      {seconds === 0 && <button onClick={() => console.log('Resend OTP')}>Resend OTP</button>}
+      {seconds === 0 && <button>Resend OTP</button>}
     </div>
   );
 };

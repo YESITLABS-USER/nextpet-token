@@ -12,6 +12,8 @@ const ForgetPassword = () => {
   const [email, setEmail] = useState('');
   const [validationError, setValidationError] = useState('');
   const router = useRouter();
+  const [clickedBtn, setClickedBtn] = useState(false);
+
 
   useEffect(() => {
     if(email){
@@ -20,6 +22,7 @@ const ForgetPassword = () => {
   },[email])
 
   const handleEmailVarification = async (e) => {
+    setClickedBtn(true)
     e.preventDefault()
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Strict email validation
     const phoneRegex = /^(?!\+1)[2-9]\d{2}[-.\s]?\d{3}[-.\s]?\d{4}$/; // U.S. phone numbers without +1 prefix
@@ -40,6 +43,7 @@ const ForgetPassword = () => {
         },
       });
       if(response.data.code!==200){
+        setClickedBtn(false)
         setValidationError(response.data.message);
       }
       else{
@@ -54,7 +58,7 @@ const ForgetPassword = () => {
     }
     catch (error) {
       console.error(error);
-      
+      setClickedBtn(false)
     }
   }
 
@@ -75,7 +79,7 @@ const ForgetPassword = () => {
                 <input type="text" className="login-txt" onChange={(e) => setEmail(e.target.value)} placeholder="Email/Phone" required/>
               </label>
               <spam style={{color:'red'}}>{validationError}</spam>
-              <input type="submit" className="login-btn" value="Send Verification"/>
+              <button type="submit" disabled={clickedBtn} style={{ filter: clickedBtn ? "brightness(80%)" : "" }} className="login-btn" value="Send Verification"> Send Verification </button>
             </form>
           </div>
         </div>

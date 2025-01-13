@@ -16,7 +16,7 @@ const Page = () => {
         setData(response.data.data);
         setLoading(false);  // Set loading to false once data is fetched
       } catch (error) {
-        console.log(error);
+        console.error(error);
         setLoading(false);  // Set loading to false in case of error
       }
     }

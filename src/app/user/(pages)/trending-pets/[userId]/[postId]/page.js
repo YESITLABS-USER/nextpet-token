@@ -547,7 +547,7 @@ const ContactPetDetails2 = () => {
                 <div className="col-lg-10 col-md-12">
                   <div className="breeder-info-right">
                     <div className="postcreate-heading">
-                      <h3>Breeder Info112</h3>
+                      <h3>Breeder Info</h3>
                     </div>
                     <h3>
                       {postData.breeder_name

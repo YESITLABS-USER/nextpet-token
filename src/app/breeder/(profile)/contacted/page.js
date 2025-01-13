@@ -211,7 +211,7 @@ const Contacted = () => {
                         alt=""
                       />
                       &nbsp;
-                      <Link href="#" style={{ textDecoration: "underline" }}>
+                      <Link href={pageData.data?.[0].user_email ? `mailto:${pageData.data?.[0].user_email}` : "#"} style={{ textDecoration: "underline" }}>
                         {pageData.data?.[0].user_email
                           ? pageData.data?.[0].user_email
                           : "Email Not Available"}
@@ -225,7 +225,7 @@ const Contacted = () => {
                         alt=""
                       />
                       &nbsp;
-                      <a href="#">
+                      <a href={pageData.data?.[0].user_phone ? `tel:+1${pageData.data?.[0].user_phone}` : "#"}>
                         {pageData.data?.[0].user_phone
                           ? `+1 ${pageData.data?.[0].user_phone}`
                           : "Not Available"}

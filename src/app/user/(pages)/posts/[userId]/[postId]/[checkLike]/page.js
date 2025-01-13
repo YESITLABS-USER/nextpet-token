@@ -93,7 +93,6 @@ const ContactPetDetails = () => {
       }, 1000);
     }
   };
-  console.log(postData)
   const handleModal = ({
     post_id = postData?.post_id,
     breeder_id = postData?.user_id,

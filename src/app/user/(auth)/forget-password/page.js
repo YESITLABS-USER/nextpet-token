@@ -11,6 +11,8 @@ const ForgetPassword = () => {
   const [email, setEmail] = useState('');
   const [validation_error, setValidationError] = useState('');
   const router = useRouter();
+  const [clickedBtn, setClickedBtn] = useState(false);
+
   //Res
 
   useEffect(() => {
@@ -33,6 +35,7 @@ const ForgetPassword = () => {
     formData.append("email", email);
 
     try {
+      setClickedBtn(true)
       // API call to register the user
       const response = await axios.post(`${BASE_URL}/api/user_forget_password`, formData, {
         headers: {
@@ -55,7 +58,7 @@ const ForgetPassword = () => {
     }
     catch (error) {
       console.error(error);
-      
+      setClickedBtn(false)
     }
   }
 
@@ -76,7 +79,7 @@ const ForgetPassword = () => {
                 <input type="text" className="login-txt" onChange={(e) => setEmail(e.target.value)} placeholder="Email/Phone" required/>
               </label>
               <span style={{ color: "red"}}>{validation_error}</span>
-              <input type="submit" className="login-btn" value="Send Verification"/>
+              <button type="submit" disabled={clickedBtn} style={{ filter: clickedBtn ? "brightness(80%)" : "" }} className="login-btn" value="Send Verification"> Send Verification</button>
             </form>
           </div>
         </div>

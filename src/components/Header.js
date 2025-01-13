@@ -83,6 +83,7 @@ function Header() {
     try {
       const response = await axios.post(apiURL, userLogin,{
         headers: { Authorization: `Bearer ${token}`}});
+        console.log(response, 'response_notifiction')
       if (response.data.code === 200) {
         setNotificationDetails(response.data.data);
       }
@@ -424,10 +425,11 @@ const DropdownUserMenu = ({
                 setMobileToggleBtn((prev) => !prev); 
                 closeDropdown(); // Ensure this is called as a function
               }} >
+              
                 <Image
-                  src="/images/Nextpet-imgs/all-icons/profile.png"
+                  src="/images/Nextpet-imgs/all-icons/sms.png"
                   width={15}
-                  height={15}
+                  height={13} style={{marginBottom:'3px'}}
                   alt="Profile"
                 />
                 &nbsp;

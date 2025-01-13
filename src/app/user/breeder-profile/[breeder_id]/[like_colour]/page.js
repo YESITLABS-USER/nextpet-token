@@ -191,7 +191,6 @@ const ContactPetDetails = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleModal = (value) => {
-    console.log(value)
     let checkConnect = value?.contacts_colour == 0 ? 1 : 0;
     setModalData({
       user_id: userId,
