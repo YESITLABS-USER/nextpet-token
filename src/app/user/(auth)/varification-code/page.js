@@ -8,6 +8,9 @@ import { breederSignUp } from "../../../services/user/verificationService"; // I
 // import { verifyOtp, breederSignUp } from "../../../services/user/verificationService"; // Import service
 import SignUpSuccessPopUp from "../../../../components/ModelSignUpSuccess";
 import { useAuth } from "../../../context/AuthContext";
+import axios from "axios";
+import BASE_URL from "../../../utils/constant";
+import { toast } from "react-toastify";
 // import { useAuth } from "../../../context/AuthContext";
 
 const VerificationCode = () => {
@@ -45,13 +48,17 @@ const VerificationCode = () => {
   const handleResendOtp = async () => {
     if (email) {
       try {
-        const response = await axios.post(`${BASE_URL}/api/user_forget_password`, { email });
+        const response = await axios.post(`${BASE_URL}/api/send_forget_password`, {'email' : email});
   
-        if (response.data.code === 200) { // Adjusted to access `response.data.code`
+        const expireDate = new Date(new Date().getTime() + 1800 * 1000);
+        if (response.data.code === 200) { 
           toast.success("OTP Sent Successfully");
-          const expireDate = new Date(new Date().getTime() + 1800 * 1000);
           Cookies.set('otp_email', response.data.otp, { expires: expireDate });
-        } else {
+        } else if (response.data.code === 404) { 
+          toast.success("OTP Sent Successfully");
+          Cookies.set('otp_email', response.data.otp, { expires: expireDate });
+        }
+         else {
           toast.error("Failed to send OTP. Please try again.");
         }
       } catch (error) {
@@ -185,6 +192,7 @@ const VerificationCode = () => {
                 <p>Resend OTP in <span>{Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}</span> sec</p>
               )}
             </div>
+            
           </form>
         </div>
       </div>

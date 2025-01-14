@@ -5,6 +5,9 @@ import OtpInput from "react-otp-input";
 import Cookies from "js-cookie";
 import { breederSignUp } from "../../../services/verificationService"; // Import service
 import SignUpSuccessPopUp from "../../../../components/ModelSignUpSuccess";
+import axios from "axios";
+import BASE_URL from "@/src/app/utils/constant";
+import { toast } from "react-toastify";
 
 const VerificationCode = () => {
   const savedOtp = Cookies.get("otp_email");
@@ -40,13 +43,19 @@ const VerificationCode = () => {
   const handleResendOtp = async () => {
     if (email) {
       try {
-        const response = await axios.post(`${BASE_URL}/api/send_forget_password`, { email });
+        const response = await axios.post(`${BASE_URL}/api/send_forget_password`, {'email' : email});
   
-        if (response.data.code === 200) { // Adjusted to access `response.data.code`
+        if (response.data.code === 200) { 
           toast.success("OTP Sent Successfully");
           const expireDate = new Date(new Date().getTime() + 1800 * 1000);
           Cookies.set('otp_email', response.data.otp, { expires: expireDate });
-        } else {
+        } 
+        else if (response.data.code === 404) { 
+          toast.success("OTP Sent Successfully");
+          const expireDate = new Date(new Date().getTime() + 1800 * 1000);
+          Cookies.set('otp_email', response.data.otp, { expires: expireDate });
+        }
+         else {
           toast.error("Failed to send OTP. Please try again.");
         }
       } catch (error) {
@@ -173,7 +182,7 @@ const VerificationCode = () => {
             <div className="terms-condition-paragraph">
               {isExpired ? (
                 <p>
-                  Didn&apos;t receive the verification code? <span onClick={handleResendOtp} style={{ color: "#FFC21A", fontWeight: 600 }}>RESEND</span>
+                  Didn&apos;t receive the verification code? <span onClick={handleResendOtp} style={{ cursor:'pointer',color: "#FFC21A", fontWeight: 600 }}>RESEND</span>
                 </p>
               ) : (
                 <p>Resend OTP in <span>{Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}</span> sec</p>

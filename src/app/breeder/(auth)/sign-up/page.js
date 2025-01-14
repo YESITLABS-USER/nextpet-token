@@ -86,7 +86,7 @@ const SignUp = () => {
         setErrorMessage(response.data.msg || "Validation error");
         setSuccessMessage("");
       } else {
-        const expireDate = new Date(new Date().getTime() + 190 * 1000);
+        const expireDate = new Date(new Date().getTime() + 30 * 60 * 1000);
         Cookies.set("name", name, { expires: expireDate });
         Cookies.set("email", email, { expires: expireDate });
         Cookies.set("password", password, { expires: expireDate });
