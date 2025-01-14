@@ -130,7 +130,7 @@ const ContactPetDetails2 = () => {
     const response = await PostDetail(payload);
     if (response?.data.code === 200) {
       setPostData(response.data.data[0]);
-      setPreviousPostImage(response.data.data[0].image);
+      setPreviousPostImage(response.data?.data[0]?.image);
     }
   };
 
@@ -332,7 +332,7 @@ const ContactPetDetails2 = () => {
                 </div>
                 <div className="breedeerdasboard-createpost-right">
                   <div className="postcreate-heading">
-                    <h3>{postData.name ? postData.name : "Animal"}</h3>
+                    <h3>{postData?.name ? postData?.name : "Animal"}</h3>
                     <div className="edit-heartpost">
                       <div className="inner-heartt">
                         <a onClick={() => handleModal(postData)}>
@@ -372,7 +372,7 @@ const ContactPetDetails2 = () => {
                   <form>
                     <label>
                       <p>
-                        {postData.description ? postData.description : "Animal"}
+                        {postData?.description ? postData?.description : "Animal"}
                       </p>
                     </label>
                     <div className="vewmore-show">
@@ -393,7 +393,7 @@ const ContactPetDetails2 = () => {
                             <input
                               type="text"
                               placeholder=""
-                              value={postData.type ? postData.type : "Type"}
+                              value={postData?.type ? postData?.type : "Type"}
                             />
                           </div>
                           <div className="formdata-wrap">
@@ -401,7 +401,7 @@ const ContactPetDetails2 = () => {
                             <input
                               type="text"
                               placeholder=""
-                              value={postData.breed ? postData.breed : "Breed"}
+                              value={postData?.breed ? postData?.breed : "Breed"}
                             />
                           </div>
                           <div className="formdata-wrap">
@@ -409,7 +409,7 @@ const ContactPetDetails2 = () => {
                             <input
                               type="text"
                               placeholder=""
-                              value={postData.price ? postData.price : "Price"}
+                              value={postData?.price ? postData?.price : "Price"}
                             />
                           </div>
                           <div className="formdata-wrap">
@@ -418,7 +418,7 @@ const ContactPetDetails2 = () => {
                               type="text"
                               placeholder=""
                               value={
-                                postData.size ? postData.size : "General Size"
+                                postData?.size ? postData?.size : "General Size"
                               }
                             />
                           </div>
@@ -428,8 +428,8 @@ const ContactPetDetails2 = () => {
                               type="text"
                               placeholder=""
                               value={
-                                postData.weight
-                                  ? postData.weight
+                                postData?.weight
+                                  ? postData?.weight
                                   : "Anticipated Weight"
                               }
                             />
@@ -441,8 +441,8 @@ const ContactPetDetails2 = () => {
                               id="datepicker"
                               placeholder=""
                               value={
-                                postData.birthdate
-                                  ? postData.birthdate
+                                postData?.birthdate
+                                  ? postData?.birthdate
                                   : "Birthdate"
                               }
                             />
@@ -454,8 +454,8 @@ const ContactPetDetails2 = () => {
                               id="datepicker2"
                               placeholder=""
                               value={
-                                postData.avialable
-                                  ? postData.avialable
+                                postData?.avialable
+                                  ? postData?.avialable
                                   : "Date Available"
                               }
                             />
@@ -465,7 +465,7 @@ const ContactPetDetails2 = () => {
                             <input
                               type="text"
                               placeholder=""
-                              value={postData.health ? "Yes" : "No"}
+                              value={postData?.health ? "Yes" : "No"}
                             />
                           </div>
                           <div className="formdata-wrap">
@@ -474,8 +474,8 @@ const ContactPetDetails2 = () => {
                               type="text"
                               placeholder=""
                               value={
-                                postData.certification
-                                  ? postData.certification
+                                postData?.certification
+                                  ? postData?.certification
                                   : "Certifications"
                               }
                             />
@@ -485,7 +485,7 @@ const ContactPetDetails2 = () => {
                             <input
                               type="text"
                               placeholder=""
-                              value={postData.delivery ? "Yes" : "No"}
+                              value={postData?.delivery ? "Yes" : "No"}
                             />
                           </div>
                           <div className="formdata-wrap">
@@ -493,7 +493,7 @@ const ContactPetDetails2 = () => {
                             <input
                               type="text"
                               placeholder=""
-                              value={postData.boarding ? "Yes" : "No"}
+                              value={postData?.boarding ? "Yes" : "No"}
                             />
                           </div>
                           <div className="formdata-wrap">
@@ -501,7 +501,7 @@ const ContactPetDetails2 = () => {
                             <input
                               type="text"
                               placeholder=""
-                              value={postData.flying ? "Yes" : "No"}
+                              value={postData?.flying ? "Yes" : "No"}
                             />
                           </div>
                           <div className="formdata-wrap">
@@ -550,13 +550,13 @@ const ContactPetDetails2 = () => {
                       <h3>Breeder Info</h3>
                     </div>
                     <h3>
-                      {postData.breeder_name
-                        ? postData.breeder_name
+                      {postData?.breeder_name
+                        ? postData?.breeder_name
                         : "Name not available"}
                     </h3>
                     <p>
-                      {postData.breeder_bio
-                        ? postData.breeder_bio
+                      {postData?.breeder_bio
+                        ? postData?.breeder_bio
                         : "Bio not available"}
                     </p>
                     <div className="contact-details-wrap">
@@ -566,9 +566,9 @@ const ContactPetDetails2 = () => {
                             src="/images/Nextpet-imgs/all-icons/lo-icon.png"
                             alt=""
                           />
-                          <a style={{color:"#1f87b2"}} href={postData.breeder_email ? `mailto:${postData.breeder_email}` : "#"}>
-                            {postData.breeder_email
-                              ? postData.breeder_email
+                          <a style={{color:"#1f87b2"}} href={postData?.breeder_email ? `mailto:${postData?.breeder_email}` : "#"}>
+                            {postData?.breeder_email
+                              ? postData?.breeder_email
                               : "Email not available "}
                           </a>
                         </li>
@@ -577,9 +577,9 @@ const ContactPetDetails2 = () => {
                             src="/images/Nextpet-imgs/all-icons/mail-icon.png"
                             alt=""
                           />
-                          <a href="#">
-                            {postData.breeder_location
-                              ? postData.breeder_location
+                          <a>
+                            {postData?.breeder_location
+                              ? postData?.breeder_location
                               : "Location Not available"}
                           </a>
                         </li>
@@ -588,10 +588,10 @@ const ContactPetDetails2 = () => {
                             src="/images/Nextpet-imgs/all-icons/call-icon.png"
                             alt=""
                           />
-                          <a href={postData.breeder_phone ? `tel:+1${postData.breeder_phone}` : "#"}> 
+                          <a href={postData?.breeder_phone ? `tel:+1${postData?.breeder_phone}` : "#"}> 
                             +1
-                            {postData.breeder_phone
-                              ? postData.breeder_phone
+                            {postData?.breeder_phone
+                              ? postData?.breeder_phone
                               : "Phone not available"}
                           </a>
                         </li>
@@ -600,11 +600,10 @@ const ContactPetDetails2 = () => {
                             src="/images/Nextpet-imgs/all-icons/web-icon.png"
                             alt=""
                           />
-                          <a href="#">
-                            {postData.website
-                              ? postData.website
-                              : "Website not available"}
+                          <a href={postData?.website ? (postData.website.startsWith("http://") || postData.website. startsWith("https://") ? postData.website : `https://${postData.website}`) : "#"} target={postData?.website ? "_blank" : "_self"} rel="noopener noreferrer">
+                            {postData?.website ? postData.website : "Website not available"}
                           </a>
+
                         </li>
                       </ul>
                     </div>

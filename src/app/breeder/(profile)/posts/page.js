@@ -8,6 +8,7 @@ import Link from "next/link";
 import { DeleteBreederPost } from "../../../services/user/post";
 import Pagination from "../../../../components/Pagination";
 import BreederProtectedRoute from "@/src/app/context/BreederProtectedRoute";
+import { useRouter } from "next/navigation";
 const Post = () => {
   // const [breederId, setBreederId] = useState(null);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -25,6 +26,7 @@ const Post = () => {
   });
   const [token, setToken] = useState(null);
   const [breederId, setBreederId] = useState(null);
+  const navigate = useRouter();
 
     useEffect(() => {
       if (typeof window !== "undefined") {
@@ -176,8 +178,8 @@ const Post = () => {
                   <div className="leads-inner-wrap">
                     <div className="post-apet-wrap">
                       <div className="filter-sec">
-                        <button type="button" id="post-a-pet" value="Submit">
-                          <Link href="posts/create-post" style={{ color:'black'}}>Post a Pet</Link>
+                        <button type="button" id="post-a-pet" value="Submit" onClick={() => {navigate.push("posts/create-post")}}>
+                          <a href="#" style={{ color:'black'}}>Post a Pet</a>
                         </button>
                         <div className="quotes2">
                           <div
