@@ -600,7 +600,7 @@ const ContactPetDetails2 = () => {
                             src="/images/Nextpet-imgs/all-icons/web-icon.png"
                             alt=""
                           />
-                          <a href={postData?.website ? (postData.website.startsWith("http://") || postData.website. startsWith("https://") ? postData.website : `https://${postData.website}`) : "#"} target={postData?.website ? "_blank" : "_self"} rel="noopener noreferrer">
+                          <a  style={{ color:postData?.website &&"#1f87b2"}} href={postData?.website ? (postData.website.startsWith("http://") || postData.website. startsWith("https://") ? postData.website : `https://${postData.website}`) : "#"} target={postData?.website ? "_blank" : "_self"} rel="noopener noreferrer">
                             {postData?.website ? postData.website : "Website not available"}
                           </a>
 
