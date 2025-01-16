@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import routes from "../../../../config/routes";
 import Cookies from "js-cookie";
-import { signUpUser } from "../../../services/authService"; // Import the API service
+import { checkUniqueBreeder, signUpUser } from "../../../services/authService"; // Import the API service
 import BASE_URL from "../../../utils/constant";
 import axios from "axios";
 import { auth, provider, signInWithPopup } from "../../../../components/GoogleLogin";
@@ -63,10 +63,11 @@ const SignUp = () => {
     e.preventDefault();
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const phoneRegex = /^(?!\+1)[2-9]\d{2}[-.\s]?\d{3}[-.\s]?\d{4}$/; // U.S. phone numbers without +1 prefix
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/;
 
-    if (!(emailRegex.test(email))) {
-      setErrorMessage("Invalid email Address ");
+    if (!(emailRegex.test(email) || phoneRegex.test(email))) {
+      setErrorMessage("Invalid Email address or U.S. phone number. Ensure the phone number does not include '+1'.");
       return;
     } else if (!(passwordRegex.test(password))) {
       setErrorMessage("Password must contain at least 6 characters, including uppercase letters, lowercase letters, numbers, and special characters.");
@@ -80,6 +81,12 @@ const SignUp = () => {
 
     try {
       setClickedBtn(true)
+      const checkUser = await checkUniqueBreeder(formData.get("email"));
+      if(!checkUser.status) {
+        setClickedBtn(false)
+        setErrorMessage(checkUser?.errors?.email)
+        return;
+      }
       const response = await signUpUser(formData); // Call the API service
 
       if (response.data.msg_type === "false") {
@@ -141,12 +148,12 @@ const SignUp = () => {
                 height={20} className="login-lbl-img"
               />
               <input
-                type="email"
+                type="text"
                 className="login-txt"
                 placeholder="Email/Phone"
                 required
                 value={email} autoComplete="new-password"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {setErrorMessage("");setEmail(e.target.value)}}
               />
             </label>
             <label className="login-lbl">

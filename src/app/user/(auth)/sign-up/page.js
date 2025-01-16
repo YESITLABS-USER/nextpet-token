@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 // import routes from "../../../../config/routes";
 import Cookies from "js-cookie";
-import { signUpUser } from "../../../services/user/authService"; // Import the API service
+import { checkUniqueUser, signUpUser } from "../../../services/user/authService"; // Import the API service
 import { useAuth } from "@/src/app/context/AuthContext";
 import { toast } from "react-toastify";
 import { auth, provider, signInWithPopup } from "../../../../components/GoogleLogin";
@@ -90,7 +90,14 @@ const SignUp = () => {
 
     try {
       setClickedBtn(true)
-      const response = await signUpUser(formData); // Call the API service
+      const checkUser = await checkUniqueUser(formData.get("email"));
+      if(!checkUser.status) {
+        setClickedBtn(false)
+        setErrorMessage(checkUser?.errors?.email)
+        return;
+      }
+
+      const response = await signUpUser(formData);
 
       if (response.data.msg_type === "false") {
         setErrorMessage(response.data.msg || "Validation error");

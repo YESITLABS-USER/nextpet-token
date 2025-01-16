@@ -3,6 +3,15 @@
 import axios from "axios";
 import BASE_URL from "../../utils/constant";
 
+export const checkUniqueUser = async(email) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/check-unique-email-user`, {email: email});
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
+
 export const signUpUser = async (formData) => {
   try {
     const response = await axios.post(
