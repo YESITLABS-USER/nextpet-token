@@ -128,6 +128,7 @@ const VerificationCode = () => {
     formDataBreederSignUp.append("password", Cookies.get("password"));
     formDataBreederSignUp.append("fcm_token", "");
     formDataBreederSignUp.append("device_type", "");
+    formDataBreederSignUp.append("signup", "signup");
 
     try {
       const response = await breederSignUp(formDataBreederSignUp);
