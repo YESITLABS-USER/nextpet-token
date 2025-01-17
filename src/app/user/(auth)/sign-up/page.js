@@ -87,6 +87,7 @@ const SignUp = () => {
     formData.append("name", name);
     formData.append("email", email);
     formData.append("password", password);
+    formData.append("signup", "signup");
 
     try {
       setClickedBtn(true)

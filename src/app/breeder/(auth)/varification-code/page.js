@@ -19,12 +19,19 @@ const VerificationCode = () => {
   const initialCountdown = 180;
   const [countdown, setCountdown] = useState(0);
   const [isExpired, setIsExpired] = useState(false);
+  
+  const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
 
   useEffect(() => {
-    const data = Cookies.get('email')
-    setEmail(data)
-  },[email])
+    const name = Cookies.get('email')
+    const email = Cookies.get('email')
+    const password = Cookies.get('email')
+    setEmail(email)
+    setName(name)
+    setPassword(password)
+  },[name, email, password])
 
   // const handleResendOtp = async() => {
   //   if(email){
@@ -43,7 +50,8 @@ const VerificationCode = () => {
   const handleResendOtp = async () => {
     if (email) {
       try {
-        const response = await axios.post(`${BASE_URL}/api/send_forget_password`, {'email' : email});
+        const response = await axios.post(`${BASE_URL}/api/UserLogin_first`, {name, email, password});
+        // const response = await axios.post(`${BASE_URL}/api/send_forget_password`, {'email' : email});
   
         if (response.data.code === 200) { 
           toast.success("OTP Sent Successfully");
