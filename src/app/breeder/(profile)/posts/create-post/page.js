@@ -26,13 +26,13 @@ const CreatePost = () => {
   const [images, setImages] = useState([]);
   const [imageError, setImageError] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [petName, setPetName] = useState("");
 
   const [errorAdditionalRequest, setErrorsAdditionalRequest] = useState(null);
   const [breederUserId, setBreederUserId] = useState(null);
   const [countDetail, setCountDetail] = useState(null);
   const [token, setToken] = useState(null);
   const router = useRouter();
-  const [petName, setPetName] = useState("");
   
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -375,14 +375,7 @@ const CreatePost = () => {
                 validationSchema={validationSchema}
                 onSubmit={submitPostForm}
               >
-                {({ values, setFieldValue }) => { 
-                  useEffect(() => {
-                    if (values.petname) {
-                      setPetName(values.petname.trim());
-                    }
-                  }, [values.petname]);
-                  
-                  return(
+                {({ setFieldValue }) => (
                   <Form>
                     <label>
                       <Field
@@ -400,7 +393,20 @@ const CreatePost = () => {
                     <div className="list-post-form">
                       <div className="formdata-wrap">
                         <p>Name </p>
-                        <Field type="text" name="petname" />
+                        {/* <Field type="text" name="petname" /> */}
+                        <Field
+                  name="petname"
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      type="text"
+                      onChange={(e) => {
+                        setFieldValue("petname", e.target.value);
+                        setPetName(e.target.value);
+                      }}
+                    />
+                  )}
+                />
                         <ErrorMessage className="ErrorMessage"
                           name="petname"
                           component="div"
@@ -641,7 +647,7 @@ const CreatePost = () => {
                       </div>
                     </div>
                   </Form>
-                )}}
+                )}
               </Formik>
             </div>
           </div>

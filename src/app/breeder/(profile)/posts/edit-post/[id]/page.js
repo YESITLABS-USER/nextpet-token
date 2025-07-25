@@ -426,7 +426,7 @@ const EditPost = () => {
             </div>
             <div className="breedeerdasboard-createpost-right">
               <div className="postcreate-heading">
-                <h3>{petName || "Pet Name"} </h3>
+                <h3>{(petName ? petName : postDetails?.name || petName) || "Pet name"} </h3>
                 <div className="edit-heartpost">
                   <div className="inner-heartt">
                     <a >
@@ -467,15 +467,7 @@ const EditPost = () => {
                 // validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >
-                {({ setFieldValue, values }) => 
-                {
-                 useEffect(() => {
-                    if (values.petname) {
-                      setPetName(values.petname.trim());
-                    }
-                }, [values.petname]); 
-
-                 return(
+                {({ setFieldValue, values }) => (
                   <Form>
                     <label>
                       <Field
@@ -494,10 +486,23 @@ const EditPost = () => {
                     <div className="list-post-form">
                       <div className="formdata-wrap">
                         <p>Name </p>
-                        <Field required="required"
+                        {/* <Field required="required"
                           type="text"
                           name="petname"
                           disabled={!editPostPage}
+                        /> */}
+                        <Field
+                          name="petname"
+                          render={({ field }) => (
+                            <input
+                              {...field}
+                              type="text"
+                              onChange={(e) => {
+                                setFieldValue("petname", e.target.value);
+                                setPetName(e.target.value);
+                              }}
+                            />
+                          )}
                         />
                         <ErrorMessage
                           name="petname"
@@ -784,7 +789,7 @@ const EditPost = () => {
                       
                     </div>
                   </Form>
-                )}}
+                )}
               </Formik>
 
               <Modal
