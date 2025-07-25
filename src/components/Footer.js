@@ -114,6 +114,7 @@ function Footer() {
           </div>
         </div>
       </footer>
+      <a href="tel:+13155189614" style={{color:"white"}}>+1 (315) 518-9614</a>
 
       {/* <Script src="/js/jquery.js" strategy="beforeInteractive" />
       <Script src="/js/bootstrap.min.js" strategy="beforeInteractive" />

@@ -32,6 +32,7 @@ const CreatePost = () => {
   const [countDetail, setCountDetail] = useState(null);
   const [token, setToken] = useState(null);
   const router = useRouter();
+  const [petName, setPetName] = useState("");
   
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -367,14 +368,21 @@ const CreatePost = () => {
             </div>
             <div className="breedeerdasboard-createpost-right">
               <div className="postcreate-heading">
-                <h3>Pet name</h3>
+                <h3>{petName || "Pet name"}</h3>
               </div>
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={submitPostForm}
               >
-                {({ setFieldValue }) => (
+                {({ values, setFieldValue }) => { 
+                  useEffect(() => {
+                    if (values.petname) {
+                      setPetName(values.petname.trim());
+                    }
+                  }, [values.petname]);
+                  
+                  return(
                   <Form>
                     <label>
                       <Field
@@ -633,7 +641,7 @@ const CreatePost = () => {
                       </div>
                     </div>
                   </Form>
-                )}
+                )}}
               </Formik>
             </div>
           </div>

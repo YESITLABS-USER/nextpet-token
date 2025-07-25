@@ -39,6 +39,8 @@ const EditPost = () => {
   const [countDetail, setCountDetail] = useState(null);
   const [breederUserId, setBreederUserId] = useState(null);
   const [token, setToken] = useState(null);
+  const [petName, setPetName] = useState("");
+  
   
   useEffect(() => {
     const breederUserId = localStorage.getItem("breeder_user_id");
@@ -424,7 +426,7 @@ const EditPost = () => {
             </div>
             <div className="breedeerdasboard-createpost-right">
               <div className="postcreate-heading">
-                <h3>Pet Name </h3>
+                <h3>{petName || "Pet Name"} </h3>
                 <div className="edit-heartpost">
                   <div className="inner-heartt">
                     <a >
@@ -465,7 +467,15 @@ const EditPost = () => {
                 // validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >
-                {({ setFieldValue, values }) => (
+                {({ setFieldValue, values }) => 
+                {
+                 useEffect(() => {
+                    if (values.petname) {
+                      setPetName(values.petname.trim());
+                    }
+                }, [values.petname]); 
+
+                 return(
                   <Form>
                     <label>
                       <Field
@@ -774,7 +784,7 @@ const EditPost = () => {
                       
                     </div>
                   </Form>
-                )}
+                )}}
               </Formik>
 
               <Modal
