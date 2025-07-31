@@ -156,7 +156,7 @@ const SignIn = () => {
                 height={20} className="login-lbl-img"
               />
               <input
-                type="email"
+                type="text"
                 id="email"
                 name="name"
                 value={email}
