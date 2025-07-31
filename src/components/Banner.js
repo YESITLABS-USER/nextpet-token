@@ -48,10 +48,7 @@ function Banner({ homePageData }) {
               <div className="dog-right-banner">
                 <Image
                   // src={"/images/Nextpet-imgs/banner-imgs/dog.png"}
-                  src={`${BASE_URL}${"/"}${
-                    homePageData?.section_one_image_banner ||
-                    "/images/Nextpet-imgs/banner-imgs/dog.png"
-                  }`}
+                  src={`${BASE_URL}${"/"}${homePageData?.section_one_image_banner}` || "/images/Nextpet-imgs/banner-imgs/dog.png"}
                   alt="Dog"
                   width={500}
                   height={400} 

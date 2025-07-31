@@ -178,7 +178,7 @@ const Page = () => {
                     {loading ? (
                       <div style={skeletonTextStyle}></div>
                     ) : (
-                      data?.footerTextList.map((item, index) => (
+                      data?.footerTextList?.map((item, index) => (
                         <li key={index}>
                           <img src="images/Nextpet-imgs/Aboutus-imgs/checklist.png" alt="" />
                           {item}

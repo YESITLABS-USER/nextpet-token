@@ -83,7 +83,6 @@ function Header() {
     try {
       const response = await axios.post(apiURL, userLogin,{
         headers: { Authorization: `Bearer ${token}`}});
-        console.log(response, 'response_notifiction')
       if (response.data.code === 200) {
         setNotificationDetails(response.data.data);
       }
@@ -317,7 +316,6 @@ const NotificationItem = ({ item }) => (
     <div className="notification-list-item-text">
     {[ "post_moderate", "post_approved", "post_block_message", "account_verified", "post_hold_up", "account_under_verified", ].includes(item?.type_notification)  ? (
       <>
-      {console.log(item.date_time, 'sss')}
       <p style={{maxWidth:"300px"}}>{item?.message_one}</p>
       <span>
               <i className="far fa-clock"></i>

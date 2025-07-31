@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import BreederProfileLeft from "../../../../components/BreederProfileLeft";
 import BreederProtectedRoute from "@/src/app/context/BreederProtectedRoute";
@@ -12,7 +12,55 @@ import BASE_URL from "@/src/app/utils/constant";
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE);
 
 const Subscription = () => {
-  const [activePlan, setActivePlan] = useState("free");
+  const [breederPlan, setBreederPlan] = useState(null);
+  const [activePlan, setActivePlan] = useState(breederPlan ?? "free" );
+  const [breederUserId, setBreederUserId] = useState(null);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const id = localStorage.getItem("breeder_user_id");
+      if (id) setBreederUserId(id);
+      const token = localStorage.getItem("authToken")
+      if (token) {
+        try {
+          const parsedToken = JSON.parse(token);
+          setToken(parsedToken?.UniqueKey);
+        } catch (error) {
+          console.error('Error parsing token:', error);
+        }
+      } else {
+        console.error('No token found');
+      }
+    }
+  }, []);
+
+  const fetchUserDetails = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/api/get-user`, { user_id: breederUserId },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const data = response.data?.data || {};
+      setBreederPlan(
+        data?.sub_id == 1 ? "free" :
+        data?.sub_id == 2 ? "silver" :
+        data?.sub_id == 3 ? "gold" :
+        data?.sub_id == 4 ? "platinum" : "free"
+      );
+      
+    } catch (err) {
+      console.error("Error fetching user details:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (breederUserId) fetchUserDetails();
+  }, [breederUserId]);
 
   const handleSubmit = async (plan) => {
     const user_id = localStorage.getItem("breeder_user_id");
@@ -113,7 +161,7 @@ const Subscription = () => {
                         </span>
                         <h2>${plan.price}</h2>
                         <span>Month</span>
-                        {plan.name === "free" && (
+                        {(plan.name == breederPlan) && (
                           <div className="active-band">
                             <Image
                               src="/images/Nextpet-imgs/dashboard-imgs/active.png"
@@ -142,11 +190,8 @@ const Subscription = () => {
                 </div>
 
                 <div className="subscription-btn-wrap">
-                  {selectedPlan && activePlan !== "free" && (
-                    <button
-                      type="button"
-                      onClick={() => handleSubmit(selectedPlan)}
-                    >
+                  {selectedPlan && activePlan !== "free" && activePlan !== breederPlan &&(
+                    <button type="button" onClick={() => handleSubmit(selectedPlan)} >
                       Upgrade Plan
                     </button>
                   )}
