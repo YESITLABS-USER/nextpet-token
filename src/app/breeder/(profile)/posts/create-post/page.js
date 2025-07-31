@@ -26,7 +26,6 @@ const CreatePost = () => {
   const [images, setImages] = useState([]);
   const [imageError, setImageError] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [petName, setPetName] = useState("");
 
   const [errorAdditionalRequest, setErrorsAdditionalRequest] = useState(null);
   const [breederUserId, setBreederUserId] = useState(null);
@@ -368,7 +367,7 @@ const CreatePost = () => {
             </div>
             <div className="breedeerdasboard-createpost-right">
               <div className="postcreate-heading">
-                <h3>{petName || "Pet name"}</h3>
+                <h3>Pet name</h3>
               </div>
               <Formik
                 initialValues={initialValues}
@@ -393,20 +392,7 @@ const CreatePost = () => {
                     <div className="list-post-form">
                       <div className="formdata-wrap">
                         <p>Name </p>
-                        {/* <Field type="text" name="petname" /> */}
-                        <Field
-                  name="petname"
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      type="text"
-                      onChange={(e) => {
-                        setFieldValue("petname", e.target.value);
-                        setPetName(e.target.value);
-                      }}
-                    />
-                  )}
-                />
+                        <Field type="text" name="petname" />
                         <ErrorMessage className="ErrorMessage"
                           name="petname"
                           component="div"

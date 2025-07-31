@@ -104,7 +104,7 @@ const SignIn = () => {
                 height={20}
               />
               <input
-                type="text"
+                type="email"
                 id="email"
                 name="name"
                 value={email}

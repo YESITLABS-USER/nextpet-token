@@ -39,8 +39,6 @@ const EditPost = () => {
   const [countDetail, setCountDetail] = useState(null);
   const [breederUserId, setBreederUserId] = useState(null);
   const [token, setToken] = useState(null);
-  const [petName, setPetName] = useState("");
-  
   
   useEffect(() => {
     const breederUserId = localStorage.getItem("breeder_user_id");
@@ -426,7 +424,7 @@ const EditPost = () => {
             </div>
             <div className="breedeerdasboard-createpost-right">
               <div className="postcreate-heading">
-                <h3>{(petName ? petName : postDetails?.name || petName) || "Pet name"} </h3>
+                <h3>Pet Name </h3>
                 <div className="edit-heartpost">
                   <div className="inner-heartt">
                     <a >
@@ -486,23 +484,10 @@ const EditPost = () => {
                     <div className="list-post-form">
                       <div className="formdata-wrap">
                         <p>Name </p>
-                        {/* <Field required="required"
+                        <Field required="required"
                           type="text"
                           name="petname"
                           disabled={!editPostPage}
-                        /> */}
-                        <Field
-                          name="petname"
-                          render={({ field }) => (
-                            <input
-                              {...field}
-                              type="text"
-                              onChange={(e) => {
-                                setFieldValue("petname", e.target.value);
-                                setPetName(e.target.value);
-                              }}
-                            />
-                          )}
                         />
                         <ErrorMessage
                           name="petname"

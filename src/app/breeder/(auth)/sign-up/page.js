@@ -63,10 +63,8 @@ const SignUp = () => {
     e.preventDefault();
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    // const phoneRegex = /^(?!\+1)[2-10]\d{3}[-.\s]?\d{3}[-.\s]?\d{4}$/; // U.S. phone numbers without +1 prefix
+    const phoneRegex = /^(?!\+1)[2-9]\d{2}[-.\s]?\d{3}[-.\s]?\d{4}$/; // U.S. phone numbers without +1 prefix
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/;
-    const phoneRegex = /^(?!\+1)(\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/;
-
 
     if (!(emailRegex.test(email) || phoneRegex.test(email))) {
       setErrorMessage("Invalid Email address or U.S. phone number. Ensure the phone number does not include '+1'.");

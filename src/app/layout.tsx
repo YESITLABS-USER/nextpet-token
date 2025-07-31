@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { AuthProvider } from "./context/AuthContext";
 import Header from "../components/Header";
@@ -18,65 +18,14 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title> Nextpet </title>
-        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-        <meta
-          name="description"
-          content="Find your next puppy kitten or next best friend with NextPett! Download the app now!"
-        />
-
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-16946850070"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'AW-16946850070');
-        `,
-          }}
-        />
-
-        {/* Event Snippet */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-          gtag('event', 'ads_conversion_Sign_up_1', {});
-        `,
-          }}
-        />
-
-        {/* Google Tag Manager */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-NX9V4B2N');
-            `,
-          }}
-        />
+        <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
+        <meta name="description" content="Find your next puppy kitten or next best friend with NextPett! Download the app now!" />
       </head>
-
       <body>
-        {/* Google Tag Manager (noscript fallback) */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-NX9V4B2N"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
-        
         <AuthProvider>
-          <Header />
-          {children}
-          <Footer />
+            <Header />
+            {children}
+            <Footer />
         </AuthProvider>
       </body>
     </html>

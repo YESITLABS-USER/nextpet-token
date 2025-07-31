@@ -72,7 +72,7 @@ const SignUp = () => {
     e.preventDefault();
     
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Strict email validation
-    const phoneRegex = /^(?!\+1)(\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/;
+    const phoneRegex = /^(?!\+1)[2-9]\d{2}[-.\s]?\d{3}[-.\s]?\d{4}$/; // U.S. phone numbers without +1 prefix
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/; // Password validation
     
     if (!(emailRegex.test(email) || phoneRegex.test(email))) {
