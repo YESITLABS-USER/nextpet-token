@@ -111,6 +111,7 @@ function Footer() {
                 </a>
               </div>
             </div>
+          <a href="tel:+13155189614" style={{color:"black"}}>contact us: (315) 518-9614</a>
           </div>
         </div>
       </footer>
